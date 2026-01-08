@@ -154,7 +154,7 @@ poetry run python generate_pwa_icons.py
 
 ## 📧 Контакт
 
-Email: galinpavloveto@gmail.com
+Email: support@bghrana.com
 
 ## 📄 License
 
