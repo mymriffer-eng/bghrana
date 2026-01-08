@@ -1,0 +1,102 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <!-- Hero Section -->
+  <div class="row mb-5">
+    <div class="col-12 text-center">
+      <div class="p-5 rounded" style="background: linear-gradient(135deg, #0dd843 0%, #28a745 100%);">
+        <h1 class="display-4 text-white fw-bold mb-3">🥬 За нас</h1>
+        <p class="lead text-white">Вашата платформа за здравословни хранителни продукти</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="row justify-content-center mb-5">
+    <div class="col-lg-10">
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-5">
+          <h2 class="text-success mb-4">Добре дошли в Хранителни продукти!</h2>
+          
+          <p class="lead text-muted mb-4">
+            Ние сме платформа, създадена с мисията да свързва потребителите, които искат да купуват и продават хранителни продукти. С нас можете лесно и удобно да публикувате обяви за разнообразни хранителни стоки, както и да откриете свежи и качествени продукти от други потребители.
+          </p>
+
+          <div class="p-4 bg-light rounded mb-4">
+            <p class="mb-0">
+              Вярваме, че всеки заслужава достъп до прясна и здравословна храна, затова нашата платформа предлага интуитивен интерфейс, който улеснява процеса на търсене и предлагане. Потребителите могат да разглеждат различни категории, да комуникират помежду си и да споделят опит в избора на хранителни продукти.
+            </p>
+          </div>
+
+          <p class="text-muted mb-4">
+            Независимо дали сте производител, фермер, или просто любител на домашно приготвената храна, <strong>Хранителни продукти</strong> е вашето място за изразяване и свързване с хора със сходни интереси. При нас можете да намерите не само страхотни оферти, но и вдъхновение за здравословен начин на живот.
+          </p>
+
+          <div class="alert alert-success" role="alert">
+            <h5 class="alert-heading">🌟 Присъединете се към нашата общност днес!</h5>
+            <p class="mb-0">Открийте предимствата на пазаруването от потребители, които споделят нашата страст към храната!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="row mb-5">
+    <div class="col-12 text-center mb-4">
+      <h3 class="text-success">Защо да изберете нас?</h3>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center border-0 shadow">
+        <div class="card-body p-4">
+          <div class="mb-3" style="font-size: 3rem;">🌱</div>
+          <h5 class="card-title text-success">Свежи продукти</h5>
+          <p class="card-text text-muted">Директно от производителите до вашата трапеза</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center border-0 shadow">
+        <div class="card-body p-4">
+          <div class="mb-3" style="font-size: 3rem;">👥</div>
+          <h5 class="card-title text-success">Общност</h5>
+          <p class="card-text text-muted">Свържете се с хора, които споделят вашата страст</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center border-0 shadow">
+        <div class="card-body p-4">
+          <div class="mb-3" style="font-size: 3rem;">✨</div>
+          <h5 class="card-title text-success">Лесно използване</h5>
+          <p class="card-text text-muted">Интуитивен интерфейс за всички потребители</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Call to Action -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card bg-success text-white text-center border-0 shadow-lg">
+        <div class="card-body p-5">
+          <h3 class="mb-3">Готови ли сте да започнете?</h3>
+          <p class="lead mb-4">Присъединете се към нашата платформа и открийте света на здравословните хранителни продукти!</p>
+          <div class="d-flex gap-3 justify-content-center flex-wrap">
+            {% if user.is_authenticated %}
+              <a href="{% url 'catalog:product_create' %}" class="btn btn-light btn-lg">Публикувай обява</a>
+              <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-light btn-lg">Разгледай продукти</a>
+            {% else %}
+              <a href="{% url 'catalog:register' %}" class="btn btn-light btn-lg">Регистрирай се</a>
+              <a href="{% url 'account_login' %}" class="btn btn-outline-light btn-lg">Вход</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2>Моите обяви</h2>
+  <a href="{% url 'catalog:product_create' %}" class="btn btn-success mb-3">Нова обява</a>
+  <div class="row g-4">
+    {% for product in products %}
+    <div class="col-md-4">
+      <div class="card">
+        {% if product.get_first_image %}<img src="{{ product.get_first_image.url }}" class="card-img-top">{% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ product.title }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-sm btn-primary">Редактирай</a>
+          <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-sm btn-danger">Изтрий</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p>Нямаш публикувани обяви.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

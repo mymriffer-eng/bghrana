@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Потвърждение на регистрация</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="background-color: #f8f9fa; border-radius: 10px; padding: 30px; margin: 20px 0;">
+        <h2 style="color: #28a745; margin-top: 0;">Добре дошли в БГ Храна!</h2>
+        
+        <p>Здравейте, {{ user.username }}!</p>
+        
+        <p>Благодарим ви, че се регистрирахте в нашата платформа за български хранителни продукти.</p>
+        
+        <p>Моля, кликнете върху бутона по-долу, за да активирате вашия акаунт:</p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ activation_link }}" 
+               style="display: inline-block; 
+                      padding: 12px 30px; 
+                      background-color: #28a745; 
+                      color: white; 
+                      text-decoration: none; 
+                      border-radius: 5px; 
+                      font-weight: bold;">
+                Активирайте акаунт
+            </a>
+        </div>
+        
+        <p style="font-size: 14px; color: #666;">
+            Ако бутонът не работи, копирайте и поставете следния линк във вашия браузър:
+        </p>
+        <p style="word-break: break-all; background-color: #e9ecef; padding: 10px; border-radius: 5px; font-size: 12px;">
+            {{ activation_link }}
+        </p>
+        
+        <hr style="border: none; border-top: 1px solid #dee2e6; margin: 30px 0;">
+        
+        <p style="font-size: 12px; color: #999;">
+            Ако не сте се регистрирали в нашата платформа, моля игнорирайте този имейл.
+        </p>
+    </div>
+</body>
+</html>

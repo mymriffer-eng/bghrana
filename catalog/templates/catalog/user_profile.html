@@ -1,0 +1,82 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <!-- Профилна информация -->
+    <div class="col-md-4">
+      <div class="card shadow">
+        <div class="card-body text-center">
+          {% if profile.profile_image %}
+            <img src="{{ profile.profile_image.url }}" alt="Профилна снимка" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+          {% else %}
+            <div class="bg-secondary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 150px; height: 150px;">
+              <span style="font-size: 60px; color: white;">👤</span>
+            </div>
+          {% endif %}
+          <h3 class="mb-1">{{ user.username }}</h3>
+          {% if user.email %}
+          <p class="text-muted">{{ user.email }}</p>
+          {% endif %}
+          <p class="text-muted small">Член от {{ user.date_joined|date:"d.m.Y" }}</p>
+          <hr>
+          <div class="d-grid gap-2">
+            <a href="{% url 'catalog:edit_profile' %}" class="btn btn-success">
+              <i>✏️</i> Редактирай профил
+            </a>
+            <a href="{% url 'catalog:change_password' %}" class="btn btn-outline-secondary">
+              <i>🔒</i> Смени парола
+            </a>
+            <a href="{% url 'catalog:delete_account' %}" class="btn btn-outline-danger">
+              <i>🗑️</i> Изтрий акаунт
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Статистика и активност -->
+    <div class="col-md-8">
+      <div class="card shadow mb-4">
+        <div class="card-header bg-success text-white">
+          <h4 class="mb-0">Статистика</h4>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-md-6 mb-3">
+              <div class="p-3 bg-light rounded">
+                <h2 class="text-success mb-0">{{ products_count }}</h2>
+                <p class="text-muted mb-0">Общо обяви</p>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="p-3 bg-light rounded">
+                <h2 class="text-success mb-0">{{ active_products_count }}</h2>
+                <p class="text-muted mb-0">Активни обяви</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow">
+        <div class="card-header bg-success text-white">
+          <h4 class="mb-0">Бързи действия</h4>
+        </div>
+        <div class="card-body">
+          <div class="list-group">
+            <a href="{% url 'catalog:user_ads' %}" class="list-group-item list-group-item-action">
+              📋 Моите обяви
+            </a>
+            <a href="{% url 'catalog:product_create' %}" class="list-group-item list-group-item-action">
+              ➕ Създай нова обява
+            </a>
+            <a href="{% url 'catalog:product_list' %}" class="list-group-item list-group-item-action">
+              🏠 Начална страница
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

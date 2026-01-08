@@ -1,0 +1,330 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{{ product.title }} - {{ product.description|truncatewords:20 }}. Цена: {{ product.price }} лв. Купете от {{ product.owner.username }} в {{ product.city }}.">
+    <meta name="keywords" content="{{ product.title }}, {{ product.category.name }}, {{ product.city }}, {{ product.region }}, българска храна, био продукти">
+    <link rel="canonical" href="https://bghrana.com{% url 'catalog:product_detail' product.id %}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://bghrana.com{% url 'catalog:product_detail' product.id %}">
+    <meta property="og:title" content="{{ product.title }} - {{ product.price }} лв.">
+    <meta property="og:description" content="{{ product.description|truncatewords:30 }}">
+    <meta property="og:image" content="{% if product.images.first %}https://bghrana.com{{ product.images.first.image.url }}{% else %}https://bghrana.com/static/logo.jpg{% endif %}">
+    <meta property="og:locale" content="bg_BG">
+    <meta property="og:site_name" content="БГ Храна">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ product.title }} - {{ product.price }} лв.">
+    <meta name="twitter:description" content="{{ product.description|truncatewords:30 }}">
+    <meta name="twitter:image" content="{% if product.images.first %}https://bghrana.com{{ product.images.first.image.url }}{% else %}https://bghrana.com/static/logo.jpg{% endif %}">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <title>{{ product.title }} - БГ Храна</title>
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "{{ product.title }}",
+      "description": "{{ product.description|striptags|truncatewords:50 }}",
+      "image": "{% if product.images.first %}https://bghrana.com{{ product.images.first.image.url }}{% else %}https://bghrana.com/static/logo.jpg{% endif %}",
+      "offers": {
+        "@type": "Offer",
+        "price": "{{ product.price }}",
+        "priceCurrency": "BGN",
+        "availability": "https://schema.org/InStock",
+        "url": "https://bghrana.com{% url 'catalog:product_detail' product.id %}",
+        "seller": {
+          "@type": "Person",
+          "name": "{{ product.owner.username }}"
+        }
+      },
+      "category": "{{ product.category.name }}",
+      "brand": {
+        "@type": "Brand",
+        "name": "БГ Храна"
+      }
+    }
+    </script>
+    <style>
+        :root {
+            --primary-color: #0dd843;
+            --primary-hover: #0bc239;
+            --footer-bg: #2c3e50;
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --card-bg: #ffffff;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e9ecef;
+            --card-bg: #2d2d2d;
+            --footer-bg: #0d1117;
+        }
+        
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        body { 
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        .navbar { box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .product-image { max-width: 100%; height: auto; border-radius: 15px; background-color: #e9ecef; }
+        .price { color: #0dd843; font-weight: bold; font-size: 32px; margin: 20px 0; }
+        .category-badge { display: inline-block; padding: 5px 15px; background-color: #0dd843; color: white; border-radius: 5px; font-size: 14px; margin-bottom: 15px; }
+        .product-card { 
+            transition: all 0.3s ease; 
+            border: none; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .related-section { margin-top: 50px; }
+        .btn-contact { background-color: #0dd843; color: white; border: none; padding: 15px 30px; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 5px; }
+        .btn-contact:hover { background-color: #28a745; color: white; }
+        
+        .info-box {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        [data-theme="dark"] .info-box {
+            background-color: #3d3d3d;
+        }
+        
+        .product-title {
+            color: var(--text-color);
+        }
+        
+        .product-description {
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+        
+        /* Намаляване на широчината с общо 19% */
+        .container {
+            max-width: 972px !important; /* 1200px - 19% = 972px */
+        }
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1134px !important; /* 1400px - 19% = 1134px */
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #0dd843 !important;">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'catalog:product_list' %}">
+                <img src="{% static 'logo.jpg' %}" alt="Лого" style="height: 40px; width: auto; margin-right: 10px; border-radius: 5px;">
+                БГ Храна
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:product_list' %}">Начало</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:product_list' %}#filter-section">Категории</a></li>
+                </ul>
+                <!-- Dark Mode Toggle -->
+                <button id="darkModeToggle" class="btn btn-outline-light" title="Превключи тъмен режим">
+                    <span class="dark-mode-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary mb-4">← Назад към списък</a>
+
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                {% if product.images.exists %}
+                    <!-- Главна снимка -->
+                    <div id="productCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for img in product.images.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ img.image.url }}" class="d-block w-100 product-image" alt="{{ product.title }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% if product.images.count > 1 %}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Предишна</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Следваща</span>
+                        </button>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Thumbnails -->
+                    {% if product.images.count > 1 %}
+                    <div class="row g-2">
+                        {% for img in product.images.all %}
+                        <div class="col-3">
+                            <img src="{{ img.image.url }}" class="img-thumbnail" style="cursor: pointer; border-radius: 10px;" onclick="document.querySelector('#productCarousel .carousel-item:nth-child({{ forloop.counter }})').click(); bootstrap.Carousel.getInstance(document.getElementById('productCarousel')).to({{ forloop.counter0 }});" alt="Снимка {{ forloop.counter }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="product-image d-flex align-items-center justify-content-center" style="min-height: 400px;"><span style="font-size: 80px; color: #ccc;">📦</span></div>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-6">
+                <span class="category-badge">{{ product.category.name }}</span>
+                <h1 class="product-title mb-3">{{ product.title }}</h1>
+                <div class="price">{{ product.price }} Евро</div>
+
+                <div class="info-box">
+                    <h5 class="mb-3">Описание:</h5>
+                    <p class="product-description">{{ product.description }}</p>
+                </div>
+
+                <div class="info-box">
+                    <h5 class="mb-3">Информация за продукта:</h5>
+                    {% if product.owner %}
+                    <p><strong>Публикувано от:</strong> <span class="badge bg-success">{{ product.owner.username }}</span></p>
+                    {% endif %}
+                    <p><strong>Добавено:</strong> {{ product.created_at|date:"d.m.Y в H:i" }}</p>
+                    <p><strong>Последна промяна:</strong> {{ product.updated_at|date:"d.m.Y в H:i" }}</p>
+                    <p><strong>Статус:</strong> {% if product.is_active %}<span class="badge bg-success">Активен</span>{% else %}<span class="badge bg-danger">Неактивен</span>{% endif %}</p>
+                    <p><strong>Валидност:</strong> 
+                        {% if product.days_remaining > 0 %}
+                            <span class="badge {% if product.days_remaining <= 5 %}bg-warning text-dark{% else %}bg-info{% endif %}">
+                                Остават {{ product.days_remaining }} дни
+                            </span>
+                        {% else %}
+                            <span class="badge bg-danger">Изтекла обява</span>
+                        {% endif %}
+                    </p>
+                    {% if product.city %}
+                    <p><strong>Местоположение:</strong> {{ product.city.name }}, {{ product.city.region.name }}</p>
+                    {% endif %}
+                    {% if product.phone %}
+                    <p><strong>Телефон за връзка:</strong> <a href="tel:{{ product.phone }}" class="text-success fw-bold">{{ product.phone }}</a></p>
+                    {% endif %}
+                    {% if product.babh_number %}
+                    <p><strong>БАБХ номер:</strong> <span class="badge bg-info text-dark">{{ product.babh_number }}</span></p>
+                    {% endif %}
+                </div>
+
+                {% if product.phone %}
+                <a href="tel:{{ product.phone }}" class="btn btn-contact w-100">📞 Обади се: {{ product.phone }}</a>
+                {% else %}
+                <button class="btn btn-contact w-100" disabled>📞 Няма посочен телефон</button>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if related_products %}
+        <div class="related-section">
+            <h3 class="text-secondary mb-4">Други продукти в тази категория</h3>
+            <div class="row g-4">
+                {% for p in related_products %}
+                <div class="col-md-6 col-lg-3">
+                    <a href="{% url 'catalog:product_detail' p.pk %}" style="text-decoration: none; color: inherit;">
+                        <div class="card product-card h-100">
+                            {% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.title }}" style="width: 100%; height: 150px; object-fit: cover;">
+                            {% else %}<div style="width: 100%; height: 150px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center;"><span style="font-size: 32px; color: #ccc;">📦</span></div>{% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title text-dark">{{ p.title }}</h5>
+                                <div style="color: #0dd843; font-weight: bold;">{{ p.price }} Евро</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer style="background: var(--footer-bg); color: white; margin-top: 5rem; padding: 3rem 0 1.5rem;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="mb-3" style="color: var(--primary-color); font-weight: 700;">🍃 БГ Храна</h5>
+                    <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+                        Платформа за българска храна и органични продукти директно от производителя. Качество и свежест на една ръка разстояние.
+                    </p>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Навигация</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'catalog:product_list' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Начало</a></li>
+                        <li class="mb-2"><a href="{% url 'catalog:about' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">За нас</a></li>
+                        <li class="mb-2"><a href="{% url 'catalog:contact' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Контакти</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Информация</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'catalog:terms' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Общи условия</a></li>
+                        <li class="mb-2"><a href="{% url 'catalog:cookie_policy' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Политика за бисквитки</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Контакти</h6>
+                    <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin: 0;">
+                        📍 България<br>
+                        📧 support@bghrana.com
+                    </p>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.1); margin: 2rem 0 1rem;">
+            <div class="text-center" style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">
+                <p class="mb-0">&copy; 2025 БГ Храна. Всички права запазени.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.querySelector('.dark-mode-icon');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', currentTheme);
+        if (darkModeIcon) {
+            darkModeIcon.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+        }
+        
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', () => {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                if (darkModeIcon) {
+                    darkModeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

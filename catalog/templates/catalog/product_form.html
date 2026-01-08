@@ -1,0 +1,223 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2>{% if object %}Редактирай обява{% else %}Нова обява{% endif %}</h2>
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="row">
+      <div class="col-md-8">
+        <!-- Основни полета (без category и city) -->
+        {% for field in form %}
+          {% if field.name not in 'city,category,image' %}
+            <div class="mb-3">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {% if field.widget.input_type == 'textarea' %}
+                <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control" rows="4" maxlength="250">{{ field.value|default:'' }}</textarea>
+                <small class="text-muted">Максимум 250 символа</small>
+              {% elif field.name == 'is_active' %}
+                <div class="form-check">
+                  <input type="checkbox" name="is_active" id="{{ field.id_for_label }}" class="form-check-input" {% if form.is_active.value %}checked{% endif %} />
+                  <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                </div>
+              {% else %}
+                {{ field }}
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        <!-- Категория и подкатегория -->
+        <div class="mb-3">
+          <label for="category-select" class="form-label">Категория</label>
+          <select id="category-select" class="form-select" required>
+            <option value="">Избери категория</option>
+            {% for cat in parent_categories %}
+              <option value="{{ cat.id }}" 
+                {% if object and object.category.parent and object.category.parent.id == cat.id %}selected
+                {% elif object and not object.category.parent and object.category.id == cat.id %}selected
+                {% endif %}>
+                {{ cat.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="subcategory-select" class="form-label">Подкатегория</label>
+          <select id="subcategory-select" name="category" class="form-select" required>
+            <option value="">Избери подкатегория</option>
+          </select>
+        </div>
+
+        <!-- Регион и град -->
+        <div class="mb-3">
+          <label for="region-select" class="form-label">Област</label>
+          <select id="region-select" name="region" class="form-select">
+            <option value="">Избери област</option>
+            {% for region in regions %}
+              <option value="{{ region.id }}" {% if object.city.region.id == region.id %}selected{% endif %}>{{ region.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="city-select" class="form-label">Населено място</label>
+          <select id="city-select" name="city" class="form-select">
+            <option value="">Избери населено място</option>
+            {% if form.city.value %}
+              {% for city in form.fields.city.queryset %}
+                <option value="{{ city.id }}" {% if form.city.value|stringformat:"s" == city.id|stringformat:"s" %}selected{% endif %}>{{ city.name }}</option>
+              {% endfor %}
+            {% endif %}
+          </select>
+        </div>
+
+        <!-- Снимки -->
+        <div class="mb-4">
+          <label class="form-label fw-bold">Снимки на продукта (до 5 броя)</label>
+          
+          <div class="mb-2">
+            <label for="image1" class="form-label">Снимка 1 {% if current_images.image1 %}<small class="text-success">(Текуща: {{ current_images.image1.image.name|slice:"9:" }})</small>{% endif %}</label>
+            <div class="custom-file-wrapper">
+              <input type="file" name="image1" id="image1" accept="image/*" class="form-control custom-file-input" />
+              <label class="custom-file-label" for="image1">{% if current_images.image1 %}{{ current_images.image1.image.name|slice:"9:" }}{% else %}Избери файл{% endif %}</label>
+            </div>
+          </div>
+          
+          <div class="mb-2">
+            <label for="image2" class="form-label">Снимка 2 {% if current_images.image2 %}<small class="text-success">(Текуща: {{ current_images.image2.image.name|slice:"9:" }})</small>{% endif %}</label>
+            <div class="custom-file-wrapper">
+              <input type="file" name="image2" id="image2" accept="image/*" class="form-control custom-file-input" />
+              <label class="custom-file-label" for="image2">{% if current_images.image2 %}{{ current_images.image2.image.name|slice:"9:" }}{% else %}Избери файл{% endif %}</label>
+            </div>
+          </div>
+          
+          <div class="mb-2">
+            <label for="image3" class="form-label">Снимка 3 {% if current_images.image3 %}<small class="text-success">(Текуща: {{ current_images.image3.image.name|slice:"9:" }})</small>{% endif %}</label>
+            <div class="custom-file-wrapper">
+              <input type="file" name="image3" id="image3" accept="image/*" class="form-control custom-file-input" />
+              <label class="custom-file-label" for="image3">{% if current_images.image3 %}{{ current_images.image3.image.name|slice:"9:" }}{% else %}Избери файл{% endif %}</label>
+            </div>
+          </div>
+          
+          <div class="mb-2">
+            <label for="image4" class="form-label">Снимка 4 {% if current_images.image4 %}<small class="text-success">(Текуща: {{ current_images.image4.image.name|slice:"9:" }})</small>{% endif %}</label>
+            <div class="custom-file-wrapper">
+              <input type="file" name="image4" id="image4" accept="image/*" class="form-control custom-file-input" />
+              <label class="custom-file-label" for="image4">{% if current_images.image4 %}{{ current_images.image4.image.name|slice:"9:" }}{% else %}Избери файл{% endif %}</label>
+            </div>
+          </div>
+          
+          <div class="mb-2">
+            <label for="image5" class="form-label">Снимка 5 {% if current_images.image5 %}<small class="text-success">(Текуща: {{ current_images.image5.image.name|slice:"9:" }})</small>{% endif %}</label>
+            <div class="custom-file-wrapper">
+              <input type="file" name="image5" id="image5" accept="image/*" class="form-control custom-file-input" />
+              <label class="custom-file-label" for="image5">{% if current_images.image5 %}{{ current_images.image5.image.name|slice:"9:" }}{% else %}Избери файл{% endif %}</label>
+            </div>
+          </div>
+          
+          <small class="text-muted">Можеш да качиш от 1 до 5 снимки{% if object %} (ако не избереш нови снимки, текущите ще останат){% endif %}</small>
+        </div>
+
+        <button class="btn btn-success" type="submit">Запази</button>
+        <a href="{% url 'catalog:product_list' %}" class="btn btn-secondary">Отмени</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  (function(){
+    const categorySelect = document.getElementById('category-select');
+    const subcategorySelect = document.getElementById('subcategory-select');
+    const regionSelect = document.getElementById('region-select');
+    const citySelect = document.getElementById('city-select');
+    const apiSubcategoriesUrl = '{% url "catalog:api_subcategories" %}';
+    const apiCitiesUrl = '{% url "catalog:api_cities" %}';
+
+    const currentCategoryId = '{{ object.category.id|default:"" }}';
+    const currentCityId = '{{ object.city.id|default:"" }}';
+
+    // Зареждане на подкатегории при смяна на категория
+    categorySelect.addEventListener('change', function(){
+      const categoryId = this.value;
+      subcategorySelect.innerHTML = '<option value="">Избери подкатегория</option>';
+      if(!categoryId) return;
+      fetch(apiSubcategoriesUrl + '?category=' + categoryId)
+        .then(res => res.json())
+        .then(data => {
+          data.forEach(sc => {
+            const opt = document.createElement('option');
+            opt.value = sc.id;
+            opt.textContent = sc.name;
+            if(sc.id == currentCategoryId) {
+              opt.selected = true;
+            }
+            subcategorySelect.appendChild(opt);
+          });
+        }).catch(err => console.error(err));
+    });
+
+    // Зареждане на градове при смяна на регион
+    regionSelect.addEventListener('change', function(){
+      const regionId = this.value;
+      citySelect.innerHTML = '<option value="">Избери населено място</option>';
+      if(!regionId) return;
+      fetch(apiCitiesUrl + '?region=' + regionId)
+        .then(res => res.json())
+        .then(data => {
+          data.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = c.name;
+            if(c.id == currentCityId) {
+              opt.selected = true;
+            }
+            citySelect.appendChild(opt);
+          });
+        }).catch(err => console.error(err));
+    });
+
+    // Автоматично зареждане при зареждане на страница
+    if(categorySelect.value) {
+      categorySelect.dispatchEvent(new Event('change'));
+    }
+    if(regionSelect.value) {
+      regionSelect.dispatchEvent(new Event('change'));
+    }
+
+    // Актуализиране на file input labels
+    document.querySelectorAll('.custom-file-input').forEach(input => {
+      input.addEventListener('change', function() {
+        const label = this.nextElementSibling;
+        const fileName = this.files[0] ? this.files[0].name : 'Избери файл';
+        label.textContent = fileName;
+      });
+    });
+  })();
+</script>
+
+<style>
+  .form-select, .form-control { border-color: #0dd843; }
+  .form-select:focus, .form-control:focus { border-color: #0dd843; box-shadow: 0 0 0 0.2rem rgba(13, 216, 67, 0.25); }
+  
+  .custom-file-wrapper { position: relative; }
+  .custom-file-input {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+  }
+  .custom-file-label {
+    display: block;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #0dd843;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .custom-file-label:hover {
+    background-color: #0dd843;
+    color: white;
+  }
+</style>
+{% endblock %}

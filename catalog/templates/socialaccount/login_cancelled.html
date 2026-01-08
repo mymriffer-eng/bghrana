@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-body p-5">
+          <h2 class="text-center mb-4">Вход отказан</h2>
+          
+          <div class="alert alert-warning">
+            <h5 class="alert-heading">Входът беше отменен</h5>
+            <p>Отказахте входа с Google акаунт. Можете да опитате отново или да използвате обикновен вход.</p>
+          </div>
+          
+          <div class="d-grid gap-2">
+            <a href="{% url 'account_login' %}" class="btn btn-success btn-lg">Опитайте отново</a>
+            <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary">Към началната страница</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

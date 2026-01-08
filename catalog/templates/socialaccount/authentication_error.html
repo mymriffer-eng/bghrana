@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-body p-5">
+          <h2 class="text-center mb-4 text-danger">Грешка при вход</h2>
+          
+          <div class="alert alert-danger">
+            <h5 class="alert-heading">Възникна грешка при автентикацията!</h5>
+            <p>За съжаление, входът с Google не беше успешен. Моля, опитайте отново.</p>
+          </div>
+          
+          <div class="d-grid gap-2">
+            <a href="{% url 'account_login' %}" class="btn btn-success btn-lg">Опитайте отново</a>
+            <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary">Към началната страница</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

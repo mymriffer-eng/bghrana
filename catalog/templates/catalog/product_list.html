@@ -1,0 +1,975 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Най-свежите и качествени органични продукти директно от производителите">
+    <meta name="theme-color" content="#0dd843">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="БГ Храна">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="192x192" href="{% static 'icons/icon-192x192.png' %}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <title>БГ Храна</title>
+    <style>
+        :root {
+            --primary-color: #0dd843;
+            --primary-hover: #0bc239;
+            --footer-bg: #2c3e50;
+            --bg-color: #8cf973;
+            --text-color: #212529;
+            --card-bg: #ffffff;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e9ecef;
+            --card-bg: #2d2d2d;
+            --footer-bg: #0d1117;
+        }
+        
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        body { 
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .navbar { 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        /* Намаляване на широчината с общо 19% */
+        .container {
+            max-width: 972px !important; /* 1200px - 19% = 972px */
+        }
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1134px !important; /* 1400px - 19% = 1134px */
+            }
+        }
+        .product-card { 
+            transition: all 0.3s ease; 
+            border: none; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+            border-radius: 15px; 
+            overflow: hidden;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+        .product-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+        .product-image { width: 100%; height: 200px; object-fit: cover; background-color: #e9ecef; }
+        .price { color: var(--primary-color); font-weight: 700; font-size: 20px; }
+        .category-badge { 
+            display: inline-block; 
+            padding: 0.4rem 0.9rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            color: white; 
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .hero-section { background: linear-gradient(135deg, #0dd843 0%, #28a745 100%); color: white; padding: 60px 0; border-radius: 10px; margin-bottom: 40px; }
+        .hero-section h1 { font-size: 48px; font-weight: bold; margin-bottom: 20px; }
+        .filter-section { 
+            background-color: #ffa954; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-bottom: 30px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        [data-theme="dark"] .filter-section {
+            background-color: #2d2d2d;
+        }
+        [data-theme="dark"] .filter-section label {
+            color: #e9ecef;
+        }
+        .filter-btn { 
+            margin-right: 10px; 
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .filter-btn.active { 
+            background-color: var(--primary-color) !important; 
+            color: white;
+            box-shadow: 0 4px 8px rgba(13, 216, 67, 0.3);
+        }
+        .pagination .page-link { color: #0dd843; }
+        .pagination .page-link:hover { background-color: #0dd843; color: white; }
+        .pagination .active .page-link { background-color: #0dd843; border-color: #0dd843; }
+        
+        /* Заоблени падащи менюта */
+        .form-select {
+            border-radius: 10px !important;
+            border: 2px solid #0dd843;
+            padding: 10px 15px;
+            background-color: white;
+            color: #212529;
+        }
+        [data-theme="dark"] .form-select {
+            background-color: #3d3d3d;
+            color: #e9ecef;
+        }
+        .form-select:focus {
+            border-color: #0dd843;
+            box-shadow: 0 0 0 0.2rem rgba(13, 216, 67, 0.25);
+        }
+        /* Стилизиране на опциите в менюто */
+        .form-select option {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: white;
+        }
+        .form-select option:hover {
+            background-color: #0dd843;
+            color: white;
+        }
+        .form-select option:checked {
+            background-color: #0dd843;
+            color: white;
+        }
+        
+        /* Custom Dropdown Styles */
+        .custom-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .custom-select {
+            background-color: white;
+            color: #212529;
+            border: 2px solid #0dd843;
+            border-radius: 10px;
+            padding: 10px 35px 10px 15px;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+        }
+        [data-theme="dark"] .custom-select {
+            background-color: #3d3d3d;
+            color: #e9ecef;
+        }
+        .custom-select:after {
+            content: '▼';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #0dd843;
+            pointer-events: none;
+        }
+        .custom-select.active:after {
+            content: '▲';
+        }
+        .custom-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 2px solid #0dd843;
+            border-radius: 10px;
+            margin-top: 5px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        [data-theme="dark"] .custom-options {
+            background-color: #3d3d3d;
+        }
+        .custom-options.show {
+            display: block;
+        }
+        .custom-option {
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #212529;
+        }
+        [data-theme="dark"] .custom-option {
+            color: #e9ecef;
+        }
+        .custom-option:hover {
+            background-color: #0dd843;
+            color: white;
+        }
+        .custom-option.selected {
+            background-color: #e8f8ed;
+            font-weight: bold;
+        }
+        .custom-option:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+        .custom-option:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg" style="background-color: #0dd843;" data-bs-theme="light" sticky-top>
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'catalog:product_list' %}">
+                <img src="{% static 'logo.jpg' %}" alt="Лого" style="height: 40px; width: auto; margin-right: 10px; border-radius: 5px;">
+                БГ Храна
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'catalog:product_list' %}">Начало</a></li>
+                </ul>
+                <ul class="navbar-nav align-items-lg-center">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:user_profile' %}">Профил</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:user_ads' %}">Моите обяви</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:product_create' %}">Нова обява</a></li>
+                    <li class="nav-item d-flex align-items-center">
+                        <form method="post" action="{% url 'catalog:logout' %}" class="d-inline m-0">
+                            {% csrf_token %}
+                            <button type="submit" class="btn" style="background-color: #ffcccc; color: #dc3545; border: 1px solid #ff9999; border-radius: 4px; font-size: 0.875rem; padding: 0.25rem 0.5rem;">Изход</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Вход</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:register' %}">Регистрация</a></li>
+                    {% endif %}
+                </ul>
+                <button id="installAppNavbar" class="btn ms-lg-2 me-2 my-2 my-lg-0" style="background-color: #fffacd; color: #333; border: 1px solid #f0e68c; border-radius: 4px; font-size: 0.875rem; padding: 0.25rem 0.5rem;">
+                    📱 Инсталирай
+                </button>
+                <form class="d-flex mt-2 mt-lg-0" role="search" method="get" id="search-form">
+                    <input class="form-control me-2" type="search" placeholder="Търси..." name="search" value="{{ search_query }}" style="max-width: 200px; font-size: 0.875rem;" />
+                    <button class="btn btn-outline-light" type="submit" style="font-size: 0.875rem; padding: 0.25rem 0.75rem;">Търси</button>
+                </form>
+                <!-- Dark Mode Toggle -->
+                <button id="darkModeToggle" class="btn btn-outline-light ms-2 mt-2 mt-lg-0" title="Превключи тъмен режим" style="font-size: 0.875rem; padding: 0.25rem 0.75rem;">
+                    <span class="dark-mode-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="overflow-hidden" style="max-height: 40vh;">
+        <div class="container px-5">
+            <img src="/media/products/tomatos.jpg" class="img-fluid border shadow-lg mb-4" alt="Example" height="500" loading="lazy" style="border-radius: 20px;">
+        </div>
+    </div>
+
+    <!-- PWA Install Banner -->
+    <div id="installBanner" class="pwa-install-banner" style="display: none;">
+        <div class="pwa-banner-content">
+            <div class="pwa-banner-text">
+                <strong>📱 Инсталирай приложението</strong>
+                <p class="mb-0">Ползвай сайта като мобилно приложение - по-бързо, без браузър!</p>
+            </div>
+            <div class="pwa-banner-buttons">
+                <button id="closeBanner" class="btn btn-sm btn-outline-secondary">Не</button>
+                <button id="installApp" class="btn btn-sm btn-success">Инсталирай</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .pwa-install-banner {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            padding: 20px;
+            z-index: 9998;
+            max-width: 500px;
+            width: 90%;
+            animation: slideDownBanner 0.4s ease-out;
+        }
+        @keyframes slideDownBanner {
+            from { opacity: 0; transform: translate(-50%, -20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+        .pwa-banner-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .pwa-banner-text {
+            flex: 1;
+            min-width: 200px;
+        }
+        .pwa-banner-text strong {
+            color: #0dd843;
+            font-size: 16px;
+        }
+        .pwa-banner-text p {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .pwa-banner-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        @media (max-width: 576px) {
+            .pwa-install-banner {
+                top: 60px;
+                padding: 15px;
+            }
+            .pwa-banner-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .pwa-banner-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <div class="container mt-5">
+        <div class="px-4 pt-5 my-5 text-center">
+            <h3 class="display-6 fw-medium text-secondary d-flex align-items-center justify-content-center">
+                <img src="{% static 'logo.jpg' %}" alt="Лого" style="height: 50px; width: auto; margin-right: 15px; border-radius: 5px;">
+                Българска храна
+            </h3>
+            <p class="lead fs-2 mb-4 fw-medium text-secondary">Намерете най-свежите и качествени продукти директно от производителите</p>
+            <div class="d-flex gap-3 justify-content-center">
+                <a href="#filter-section" class="btn btn-success btn-lg px-4">Започни търсене</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'catalog:product_create' %}" class="btn btn-primary btn-lg px-4">Публикувай обява</a>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="btn btn-primary btn-lg px-4">Публикувай обява</a>
+                {% endif %}
+            </div>
+        </div>
+
+        
+
+            <div class="filter-section" id="filter-section">
+            <h5 class="mb-3">Филтриране на продукти:</h5>
+            <form id="filter-form" method="get" class="row g-3 align-items-end">
+                <!-- Категория -->
+                <div class="col-md-3 col-sm-6">
+                    <label for="category-filter-select" class="form-label">Категория</label>
+                    <div class="custom-select-wrapper">
+                        <div class="custom-select" data-select="category-filter-select">
+                            <span class="custom-select-text">Всички категории</span>
+                        </div>
+                        <div class="custom-options">
+                            <div class="custom-option" data-value="">Всички категории</div>
+                            {% for cat in categories %}
+                            <div class="custom-option {% if selected_parent_category == cat.id|stringformat:"s" %}selected{% endif %}" data-value="{{ cat.id }}">{{ cat.name }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <select id="category-filter-select" name="parent_category" class="form-select" style="display: none;">
+                        <option value="">Всички категории</option>
+                        {% for cat in categories %}
+                        <option value="{{ cat.id }}" {% if selected_parent_category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Подкатегория -->
+                <div class="col-md-3 col-sm-6">
+                    <label for="subcategory-filter-select" class="form-label">Подкатегория</label>
+                    <div class="custom-select-wrapper">
+                        <div class="custom-select" data-select="subcategory-filter-select">
+                            <span class="custom-select-text">Всички подкатегории</span>
+                        </div>
+                        <div class="custom-options">
+                            <div class="custom-option" data-value="">Всички подкатегории</div>
+                        </div>
+                    </div>
+                    <select id="subcategory-filter-select" name="category" class="form-select" style="display: none;">
+                        <option value="">Всички подкатегории</option>
+                    </select>
+                </div>
+
+                <!-- Област -->
+                <div class="col-md-2 col-sm-6">
+                    <label for="region-select" class="form-label">Област</label>
+                    <div class="custom-select-wrapper">
+                        <div class="custom-select" data-select="region-select">
+                            <span class="custom-select-text">Всички области</span>
+                        </div>
+                        <div class="custom-options">
+                            <div class="custom-option" data-value="">Всички области</div>
+                            {% for region in regions %}
+                            <div class="custom-option {% if selected_region == region.id|stringformat:"s" %}selected{% endif %}" data-value="{{ region.id }}">{{ region.name }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <select id="region-select" name="region" class="form-select" style="display: none;">
+                        <option value="">Всички области</option>
+                        {% for region in regions %}
+                        <option value="{{ region.id }}" {% if selected_region == region.id|stringformat:"s" %}selected{% endif %}>{{ region.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Град -->
+                <div class="col-md-2 col-sm-6">
+                    <label for="city-select" class="form-label">Населено място</label>
+                    <div class="custom-select-wrapper">
+                        <div class="custom-select" data-select="city-select">
+                            <span class="custom-select-text">Всички градове</span>
+                        </div>
+                        <div class="custom-options">
+                            <div class="custom-option" data-value="">Всички градове</div>
+                        </div>
+                    </div>
+                    <select id="city-select" name="city" class="form-select" style="display: none;">
+                        <option value="">Всички градове</option>
+                    </select>
+                </div>
+
+                <!-- Бутон филтрирай -->
+                <div class="col-md-2 col-12">
+                    <button type="submit" class="btn btn-primary w-100">Филтрирай</button>
+                    <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary w-100 mt-2">Изчисти</a>
+                </div>
+            </form>
+            
+            <!-- Сортиране -->
+            <div class="mt-3 d-flex align-items-center gap-2">
+                <label for="sort-select" class="form-label mb-0 fw-bold">Сортирай:</label>
+                <select id="sort-select" class="form-select w-auto" style="border-radius: 10px; border: 2px solid #0dd843;">
+                    <option value="-created_at" {% if sort_by == "-created_at" %}selected{% endif %}>Най-нови</option>
+                    <option value="created_at" {% if sort_by == "created_at" %}selected{% endif %}>Най-стари</option>
+                    <option value="price" {% if sort_by == "price" %}selected{% endif %}>Цена: ниска към висока</option>
+                    <option value="-price" {% if sort_by == "-price" %}selected{% endif %}>Цена: висока към ниска</option>
+                </select>
+            </div>
+
+            <script>
+                // Custom Select Functionality
+                document.querySelectorAll('.custom-select').forEach(select => {
+                    const wrapper = select.closest('.custom-select-wrapper');
+                    const options = wrapper.querySelector('.custom-options');
+                    const text = select.querySelector('.custom-select-text');
+                    const hiddenSelect = document.getElementById(select.dataset.select);
+                    
+                    // Set initial text from selected option
+                    const selectedOption = options.querySelector('.custom-option.selected');
+                    if (selectedOption) {
+                        text.textContent = selectedOption.textContent;
+                    }
+                    
+                    // Toggle dropdown
+                    select.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        // Close other dropdowns
+                        document.querySelectorAll('.custom-options.show').forEach(opt => {
+                            if (opt !== options) opt.classList.remove('show');
+                        });
+                        document.querySelectorAll('.custom-select.active').forEach(sel => {
+                            if (sel !== select) sel.classList.remove('active');
+                        });
+                        options.classList.toggle('show');
+                        select.classList.toggle('active');
+                    });
+                    
+                    // Select option
+                    options.querySelectorAll('.custom-option').forEach(option => {
+                        option.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const value = option.dataset.value;
+                            const optionText = option.textContent;
+                            
+                            // Update text and hidden select
+                            text.textContent = optionText;
+                            hiddenSelect.value = value;
+                            
+                            // Update selected class
+                            options.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
+                            option.classList.add('selected');
+                            
+                            // Close dropdown
+                            options.classList.remove('show');
+                            select.classList.remove('active');
+                            
+                            // Trigger change event
+                            hiddenSelect.dispatchEvent(new Event('change'));
+                        });
+                    });
+                });
+                
+                // Close dropdowns when clicking outside
+                document.addEventListener('click', () => {
+                    document.querySelectorAll('.custom-options.show').forEach(opt => opt.classList.remove('show'));
+                    document.querySelectorAll('.custom-select.active').forEach(sel => sel.classList.remove('active'));
+                });
+                
+                // Sort dropdown change handler
+                document.getElementById('sort-select').addEventListener('change', function() {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('sort', this.value);
+                    window.location.href = url.toString();
+                });
+                
+                // Original filter script
+                (function(){
+                    const categorySelect = document.getElementById('category-filter-select');
+                    const subcategorySelect = document.getElementById('subcategory-filter-select');
+                    const regionSelect = document.getElementById('region-select');
+                    const citySelect = document.getElementById('city-select');
+                    const apiSubcategoriesUrl = '{% url "catalog:api_subcategories" %}';
+                    const apiCitiesUrl = '{% url "catalog:api_cities" %}';
+                    
+                    const selectedCategoryId = '{{ selected_category }}';
+                    const selectedCityId = '{{ selected_city }}';
+
+                    // Зареждане на подкатегории при смяна на категория
+                    categorySelect.addEventListener('change', function(){
+                        const categoryId = this.value;
+                        subcategorySelect.innerHTML = '<option value="">Всички подкатегории</option>';
+                        
+                        // Update custom dropdown
+                        const customSubcatOptions = document.querySelector('[data-select="subcategory-filter-select"]').closest('.custom-select-wrapper').querySelector('.custom-options');
+                        customSubcatOptions.innerHTML = '<div class="custom-option" data-value="">Всички подкатегории</div>';
+                        document.querySelector('[data-select="subcategory-filter-select"] .custom-select-text').textContent = 'Всички подкатегории';
+                        
+                        if(!categoryId) return;
+                        fetch(apiSubcategoriesUrl + '?category=' + categoryId)
+                            .then(res => res.json())
+                            .then(data => {
+                                data.forEach(sc => {
+                                    const opt = document.createElement('option');
+                                    opt.value = sc.id;
+                                    opt.textContent = sc.name;
+                                    if(sc.id == selectedCategoryId) {
+                                        opt.selected = true;
+                                    }
+                                    subcategorySelect.appendChild(opt);
+                                    
+                                    // Add to custom dropdown
+                                    const customOpt = document.createElement('div');
+                                    customOpt.className = 'custom-option';
+                                    customOpt.dataset.value = sc.id;
+                                    customOpt.textContent = sc.name;
+                                    if(sc.id == selectedCategoryId) {
+                                        customOpt.classList.add('selected');
+                                        document.querySelector('[data-select="subcategory-filter-select"] .custom-select-text').textContent = sc.name;
+                                    }
+                                    customOpt.addEventListener('click', (e) => {
+                                        e.stopPropagation();
+                                        customSubcatOptions.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+                                        customOpt.classList.add('selected');
+                                        document.querySelector('[data-select="subcategory-filter-select"] .custom-select-text').textContent = sc.name;
+                                        subcategorySelect.value = sc.id;
+                                        customSubcatOptions.classList.remove('show');
+                                        document.querySelector('[data-select="subcategory-filter-select"]').classList.remove('active');
+                                    });
+                                    customSubcatOptions.appendChild(customOpt);
+                                });
+                            }).catch(err => console.error(err));
+                    });
+
+                    // Зареждане на градове при смяна на регион
+                    regionSelect.addEventListener('change', function(){
+                        const regionId = this.value;
+                        citySelect.innerHTML = '<option value="">Всички градове</option>';
+                        
+                        // Update custom dropdown
+                        const customCityOptions = document.querySelector('[data-select="city-select"]').closest('.custom-select-wrapper').querySelector('.custom-options');
+                        customCityOptions.innerHTML = '<div class="custom-option" data-value="">Всички градове</div>';
+                        document.querySelector('[data-select="city-select"] .custom-select-text').textContent = 'Всички градове';
+                        
+                        if(!regionId) return;
+                        fetch(apiCitiesUrl + '?region=' + regionId)
+                            .then(res => res.json())
+                            .then(data => {
+                                data.forEach(c => {
+                                    const opt = document.createElement('option');
+                                    opt.value = c.id;
+                                    opt.textContent = c.name;
+                                    if(c.id == selectedCityId) {
+                                        opt.selected = true;
+                                    }
+                                    citySelect.appendChild(opt);
+                                    
+                                    // Add to custom dropdown
+                                    const customOpt = document.createElement('div');
+                                    customOpt.className = 'custom-option';
+                                    customOpt.dataset.value = c.id;
+                                    customOpt.textContent = c.name;
+                                    if(c.id == selectedCityId) {
+                                        customOpt.classList.add('selected');
+                                        document.querySelector('[data-select="city-select"] .custom-select-text').textContent = c.name;
+                                    }
+                                    customOpt.addEventListener('click', (e) => {
+                                        e.stopPropagation();
+                                        customCityOptions.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+                                        customOpt.classList.add('selected');
+                                        document.querySelector('[data-select="city-select"] .custom-select-text').textContent = c.name;
+                                        citySelect.value = c.id;
+                                        customCityOptions.classList.remove('show');
+                                        document.querySelector('[data-select="city-select"]').classList.remove('active');
+                                    });
+                                    customCityOptions.appendChild(customOpt);
+                                });
+                            }).catch(err => console.error(err));
+                    });
+
+                    // Автоматично зареждане при зареждане на страница
+                    if(categorySelect.value) {
+                        categorySelect.dispatchEvent(new Event('change'));
+                    }
+                    if(regionSelect.value) {
+                        regionSelect.dispatchEvent(new Event('change'));
+                    }
+
+                    // Скролване до продуктите при филтриране
+                    const urlParams = new URLSearchParams(window.location.search);
+                    if(urlParams.has('parent_category') || urlParams.has('category') || urlParams.has('region') || urlParams.has('city') || urlParams.has('search')) {
+                        setTimeout(function() {
+                            document.getElementById('filter-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
+                    }
+                })();
+                
+                // Scroll to results on search form submit
+                document.getElementById('search-form').addEventListener('submit', function() {
+                    setTimeout(function() {
+                        document.getElementById('filter-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                });
+            </script>
+        </div>
+        <div id="products">
+            {% if products %}
+            <h3 class="mb-4 text-secondary">Продукти</h3>
+            <div class="row g-4">
+                {% for product in products %}
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <a href="{% url 'catalog:product_detail' product.pk %}" style="text-decoration: none; color: inherit;">
+                        <div class="card product-card h-100">
+                            {% if product.get_first_image %}<img src="{{ product.get_first_image.url }}" alt="{{ product.title }}" class="product-image">
+                            {% else %}<div class="product-image d-flex align-items-center justify-content-center"><span style="font-size: 48px; color: #ccc;">📦</span></div>{% endif %}
+                            <div class="card-body">
+                                <span class="category-badge">{{ product.category.name }}</span>
+                                <h5 class="card-title text-dark">{{ product.title }}</h5>
+                                <p class="card-text text-muted small">{{ product.description|truncatewords:8 }}</p>
+                                <div class="price">{{ product.price }} Евро</div>
+                                {% if product.city %}<p class="card-text text-muted small">📍 {{ product.city.name }}, {{ product.city.region.name }}</p>{% endif %}
+                            </div>
+                            <div class="card-footer bg-light border-0">
+                                <small class="text-muted">Добавено: {{ product.created_at|date:"d.m.Y" }}</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if is_paginated %}
+            <nav aria-label="Page navigation" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_parent_category %}&parent_category={{ selected_parent_category }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_region %}&region={{ selected_region }}{% endif %}{% if selected_city %}&city={{ selected_city }}{% endif %}">Първа</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_parent_category %}&parent_category={{ selected_parent_category }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_region %}&region={{ selected_region }}{% endif %}{% if selected_city %}&city={{ selected_city }}{% endif %}">Предишна</a></li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}<li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<li class="page-item"><a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_parent_category %}&parent_category={{ selected_parent_category }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_region %}&region={{ selected_region }}{% endif %}{% if selected_city %}&city={{ selected_city }}{% endif %}">{{ num }}</a></li>{% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_parent_category %}&parent_category={{ selected_parent_category }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_region %}&region={{ selected_region }}{% endif %}{% if selected_city %}&city={{ selected_city }}{% endif %}">Следваща</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_parent_category %}&parent_category={{ selected_parent_category }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_region %}&region={{ selected_region }}{% endif %}{% if selected_city %}&city={{ selected_city }}{% endif %}">Последна</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+            {% else %}
+            <div class="alert alert-info text-center py-5"><h4>Няма намерени продукти</h4><p>Опитайте да промените филтрите или търсенето.</p></div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookieConsent" class="cookie-consent" style="display: none;">
+        <div class="cookie-consent-content">
+            <p class="mb-2">
+                <strong>🍪 Бисквитки (Cookies)</strong><br>
+                Използваме само технически необходими бисквитки за правилната работа на сайта (вход, формуляри, сигурност). 
+                Не използваме аналитични или маркетингови бисквитки.
+            </p>
+            <div class="cookie-consent-buttons">
+                <a href="{% url 'catalog:cookie_policy' %}" class="btn btn-sm btn-outline-light me-2">Научи повече</a>
+                <button id="acceptCookies" class="btn btn-sm btn-success">Разбрах</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            z-index: 9999;
+            animation: slideUp 0.5s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .cookie-consent-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .cookie-consent-content p {
+            flex: 1;
+            min-width: 300px;
+            margin: 0;
+        }
+        .cookie-consent-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 768px) {
+            .cookie-consent-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .cookie-consent-content p {
+                min-width: 100%;
+            }
+            .cookie-consent-buttons {
+                justify-content: center;
+                width: 100%;
+            }
+        }
+    </style>
+
+    <script>
+        // Cookie Consent Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieConsent = document.getElementById('cookieConsent');
+            const acceptButton = document.getElementById('acceptCookies');
+            
+            // Провери дали вече има съгласие
+            const consentGiven = localStorage.getItem('cookie_consent');
+            
+            if (!consentGiven) {
+                cookieConsent.style.display = 'block';
+            }
+            
+            // При натискане на "Разбрах"
+            acceptButton.addEventListener('click', function() {
+                localStorage.setItem('cookie_consent', 'true');
+                cookieConsent.style.animation = 'slideDown 0.3s ease-in';
+                setTimeout(() => {
+                    cookieConsent.style.display = 'none';
+                }, 300);
+            });
+        });
+        
+        // Анимация за скриване
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from { transform: translateY(0); opacity: 1; }
+                to { transform: translateY(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+    <!-- PWA Install Script -->
+    <script src="{% static 'js/pwa-install.js' %}"></script>
+    
+    <!-- PWA Install Navbar Button Script -->
+    <script>
+        let deferredPrompt;
+        const installButton = document.getElementById('installAppNavbar');
+        
+        // Check if already installed
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+            installButton.style.display = 'none';
+            console.log('PWA already installed');
+        } else {
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                console.log('PWA install available');
+            });
+            
+            installButton.addEventListener('click', async () => {
+                console.log('Install button clicked, deferredPrompt:', deferredPrompt);
+                
+                if (!deferredPrompt) {
+                    alert('За да инсталирате приложението:\n\n' +
+                          '1. Отворете сайта в Chrome или Edge браузър\n' +
+                          '2. Сайтът трябва да е на HTTPS\n' +
+                          '3. Проверете дали приложението вече не е инсталирано\n\n' +
+                          'На iOS: Използвайте Safari > Share > Add to Home Screen');
+                    return;
+                }
+                
+                try {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    
+                    console.log('User choice:', outcome);
+                    
+                    if (outcome === 'accepted') {
+                        console.log('PWA installed from navbar');
+                        installButton.style.display = 'none';
+                    }
+                    
+                    deferredPrompt = null;
+                } catch (error) {
+                    console.error('Install error:', error);
+                    alert('Грешка при инсталиране: ' + error.message);
+                }
+            });
+            
+            window.addEventListener('appinstalled', () => {
+                console.log('PWA installed');
+                installButton.style.display = 'none';
+            });
+        }
+    </script>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.querySelector('.dark-mode-icon');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', currentTheme);
+        if (darkModeIcon) {
+            darkModeIcon.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+        }
+        
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', () => {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                if (darkModeIcon) {
+                    darkModeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                }
+            });
+        }
+        
+        // Sticky Navigation on Scroll
+        const navbar = document.querySelector('.navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Enhanced Product Card Animations
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+
+    <footer style="background: var(--footer-bg); color: white; margin-top: 5rem; padding: 3rem 0 1.5rem;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="mb-3" style="color: var(--primary-color); font-weight: 700;">🍃 БГ Храна</h5>
+                    <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+                        Платформа за българска храна и органични продукти директно от производителя. Качество и свежест на една ръка разстояние.
+                    </p>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Навигация</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'catalog:product_list' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Начало</a></li>
+                        <li class="mb-2"><a href="{% url 'catalog:about' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">За нас</a></li>
+                        <li class="mb-2"><a href="{% url 'catalog:contact' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Контакти</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Информация</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'catalog:terms' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Общи условия</a></li>
+                        <li class="mb-2"><a href="{% url 'catalog:cookie_policy' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Политика за бисквитки</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Контакти</h6>
+                    <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin: 0;">
+                        📍 България<br>
+                        📧 support@bghrana.com
+                    </p>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.1); margin: 2rem 0 1rem;">
+            <div class="text-center" style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">
+                <p class="mb-0">&copy; 2025 БГ Храна. Всички права запазени.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,677 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% block meta_description %}БГ Храна - Платформа за българска храна, органични продукти, плодове и зеленчуци директно от производителя. Качествени хранителни продукти на най-добри цени.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}българска храна, био продукти, органични продукти, плодове, зеленчуци, местни производители, хранителни продукти, пресни продукти, България{% endblock %}">
+    <meta name="author" content="БГ Храна">
+    <link rel="canonical" href="{% block canonical_url %}https://bghrana.com{{ request.path }}{% endblock %}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="https://bghrana.com{{ request.path }}">
+    <meta property="og:title" content="{% block og_title %}БГ Храна - Качествени Хранителни Продукти{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Платформа за българска храна и органични продукти директно от производителя{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% static 'logo.jpg' %}{% endblock %}">
+    <meta property="og:locale" content="bg_BG">
+    <meta property="og:site_name" content="БГ Храна">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://bghrana.com{{ request.path }}">
+    <meta name="twitter:title" content="{% block twitter_title %}БГ Храна - Качествени Хранителни Продукти{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Платформа за българска храна и органични продукти директно от производителя{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{% static 'logo.jpg' %}{% endblock %}">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0dd843">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="БГ Храна">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'icons/icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="96x96" href="{% static 'icons/icon-96x96.png' %}">
+    <link rel="apple-touch-icon" sizes="128x128" href="{% static 'icons/icon-128x128.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'icons/icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'icons/icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="192x192" href="{% static 'icons/icon-192x192.png' %}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <title>{% block title %}БГ Храна - Качествени Хранителни Продукти от България{% endblock %}</title>
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {% block structured_data %}
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "БГ Храна",
+      "url": "https://bghrana.com",
+      "logo": "https://bghrana.com{% static 'logo.jpg' %}",
+      "description": "Платформа за българска храна и органични продукти директно от производителя",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "BG",
+        "addressLocality": "България"
+      },
+      "sameAs": []
+    }
+    {% endblock %}
+    </script>
+    <style>
+        :root {
+            --primary-color: #0dd843;
+            --primary-hover: #0bc239;
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --card-bg: #ffffff;
+            --navbar-bg: #ffffff;
+            --footer-bg: #2c3e50;
+            --shadow: rgba(0,0,0,0.1);
+            --shadow-hover: rgba(0,0,0,0.2);
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e9ecef;
+            --card-bg: #2d2d2d;
+            --navbar-bg: #212529;
+            --footer-bg: #0d1117;
+            --shadow: rgba(255,255,255,0.1);
+            --shadow-hover: rgba(255,255,255,0.2);
+        }
+        
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        body { 
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-optical-sizing: auto;
+        }
+        
+        /* Sticky Navigation */
+        .navbar {
+            box-shadow: 0 2px 5px var(--shadow);
+            background-color: var(--navbar-bg) !important;
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            box-shadow: 0 4px 12px var(--shadow-hover);
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1040;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: none;
+            box-shadow: 0 4px 12px var(--shadow-hover);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px var(--shadow-hover);
+        }
+        
+        /* Loading Indicator */
+        .loading-spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            display: none;
+        }
+        
+        .loading-spinner.active {
+            display: block;
+        }
+        
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            border-width: 0.3rem;
+            color: var(--primary-color);
+        }
+        
+        /* Breadcrumbs */
+        .breadcrumb {
+            background-color: transparent;
+            padding: 1rem 0;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: "›";
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb-item a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .breadcrumb-item a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb-item.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        /* Improved Hover Effects */
+        .btn {
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 0.6rem 1.5rem;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            border: none;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px var(--shadow-hover);
+            background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary-color) 100%);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            border: none;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px var(--shadow-hover);
+            background: linear-gradient(135deg, #0056b3 0%, #007bff 100%);
+        }
+        
+        .btn-outline-danger:hover, .btn-outline-success:hover, .btn-outline-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-hover);
+        }
+        
+        /* Modern Badge Styling */
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .badge-success {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            box-shadow: 0 2px 4px var(--shadow);
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 0.4rem 0.9rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px var(--shadow);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        /* Card Improvements */
+        .card {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: none;
+            box-shadow: 0 2px 8px var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 16px var(--shadow-hover);
+        }
+        
+        /* Form elements in dark mode */
+        [data-theme="dark"] .form-control {
+            background-color: #3d3d3d;
+            border-color: #555;
+            color: #e9ecef;
+        }
+        
+        [data-theme="dark"] .form-control::placeholder {
+            color: #adb5bd;
+        }
+        
+        [data-theme="dark"] .form-label {
+            color: #e9ecef;
+        }
+        
+        [data-theme="dark"] .text-muted {
+            color: #adb5bd !important;
+        }
+        
+        [data-theme="dark"] .bg-white {
+            background-color: var(--card-bg) !important;
+        }
+        
+        [data-theme="dark"] hr {
+            border-color: rgba(255,255,255,0.2);
+        }
+        
+        /* Намаляване на широчината с общо 19% */
+        .container {
+            max-width: 972px !important; /* 1200px - 19% = 972px */
+        }
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1134px !important; /* 1400px - 19% = 1134px */
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #0dd843 !important;">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'catalog:product_list' %}">
+                <img src="{% static 'logo.jpg' %}" alt="Лого" style="height: 40px; width: auto; margin-right: 10px; border-radius: 5px;">
+                БГ Храна
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:product_list' %}">Начало</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:product_list' %}#filter-section">Категории</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:user_profile' %}">Профил</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:user_ads' %}">Моите обяви</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:product_create' %}">Нова обява</a></li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'catalog:logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link btn btn-link px-3" style="background-color: #ffcccc; color: #dc3545; border: none; border-radius: 4px;">Изход</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Вход</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:register' %}">Регистрация</a></li>
+                    {% endif %}
+                </ul>
+                <form class="d-flex ms-3 mt-3 mt-lg-0" role="search" method="get" action="{% url 'catalog:product_list' %}">
+                    <input class="form-control me-2" type="search" placeholder="Търси продукт..." name="search" />
+                    <button class="btn btn-outline-light" type="submit">Търси</button>
+                </form>
+                <!-- Dark Mode Toggle -->
+                <button id="darkModeToggle" class="btn btn-outline-light ms-2 mt-3 mt-lg-0" title="Превключи тъмен режим">
+                    <span class="dark-mode-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Breadcrumbs -->
+    {% block breadcrumbs %}{% endblock %}
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Зареждане...</span>
+        </div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <!-- PWA Install Banner -->
+    <div id="installBanner" class="pwa-install-banner" style="display: none;">
+        <div class="pwa-banner-content">
+            <div class="pwa-banner-text">
+                <strong>📱 Инсталирай приложението</strong>
+                <p class="mb-0">Ползвай сайта като мобилно приложение - по-бързо, без браузър!</p>
+            </div>
+            <div class="pwa-banner-buttons">
+                <button id="closeBanner" class="btn btn-sm btn-outline-secondary">Не</button>
+                <button id="installApp" class="btn btn-sm btn-success">Инсталирай</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .pwa-install-banner {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            padding: 20px;
+            z-index: 9998;
+            max-width: 500px;
+            width: 90%;
+            animation: slideDown 0.4s ease-out;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translate(-50%, -20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+        .pwa-banner-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .pwa-banner-text {
+            flex: 1;
+            min-width: 200px;
+        }
+        .pwa-banner-text strong {
+            color: #0dd843;
+            font-size: 16px;
+        }
+        .pwa-banner-text p {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .pwa-banner-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        @media (max-width: 576px) {
+            .pwa-install-banner {
+                top: 60px;
+                padding: 15px;
+            }
+            .pwa-banner-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .pwa-banner-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookieConsent" class="cookie-consent" style="display: none;">
+        <div class="cookie-consent-content">
+            <p class="mb-2">
+                <strong>🍪 Бисквитки (Cookies)</strong><br>
+                Използваме само технически необходими бисквитки за правилната работа на сайта (вход, формуляри, сигурност). 
+                Не използваме аналитични или маркетингови бисквитки.
+            </p>
+            <div class="cookie-consent-buttons">
+                <a href="{% url 'catalog:cookie_policy' %}" class="btn btn-sm btn-outline-light me-2">Научи повече</a>
+                <button id="acceptCookies" class="btn btn-sm btn-success">Разбрах</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            z-index: 9999;
+            animation: slideUp 0.5s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .cookie-consent-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .cookie-consent-content p {
+            flex: 1;
+            min-width: 300px;
+            margin: 0;
+        }
+        .cookie-consent-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 768px) {
+            .cookie-consent-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .cookie-consent-content p {
+                min-width: 100%;
+            }
+            .cookie-consent-buttons {
+                justify-content: center;
+                width: 100%;
+            }
+        }
+    </style>
+
+    <script>
+        // Cookie Consent Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieConsent = document.getElementById('cookieConsent');
+            const acceptButton = document.getElementById('acceptCookies');
+            
+            // Провери дали вече има съгласие
+            const consentGiven = localStorage.getItem('cookie_consent');
+            
+            if (!consentGiven) {
+                cookieConsent.style.display = 'block';
+            }
+            
+            // При натискане на "Разбрах"
+            acceptButton.addEventListener('click', function() {
+                localStorage.setItem('cookie_consent', 'true');
+                cookieConsent.style.animation = 'slideDown 0.3s ease-in';
+                setTimeout(() => {
+                    cookieConsent.style.display = 'none';
+                }, 300);
+            });
+        });
+        
+        // Анимация за скриване
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from { transform: translateY(0); opacity: 1; }
+                to { transform: translateY(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+    <!-- Modern Footer -->
+    <footer style="background: var(--footer-bg); color: white; margin-top: 5rem; padding: 3rem 0 1.5rem;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="mb-3" style="color: var(--primary-color); font-weight: 700;">🍃 БГ Храна</h5>
+                    <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+                        Платформа за българска храна и органични продукти директно от производителя. Качество и свежест на една ръка разстояние.
+                    </p>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Навигация</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'catalog:product_list' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Начало</a></li>
+                        <li class="mb-2"><a href="{% url 'catalog:about' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">За нас</a></li>
+                        <li class="mb-2"><a href="{% url 'catalog:contact' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Контакти</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Информация</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'catalog:terms' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Общи условия</a></li>
+                        <li class="mb-2"><a href="{% url 'catalog:cookie_policy' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">Политика за бисквитки</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Контакти</h6>
+                    <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin: 0;">
+                        📍 България<br>
+                        📧 support@bghrana.com
+                    </p>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.1); margin: 2rem 0 1rem;">
+            <div class="text-center" style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">
+                <p class="mb-0">&copy; 2025 БГ Храна. Всички права запазени.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript for Dark Mode, Sticky Nav, and Loading Indicators -->
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.querySelector('.dark-mode-icon');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', currentTheme);
+        if (darkModeIcon) {
+            darkModeIcon.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            if (darkModeIcon) {
+                darkModeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            }
+        });
+        
+        // Sticky Navigation on Scroll
+        const navbar = document.querySelector('.navbar');
+        let lastScroll = 0;
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            lastScroll = currentScroll;
+        });
+        
+        // Loading Indicator for AJAX/Form Submissions
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        
+        // Show loader on form submit
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', () => {
+                loadingSpinner.classList.add('active');
+            });
+        });
+        
+        // Show loader on link clicks (except anchors)
+        document.querySelectorAll('a[href^="/"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (!href.includes('#')) {
+                    loadingSpinner.classList.add('active');
+                }
+            });
+        });
+        
+        // Hide loader when page is loaded
+        window.addEventListener('load', () => {
+            loadingSpinner.classList.remove('active');
+        });
+        
+        // Enhanced hover effects for footer links
+        document.querySelectorAll('footer a').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.color = 'var(--primary-color)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.color = 'rgba(255,255,255,0.7)';
+            });
+        });
+    </script>
+    
+    <!-- PWA Install Script -->
+    <script src="{% static 'js/pwa-install.js' %}"></script>
+</body>
+</html>
