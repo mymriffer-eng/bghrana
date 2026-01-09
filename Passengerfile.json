@@ -1,0 +1,5 @@
+{
+  "app_type": "wsgi",
+  "startup_file": "passenger_wsgi.py",
+  "python": "/home/bghranac/virtualenv/repositories/bghrana/3.11/bin/python3.11"
+}
