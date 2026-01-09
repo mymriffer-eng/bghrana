@@ -26,7 +26,10 @@ urlpatterns = [
     path('', include('catalog.urls')),
 ]
 
+# Serve media files in both development and production
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     # Django Debug Toolbar
     urlpatterns += [path('__debug__/', include('debug_toolbar.urls'))]
