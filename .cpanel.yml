@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/bghranac/repositories/bghrana
+    - /bin/cp -R * $DEPLOYPATH
