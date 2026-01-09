@@ -23,10 +23,10 @@ print("IMPORTING DATA TO PRODUCTION DATABASE")
 print("=" * 70)
 
 # Read JSON file
-json_file = '/home/bghranac/exported_data.json'
+json_file = os.path.join(repo_path, 'exported_data.json')
 if not os.path.exists(json_file):
     print(f"✗ ERROR: {json_file} not found!")
-    print("Please upload exported_data.json to /home/bghranac/")
+    print("Please make sure exported_data.json is in the repository")
     exit(1)
 
 with open(json_file, 'r', encoding='utf-8') as f:
