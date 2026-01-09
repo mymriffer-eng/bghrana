@@ -46,11 +46,11 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'catalog',
     
-    # Django Allauth
+    # Django Allauth (Google OAuth temporarily disabled for deployment)
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.google',  # Disabled - needs requests library
 ]
 
 # Django Debug Toolbar (само в DEBUG mode)
