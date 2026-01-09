@@ -5,9 +5,11 @@ ENV PYTHONDONTWRITEBYTECODE=1
 
 WORKDIR /code
 
-# Install system dependencies
+# Install system dependencies for MySQL
 RUN apt-get update && apt-get install -y \
-    postgresql-client \
+    default-libmysqlclient-dev \
+    build-essential \
+    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Poetry
