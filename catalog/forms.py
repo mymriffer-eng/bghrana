@@ -31,12 +31,29 @@ class CustomUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Превод на помощните текстове
-        self.fields['username'].help_text = 'Задължително. 150 символа или по-малко. Само букви, цифри и @/./+/-/_'
+        self.fields['username'].help_text = 'Задължително. 150 символа або по-малко. Само букви, цифри и @/./+/-/_'
         self.fields['email'].help_text = 'Задължително. Ще получите имейл за потвърждение на регистрацията.'
         self.fields['password1'].help_text = 'Паролата трябва да съдържа поне 8 символа и не може да бъде изцяло цифрова.'
         # Премахване на валидацията за password2
         if 'password2' in self.fields:
             del self.fields['password2']
+
+    def clean(self):
+        """Override clean to skip password2 validation"""
+        cleaned_data = super(forms.Form, self).clean()  # Skip UserCreationForm's clean()
+        return cleaned_data
+
+    def _post_clean(self):
+        """Override to set password without password2 validation"""
+        super(forms.Form, self)._post_clean()  # Skip UserCreationForm's _post_clean()
+        password = self.cleaned_data.get('password1')
+        if password:
+            try:
+                from django.contrib.auth.password_validation import validate_password
+                validate_password(password, self.instance)
+            except forms.ValidationError as error:
+                self.add_error('password1', error)
+
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
