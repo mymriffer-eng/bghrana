@@ -3,3 +3,6 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/bghranac/repositories/bghrana
     - /bin/cp -R * $DEPLOYPATH
+    - chmod 644 $DEPLOYPATH/Passengerfile.json
+    - chmod 644 $DEPLOYPATH/passenger_wsgi.py
+    - chmod 755 $DEPLOYPATH
