@@ -1,0 +1,4 @@
+PassengerAppRoot /home/bghranac/repositories/bghrana
+PassengerAppType wsgi
+PassengerStartupFile passenger_wsgi.py
+PassengerPython /home/bghranac/virtualenv/repositories/bghrana/3.11/bin/python3.11
