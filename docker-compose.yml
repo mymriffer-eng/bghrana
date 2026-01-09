@@ -1,13 +1,13 @@
 name: foodproducts-local
 services:
   db:
-    image: postgres:17
+    image: mysql:8.0
     env_file:
       - ./.env.docker
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - mysql_data:/var/lib/mysql
     healthcheck:
-      test: pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
+      test: mysqladmin ping -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD
       interval: 2s
       timeout: 10s
       retries: 5
@@ -28,4 +28,4 @@ services:
       db:
         condition: service_healthy
 volumes:
-  postgres_data:
+  mysql_data:
