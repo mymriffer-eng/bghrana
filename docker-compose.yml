@@ -2,10 +2,8 @@ name: foodproducts-local
 services:
   db:
     image: postgres:17
-    environment:
-      POSTGRES_DB: foodproducts_db
-      POSTGRES_USER: mymriffer_bd_ofertizahrana8912
-      POSTGRES_PASSWORD: mandjareofertsproduction583!kote340
+    env_file:
+      - ./.env.docker
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     healthcheck:
