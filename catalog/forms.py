@@ -40,12 +40,12 @@ class CustomUserCreationForm(UserCreationForm):
 
     def clean(self):
         """Override clean to skip password2 validation"""
-        cleaned_data = super(forms.Form, self).clean()  # Skip UserCreationForm's clean()
+        cleaned_data = forms.Form.clean(self)  # Skip UserCreationForm's clean()
         return cleaned_data
 
     def _post_clean(self):
         """Override to set password without password2 validation"""
-        super(forms.Form, self)._post_clean()  # Skip UserCreationForm's _post_clean()
+        forms.Form._post_clean(self)  # Skip UserCreationForm's _post_clean()
         password = self.cleaned_data.get('password1')
         if password:
             try:
