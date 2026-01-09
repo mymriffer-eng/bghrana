@@ -1,0 +1,2048 @@
+{
+  "categories": [
+    {
+      "id": 2182,
+      "name": "Зеленчуци",
+      "description": "Пресни зеленчуци от локални производители",
+      "parent_id": null
+    },
+    {
+      "id": 2183,
+      "name": "Плодове",
+      "description": "Свежи плодове - ябълки, портокали, банани и др.",
+      "parent_id": null
+    },
+    {
+      "id": 2184,
+      "name": "Месо",
+      "description": "Говядина, свинско месо, пиле и птица",
+      "parent_id": null
+    },
+    {
+      "id": 2185,
+      "name": "Риба",
+      "description": "Свежа и замразена риба",
+      "parent_id": null
+    },
+    {
+      "id": 2186,
+      "name": "Млечни продукти",
+      "description": "Мляко, сирене, йогурт и масло",
+      "parent_id": null
+    },
+    {
+      "id": 2187,
+      "name": "Мед",
+      "description": "Натурален пчелен мед",
+      "parent_id": null
+    },
+    {
+      "id": 2188,
+      "name": "Зимнина",
+      "description": "Консервирани продукти и заготовки",
+      "parent_id": null
+    },
+    {
+      "id": 2189,
+      "name": "Други",
+      "description": "Други хранителни продукти",
+      "parent_id": null
+    },
+    {
+      "id": 2190,
+      "name": "Боб",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2191,
+      "name": "Грах",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2192,
+      "name": "Зелен лук",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2193,
+      "name": "Зелена салата",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2194,
+      "name": "Зелен фасул",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2195,
+      "name": "Зеле",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2196,
+      "name": "Картофи",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2197,
+      "name": "Копър",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2198,
+      "name": "Краставици",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2199,
+      "name": "Лук",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2200,
+      "name": "Магданоз",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2201,
+      "name": "Мента",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2202,
+      "name": "Морков",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2203,
+      "name": "Патладжан",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2204,
+      "name": "Пипер",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2205,
+      "name": "Репички",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2206,
+      "name": "Рукола",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2207,
+      "name": "Ряпа",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2208,
+      "name": "Спанак",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2209,
+      "name": "Тиквички",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2210,
+      "name": "Цвекло",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2211,
+      "name": "Чесън",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2212,
+      "name": "Домати",
+      "description": "",
+      "parent_id": 2182
+    },
+    {
+      "id": 2213,
+      "name": "Авокадо",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2214,
+      "name": "Ябълки",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2215,
+      "name": "Боровинки",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2216,
+      "name": "Вишни",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2217,
+      "name": "Грозде",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2218,
+      "name": "Дюли",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2219,
+      "name": "Диня",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2220,
+      "name": "Кайсии",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2221,
+      "name": "Череши",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2222,
+      "name": "Къпини",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2223,
+      "name": "Круши",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2224,
+      "name": "Малини",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2225,
+      "name": "Нектарини",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2226,
+      "name": "Пъпеш",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2227,
+      "name": "Праскови",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2228,
+      "name": "Сливи",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2229,
+      "name": "Смокини",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2230,
+      "name": "Черници",
+      "description": "",
+      "parent_id": 2183
+    },
+    {
+      "id": 2231,
+      "name": "Агнешко",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2232,
+      "name": "Говеждо",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2233,
+      "name": "Дивеч",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2234,
+      "name": "Заешко",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2235,
+      "name": "Козе",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2236,
+      "name": "Конско",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2237,
+      "name": "Овче",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2238,
+      "name": "Патешко",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2239,
+      "name": "Пилешко",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2240,
+      "name": "Пуешко",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2241,
+      "name": "Свинско",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2242,
+      "name": "Телешко",
+      "description": "",
+      "parent_id": 2184
+    },
+    {
+      "id": 2243,
+      "name": "Бял амур",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2244,
+      "name": "Бяла риба",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2246,
+      "name": "Каракуда",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2247,
+      "name": "Кефал",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2248,
+      "name": "Костур",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2249,
+      "name": "Лаврак",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2250,
+      "name": "Лефер",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2251,
+      "name": "Миди",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2252,
+      "name": "Октопод",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2253,
+      "name": "Попче",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2254,
+      "name": "Пъстърва",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2255,
+      "name": "Сафрид",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2256,
+      "name": "Сом",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2257,
+      "name": "Скариди",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2258,
+      "name": "Толстолоб",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2259,
+      "name": "Трицона",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2260,
+      "name": "Щука",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2261,
+      "name": "Черноморска врана",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2262,
+      "name": "Чернокоп",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2263,
+      "name": "Шаран",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2264,
+      "name": "Краве сирене",
+      "description": "",
+      "parent_id": 2186
+    },
+    {
+      "id": 2265,
+      "name": "Овче сирене",
+      "description": "",
+      "parent_id": 2186
+    },
+    {
+      "id": 2266,
+      "name": "Козе сирене",
+      "description": "",
+      "parent_id": 2186
+    },
+    {
+      "id": 2267,
+      "name": "Кашкавал",
+      "description": "",
+      "parent_id": 2186
+    },
+    {
+      "id": 2268,
+      "name": "Жълти сирена",
+      "description": "",
+      "parent_id": 2186
+    },
+    {
+      "id": 2269,
+      "name": "Извара",
+      "description": "",
+      "parent_id": 2186
+    },
+    {
+      "id": 2270,
+      "name": "Прясно краве мляко",
+      "description": "",
+      "parent_id": 2186
+    },
+    {
+      "id": 2271,
+      "name": "Прясно овче мляко",
+      "description": "",
+      "parent_id": 2186
+    },
+    {
+      "id": 2272,
+      "name": "Прясно козе мляко",
+      "description": "",
+      "parent_id": 2186
+    },
+    {
+      "id": 2273,
+      "name": "Кисело мляко",
+      "description": "",
+      "parent_id": 2186
+    },
+    {
+      "id": 2274,
+      "name": "Натурален мед",
+      "description": "",
+      "parent_id": 2187
+    },
+    {
+      "id": 2275,
+      "name": "Медни продукти",
+      "description": "",
+      "parent_id": 2187
+    },
+    {
+      "id": 2276,
+      "name": "Туршия",
+      "description": "",
+      "parent_id": 2188
+    },
+    {
+      "id": 2277,
+      "name": "Зеленчукови",
+      "description": "",
+      "parent_id": 2188
+    },
+    {
+      "id": 2278,
+      "name": "Компоти",
+      "description": "",
+      "parent_id": 2188
+    },
+    {
+      "id": 2279,
+      "name": "Сладки",
+      "description": "",
+      "parent_id": 2188
+    },
+    {
+      "id": 2280,
+      "name": "Месни",
+      "description": "",
+      "parent_id": 2188
+    },
+    {
+      "id": 2281,
+      "name": "Калкан",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2282,
+      "name": "Писия",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2283,
+      "name": "Акула",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2284,
+      "name": "Скорпид",
+      "description": "",
+      "parent_id": 2185
+    },
+    {
+      "id": 2285,
+      "name": "Друг вид",
+      "description": "",
+      "parent_id": 2185
+    }
+  ],
+  "regions": [
+    {
+      "id": 1,
+      "name": "Благоевград"
+    },
+    {
+      "id": 2,
+      "name": "Бургас"
+    },
+    {
+      "id": 3,
+      "name": "Варна"
+    },
+    {
+      "id": 4,
+      "name": "Велико Търново"
+    },
+    {
+      "id": 5,
+      "name": "Видин"
+    },
+    {
+      "id": 6,
+      "name": "Враца"
+    },
+    {
+      "id": 7,
+      "name": "Габрово"
+    },
+    {
+      "id": 8,
+      "name": "Добрич"
+    },
+    {
+      "id": 9,
+      "name": "Кърджали"
+    },
+    {
+      "id": 10,
+      "name": "Кюстендил"
+    },
+    {
+      "id": 11,
+      "name": "Ловеч"
+    },
+    {
+      "id": 12,
+      "name": "Монтана"
+    },
+    {
+      "id": 13,
+      "name": "Пазарджик"
+    },
+    {
+      "id": 14,
+      "name": "Перник"
+    },
+    {
+      "id": 15,
+      "name": "Плевен"
+    },
+    {
+      "id": 16,
+      "name": "Пловдив"
+    },
+    {
+      "id": 17,
+      "name": "Разград"
+    },
+    {
+      "id": 18,
+      "name": "Русе"
+    },
+    {
+      "id": 19,
+      "name": "Силистра"
+    },
+    {
+      "id": 20,
+      "name": "Сливен"
+    },
+    {
+      "id": 21,
+      "name": "Смолян"
+    },
+    {
+      "id": 22,
+      "name": "София (област)"
+    },
+    {
+      "id": 23,
+      "name": "София-град"
+    },
+    {
+      "id": 24,
+      "name": "Стара Загора"
+    },
+    {
+      "id": 25,
+      "name": "Търговище"
+    },
+    {
+      "id": 26,
+      "name": "Хасково"
+    },
+    {
+      "id": 27,
+      "name": "Шумен"
+    },
+    {
+      "id": 28,
+      "name": "Ямбол"
+    }
+  ],
+  "cities": [
+    {
+      "id": 1,
+      "name": "Благоевград",
+      "region_id": 1
+    },
+    {
+      "id": 2,
+      "name": "Банско",
+      "region_id": 1
+    },
+    {
+      "id": 3,
+      "name": "Гоце Делчев",
+      "region_id": 1
+    },
+    {
+      "id": 4,
+      "name": "Петрич",
+      "region_id": 1
+    },
+    {
+      "id": 5,
+      "name": "Сандански",
+      "region_id": 1
+    },
+    {
+      "id": 6,
+      "name": "Разлог",
+      "region_id": 1
+    },
+    {
+      "id": 7,
+      "name": "Якоруда",
+      "region_id": 1
+    },
+    {
+      "id": 8,
+      "name": "Белица",
+      "region_id": 1
+    },
+    {
+      "id": 9,
+      "name": "Симитли",
+      "region_id": 1
+    },
+    {
+      "id": 10,
+      "name": "Хаджидимово",
+      "region_id": 1
+    },
+    {
+      "id": 11,
+      "name": "Кресна",
+      "region_id": 1
+    },
+    {
+      "id": 12,
+      "name": "Струмяни",
+      "region_id": 1
+    },
+    {
+      "id": 13,
+      "name": "Сатовча",
+      "region_id": 1
+    },
+    {
+      "id": 14,
+      "name": "Гърмен",
+      "region_id": 1
+    },
+    {
+      "id": 15,
+      "name": "Айтос",
+      "region_id": 2
+    },
+    {
+      "id": 16,
+      "name": "Бургас",
+      "region_id": 2
+    },
+    {
+      "id": 17,
+      "name": "Карнобат",
+      "region_id": 2
+    },
+    {
+      "id": 18,
+      "name": "Камено",
+      "region_id": 2
+    },
+    {
+      "id": 19,
+      "name": "Несебър",
+      "region_id": 2
+    },
+    {
+      "id": 20,
+      "name": "Поморие",
+      "region_id": 2
+    },
+    {
+      "id": 21,
+      "name": "Приморско",
+      "region_id": 2
+    },
+    {
+      "id": 22,
+      "name": "Созопол",
+      "region_id": 2
+    },
+    {
+      "id": 23,
+      "name": "Средец",
+      "region_id": 2
+    },
+    {
+      "id": 24,
+      "name": "Сунгурларе",
+      "region_id": 2
+    },
+    {
+      "id": 25,
+      "name": "Царево",
+      "region_id": 2
+    },
+    {
+      "id": 26,
+      "name": "Руен",
+      "region_id": 2
+    },
+    {
+      "id": 27,
+      "name": "Малко Търново",
+      "region_id": 2
+    },
+    {
+      "id": 28,
+      "name": "Аксаково",
+      "region_id": 3
+    },
+    {
+      "id": 29,
+      "name": "Варна",
+      "region_id": 3
+    },
+    {
+      "id": 30,
+      "name": "Белослав",
+      "region_id": 3
+    },
+    {
+      "id": 31,
+      "name": "Бяла",
+      "region_id": 3
+    },
+    {
+      "id": 32,
+      "name": "Ветрино",
+      "region_id": 3
+    },
+    {
+      "id": 33,
+      "name": "Вълчи дол",
+      "region_id": 3
+    },
+    {
+      "id": 34,
+      "name": "Девня",
+      "region_id": 3
+    },
+    {
+      "id": 35,
+      "name": "Долни чифлик",
+      "region_id": 3
+    },
+    {
+      "id": 36,
+      "name": "Дългопол",
+      "region_id": 3
+    },
+    {
+      "id": 37,
+      "name": "Провадия",
+      "region_id": 3
+    },
+    {
+      "id": 38,
+      "name": "Суворово",
+      "region_id": 3
+    },
+    {
+      "id": 39,
+      "name": "Аврен",
+      "region_id": 3
+    },
+    {
+      "id": 40,
+      "name": "Велико Търново",
+      "region_id": 4
+    },
+    {
+      "id": 41,
+      "name": "Горна Оряховица",
+      "region_id": 4
+    },
+    {
+      "id": 42,
+      "name": "Елена",
+      "region_id": 4
+    },
+    {
+      "id": 43,
+      "name": "Златарица",
+      "region_id": 4
+    },
+    {
+      "id": 44,
+      "name": "Лясковец",
+      "region_id": 4
+    },
+    {
+      "id": 45,
+      "name": "Павликени",
+      "region_id": 4
+    },
+    {
+      "id": 46,
+      "name": "Полски тръмбеш",
+      "region_id": 4
+    },
+    {
+      "id": 47,
+      "name": "Свищов",
+      "region_id": 4
+    },
+    {
+      "id": 48,
+      "name": "Стражица",
+      "region_id": 4
+    },
+    {
+      "id": 49,
+      "name": "Сухиндол",
+      "region_id": 4
+    },
+    {
+      "id": 50,
+      "name": "Видин",
+      "region_id": 5
+    },
+    {
+      "id": 51,
+      "name": "Белоградчик",
+      "region_id": 5
+    },
+    {
+      "id": 52,
+      "name": "Бойница",
+      "region_id": 5
+    },
+    {
+      "id": 53,
+      "name": "Брегово",
+      "region_id": 5
+    },
+    {
+      "id": 54,
+      "name": "Грамада",
+      "region_id": 5
+    },
+    {
+      "id": 55,
+      "name": "Димово",
+      "region_id": 5
+    },
+    {
+      "id": 56,
+      "name": "Кула",
+      "region_id": 5
+    },
+    {
+      "id": 57,
+      "name": "Макреш",
+      "region_id": 5
+    },
+    {
+      "id": 58,
+      "name": "Ново село",
+      "region_id": 5
+    },
+    {
+      "id": 59,
+      "name": "Ружинци",
+      "region_id": 5
+    },
+    {
+      "id": 60,
+      "name": "Чупрене",
+      "region_id": 5
+    },
+    {
+      "id": 61,
+      "name": "Враца",
+      "region_id": 6
+    },
+    {
+      "id": 62,
+      "name": "Бяла слатина",
+      "region_id": 6
+    },
+    {
+      "id": 63,
+      "name": "Козлодуй",
+      "region_id": 6
+    },
+    {
+      "id": 64,
+      "name": "Криводол",
+      "region_id": 6
+    },
+    {
+      "id": 65,
+      "name": "Мездра",
+      "region_id": 6
+    },
+    {
+      "id": 66,
+      "name": "Оряхово",
+      "region_id": 6
+    },
+    {
+      "id": 67,
+      "name": "Роман",
+      "region_id": 6
+    },
+    {
+      "id": 68,
+      "name": "Мизия",
+      "region_id": 6
+    },
+    {
+      "id": 69,
+      "name": "Борован",
+      "region_id": 6
+    },
+    {
+      "id": 70,
+      "name": "Хайредин",
+      "region_id": 6
+    },
+    {
+      "id": 71,
+      "name": "Габрово",
+      "region_id": 7
+    },
+    {
+      "id": 72,
+      "name": "Трявна",
+      "region_id": 7
+    },
+    {
+      "id": 73,
+      "name": "Севлиево",
+      "region_id": 7
+    },
+    {
+      "id": 74,
+      "name": "Дряново",
+      "region_id": 7
+    },
+    {
+      "id": 75,
+      "name": "Добрич",
+      "region_id": 8
+    },
+    {
+      "id": 76,
+      "name": "Балчик",
+      "region_id": 8
+    },
+    {
+      "id": 77,
+      "name": "Каварна",
+      "region_id": 8
+    },
+    {
+      "id": 78,
+      "name": "Генерал Тошево",
+      "region_id": 8
+    },
+    {
+      "id": 79,
+      "name": "Шабла",
+      "region_id": 8
+    },
+    {
+      "id": 80,
+      "name": "Крушари",
+      "region_id": 8
+    },
+    {
+      "id": 81,
+      "name": "Тервел",
+      "region_id": 8
+    },
+    {
+      "id": 82,
+      "name": "Кърджали",
+      "region_id": 9
+    },
+    {
+      "id": 83,
+      "name": "Момчилград",
+      "region_id": 9
+    },
+    {
+      "id": 84,
+      "name": "Ардино",
+      "region_id": 9
+    },
+    {
+      "id": 85,
+      "name": "Джебел",
+      "region_id": 9
+    },
+    {
+      "id": 86,
+      "name": "Крумовград",
+      "region_id": 9
+    },
+    {
+      "id": 87,
+      "name": "Кирково",
+      "region_id": 9
+    },
+    {
+      "id": 88,
+      "name": "Черноочене",
+      "region_id": 9
+    },
+    {
+      "id": 89,
+      "name": "Кюстендил",
+      "region_id": 10
+    },
+    {
+      "id": 90,
+      "name": "Бобов дол",
+      "region_id": 10
+    },
+    {
+      "id": 91,
+      "name": "Бобошево",
+      "region_id": 10
+    },
+    {
+      "id": 92,
+      "name": "Дупница",
+      "region_id": 10
+    },
+    {
+      "id": 93,
+      "name": "Кочериново",
+      "region_id": 10
+    },
+    {
+      "id": 94,
+      "name": "Невестино",
+      "region_id": 10
+    },
+    {
+      "id": 95,
+      "name": "Рила",
+      "region_id": 10
+    },
+    {
+      "id": 96,
+      "name": "Сапарева баня",
+      "region_id": 10
+    },
+    {
+      "id": 97,
+      "name": "Трекляно",
+      "region_id": 10
+    },
+    {
+      "id": 98,
+      "name": "Ловеч",
+      "region_id": 11
+    },
+    {
+      "id": 99,
+      "name": "Троян",
+      "region_id": 11
+    },
+    {
+      "id": 100,
+      "name": "Тетевен",
+      "region_id": 11
+    },
+    {
+      "id": 101,
+      "name": "Луковит",
+      "region_id": 11
+    },
+    {
+      "id": 102,
+      "name": "Ябланица",
+      "region_id": 11
+    },
+    {
+      "id": 103,
+      "name": "Априлци",
+      "region_id": 11
+    },
+    {
+      "id": 104,
+      "name": "Летница",
+      "region_id": 11
+    },
+    {
+      "id": 105,
+      "name": "Угърчин",
+      "region_id": 11
+    },
+    {
+      "id": 106,
+      "name": "Плачковци",
+      "region_id": 11
+    },
+    {
+      "id": 107,
+      "name": "Монтана",
+      "region_id": 12
+    },
+    {
+      "id": 108,
+      "name": "Берковица",
+      "region_id": 12
+    },
+    {
+      "id": 109,
+      "name": "Бойчиновци",
+      "region_id": 12
+    },
+    {
+      "id": 110,
+      "name": "Вълчедръм",
+      "region_id": 12
+    },
+    {
+      "id": 111,
+      "name": "Лом",
+      "region_id": 12
+    },
+    {
+      "id": 112,
+      "name": "Медковец",
+      "region_id": 12
+    },
+    {
+      "id": 113,
+      "name": "Мизия",
+      "region_id": 12
+    },
+    {
+      "id": 114,
+      "name": "Якимово",
+      "region_id": 12
+    },
+    {
+      "id": 115,
+      "name": "Чипровци",
+      "region_id": 12
+    },
+    {
+      "id": 116,
+      "name": "Георги Дамяново",
+      "region_id": 12
+    },
+    {
+      "id": 117,
+      "name": "Владимирово",
+      "region_id": 12
+    },
+    {
+      "id": 118,
+      "name": "Пазарджик",
+      "region_id": 13
+    },
+    {
+      "id": 119,
+      "name": "Велинград",
+      "region_id": 13
+    },
+    {
+      "id": 120,
+      "name": "Пещера",
+      "region_id": 13
+    },
+    {
+      "id": 121,
+      "name": "Батак",
+      "region_id": 13
+    },
+    {
+      "id": 122,
+      "name": "Брацигово",
+      "region_id": 13
+    },
+    {
+      "id": 123,
+      "name": "Лесичово",
+      "region_id": 13
+    },
+    {
+      "id": 124,
+      "name": "Панагюрище",
+      "region_id": 13
+    },
+    {
+      "id": 125,
+      "name": "Септември",
+      "region_id": 13
+    },
+    {
+      "id": 126,
+      "name": "Стрелча",
+      "region_id": 13
+    },
+    {
+      "id": 127,
+      "name": "Ракитово",
+      "region_id": 13
+    },
+    {
+      "id": 128,
+      "name": "Перник",
+      "region_id": 14
+    },
+    {
+      "id": 129,
+      "name": "Радомир",
+      "region_id": 14
+    },
+    {
+      "id": 130,
+      "name": "Брезник",
+      "region_id": 14
+    },
+    {
+      "id": 131,
+      "name": "Трън",
+      "region_id": 14
+    },
+    {
+      "id": 132,
+      "name": "Земен",
+      "region_id": 14
+    },
+    {
+      "id": 133,
+      "name": "Ковачевци",
+      "region_id": 14
+    },
+    {
+      "id": 134,
+      "name": "Трекляно",
+      "region_id": 14
+    },
+    {
+      "id": 135,
+      "name": "Плевен",
+      "region_id": 15
+    },
+    {
+      "id": 136,
+      "name": "Долна Митрополия",
+      "region_id": 15
+    },
+    {
+      "id": 137,
+      "name": "Гулянци",
+      "region_id": 15
+    },
+    {
+      "id": 138,
+      "name": "Кнежа",
+      "region_id": 15
+    },
+    {
+      "id": 139,
+      "name": "Левски",
+      "region_id": 15
+    },
+    {
+      "id": 140,
+      "name": "Никопол",
+      "region_id": 15
+    },
+    {
+      "id": 141,
+      "name": "Пордим",
+      "region_id": 15
+    },
+    {
+      "id": 142,
+      "name": "Червен бряг",
+      "region_id": 15
+    },
+    {
+      "id": 143,
+      "name": "Искър",
+      "region_id": 15
+    },
+    {
+      "id": 144,
+      "name": "Белене",
+      "region_id": 15
+    },
+    {
+      "id": 145,
+      "name": "Пловдив",
+      "region_id": 16
+    },
+    {
+      "id": 146,
+      "name": "Асеновград",
+      "region_id": 16
+    },
+    {
+      "id": 147,
+      "name": "Карлово",
+      "region_id": 16
+    },
+    {
+      "id": 148,
+      "name": "Хисаря",
+      "region_id": 16
+    },
+    {
+      "id": 149,
+      "name": "Сопот",
+      "region_id": 16
+    },
+    {
+      "id": 150,
+      "name": "Калояново",
+      "region_id": 16
+    },
+    {
+      "id": 151,
+      "name": "Марица",
+      "region_id": 16
+    },
+    {
+      "id": 152,
+      "name": "Раковски",
+      "region_id": 16
+    },
+    {
+      "id": 153,
+      "name": "Брезово",
+      "region_id": 16
+    },
+    {
+      "id": 154,
+      "name": "Садово",
+      "region_id": 16
+    },
+    {
+      "id": 155,
+      "name": "Първомай",
+      "region_id": 16
+    },
+    {
+      "id": 156,
+      "name": "Стамболийски",
+      "region_id": 16
+    },
+    {
+      "id": 157,
+      "name": "Родопи",
+      "region_id": 16
+    },
+    {
+      "id": 158,
+      "name": "Кричим",
+      "region_id": 16
+    },
+    {
+      "id": 159,
+      "name": "Куклен",
+      "region_id": 16
+    },
+    {
+      "id": 160,
+      "name": "Лъки",
+      "region_id": 16
+    },
+    {
+      "id": 161,
+      "name": "Перущица",
+      "region_id": 16
+    },
+    {
+      "id": 162,
+      "name": "Съединение",
+      "region_id": 16
+    },
+    {
+      "id": 163,
+      "name": "Разград",
+      "region_id": 17
+    },
+    {
+      "id": 164,
+      "name": "Исперих",
+      "region_id": 17
+    },
+    {
+      "id": 165,
+      "name": "Кубрат",
+      "region_id": 17
+    },
+    {
+      "id": 166,
+      "name": "Лозница",
+      "region_id": 17
+    },
+    {
+      "id": 167,
+      "name": "Самуил",
+      "region_id": 17
+    },
+    {
+      "id": 168,
+      "name": "Цар Калоян",
+      "region_id": 17
+    },
+    {
+      "id": 169,
+      "name": "Завет",
+      "region_id": 17
+    },
+    {
+      "id": 170,
+      "name": "Русе",
+      "region_id": 18
+    },
+    {
+      "id": 171,
+      "name": "Бяла",
+      "region_id": 18
+    },
+    {
+      "id": 172,
+      "name": "Ветово",
+      "region_id": 18
+    },
+    {
+      "id": 173,
+      "name": "Иваново",
+      "region_id": 18
+    },
+    {
+      "id": 174,
+      "name": "Две Могили",
+      "region_id": 18
+    },
+    {
+      "id": 175,
+      "name": "Борово",
+      "region_id": 18
+    },
+    {
+      "id": 176,
+      "name": "Сливо Поле",
+      "region_id": 18
+    },
+    {
+      "id": 177,
+      "name": "Ценово",
+      "region_id": 18
+    },
+    {
+      "id": 178,
+      "name": "Силисттра",
+      "region_id": 19
+    },
+    {
+      "id": 179,
+      "name": "Тутракан",
+      "region_id": 19
+    },
+    {
+      "id": 180,
+      "name": "Дулово",
+      "region_id": 19
+    },
+    {
+      "id": 181,
+      "name": "Главиница",
+      "region_id": 19
+    },
+    {
+      "id": 182,
+      "name": "Ситово",
+      "region_id": 19
+    },
+    {
+      "id": 183,
+      "name": "Кайнарджа",
+      "region_id": 19
+    },
+    {
+      "id": 184,
+      "name": "Алфатар",
+      "region_id": 19
+    },
+    {
+      "id": 185,
+      "name": "Сливен",
+      "region_id": 20
+    },
+    {
+      "id": 186,
+      "name": "Нова Загора",
+      "region_id": 20
+    },
+    {
+      "id": 187,
+      "name": "Котел",
+      "region_id": 20
+    },
+    {
+      "id": 188,
+      "name": "Твърдица",
+      "region_id": 20
+    },
+    {
+      "id": 189,
+      "name": "Смолян",
+      "region_id": 21
+    },
+    {
+      "id": 190,
+      "name": "Чепеларе",
+      "region_id": 21
+    },
+    {
+      "id": 191,
+      "name": "Девин",
+      "region_id": 21
+    },
+    {
+      "id": 192,
+      "name": "Мадан",
+      "region_id": 21
+    },
+    {
+      "id": 193,
+      "name": "Златоград",
+      "region_id": 20
+    },
+    {
+      "id": 194,
+      "name": "Рудозем",
+      "region_id": 20
+    },
+    {
+      "id": 195,
+      "name": "Баните",
+      "region_id": 20
+    },
+    {
+      "id": 196,
+      "name": "Борино",
+      "region_id": 21
+    },
+    {
+      "id": 197,
+      "name": "Доспат",
+      "region_id": 21
+    },
+    {
+      "id": 198,
+      "name": "Неделино",
+      "region_id": 21
+    },
+    {
+      "id": 199,
+      "name": "Ботевград",
+      "region_id": 22
+    },
+    {
+      "id": 200,
+      "name": "Божурище",
+      "region_id": 22
+    },
+    {
+      "id": 201,
+      "name": "Годеч",
+      "region_id": 22
+    },
+    {
+      "id": 202,
+      "name": "Долна баня",
+      "region_id": 22
+    },
+    {
+      "id": 203,
+      "name": "Драгоман",
+      "region_id": 22
+    },
+    {
+      "id": 204,
+      "name": "Елин Пелин",
+      "region_id": 22
+    },
+    {
+      "id": 205,
+      "name": "Златица",
+      "region_id": 22
+    },
+    {
+      "id": 206,
+      "name": "Ихтиман",
+      "region_id": 22
+    },
+    {
+      "id": 207,
+      "name": "Копривщица",
+      "region_id": 22
+    },
+    {
+      "id": 208,
+      "name": "Костенец",
+      "region_id": 22
+    },
+    {
+      "id": 209,
+      "name": "Костинброд",
+      "region_id": 22
+    },
+    {
+      "id": 210,
+      "name": "Мирково",
+      "region_id": 22
+    },
+    {
+      "id": 211,
+      "name": "Пирдоп",
+      "region_id": 22
+    },
+    {
+      "id": 212,
+      "name": "Правец",
+      "region_id": 22
+    },
+    {
+      "id": 213,
+      "name": "Самоков",
+      "region_id": 22
+    },
+    {
+      "id": 214,
+      "name": "Своге",
+      "region_id": 22
+    },
+    {
+      "id": 215,
+      "name": "Сливница",
+      "region_id": 22
+    },
+    {
+      "id": 216,
+      "name": "Чавдар",
+      "region_id": 22
+    },
+    {
+      "id": 217,
+      "name": "Челопеч",
+      "region_id": 22
+    },
+    {
+      "id": 218,
+      "name": "Антон",
+      "region_id": 22
+    },
+    {
+      "id": 219,
+      "name": "Горна Малина",
+      "region_id": 22
+    },
+    {
+      "id": 220,
+      "name": "София",
+      "region_id": 23
+    },
+    {
+      "id": 221,
+      "name": "Банкя",
+      "region_id": 23
+    },
+    {
+      "id": 222,
+      "name": "Бухово",
+      "region_id": 23
+    },
+    {
+      "id": 223,
+      "name": "Нови Искър",
+      "region_id": 23
+    },
+    {
+      "id": 224,
+      "name": "Стара Загора",
+      "region_id": 24
+    },
+    {
+      "id": 225,
+      "name": "Казанлък",
+      "region_id": 24
+    },
+    {
+      "id": 226,
+      "name": "Чирпан",
+      "region_id": 24
+    },
+    {
+      "id": 227,
+      "name": "Раднево",
+      "region_id": 24
+    },
+    {
+      "id": 228,
+      "name": "Гълъбово",
+      "region_id": 24
+    },
+    {
+      "id": 229,
+      "name": "Павел Баня",
+      "region_id": 24
+    },
+    {
+      "id": 230,
+      "name": "Мъглиж",
+      "region_id": 24
+    },
+    {
+      "id": 231,
+      "name": "Братя Даскалови",
+      "region_id": 24
+    },
+    {
+      "id": 232,
+      "name": "Николаево",
+      "region_id": 24
+    },
+    {
+      "id": 233,
+      "name": "Опан",
+      "region_id": 24
+    },
+    {
+      "id": 234,
+      "name": "Гурково",
+      "region_id": 24
+    },
+    {
+      "id": 235,
+      "name": "Търговище",
+      "region_id": 25
+    },
+    {
+      "id": 236,
+      "name": "Омуртаг",
+      "region_id": 25
+    },
+    {
+      "id": 237,
+      "name": "Попово",
+      "region_id": 25
+    },
+    {
+      "id": 238,
+      "name": "Антоново",
+      "region_id": 25
+    },
+    {
+      "id": 239,
+      "name": "Опака",
+      "region_id": 25
+    },
+    {
+      "id": 240,
+      "name": "Хасково",
+      "region_id": 26
+    },
+    {
+      "id": 241,
+      "name": "Димитровград",
+      "region_id": 26
+    },
+    {
+      "id": 242,
+      "name": "Харманли",
+      "region_id": 26
+    },
+    {
+      "id": 243,
+      "name": "Свиленград",
+      "region_id": 26
+    },
+    {
+      "id": 244,
+      "name": "Любимец",
+      "region_id": 26
+    },
+    {
+      "id": 245,
+      "name": "Тооловград",
+      "region_id": 26
+    },
+    {
+      "id": 246,
+      "name": "Минерални Бани",
+      "region_id": 26
+    },
+    {
+      "id": 247,
+      "name": "Ивайловград",
+      "region_id": 26
+    },
+    {
+      "id": 248,
+      "name": "Маджарово",
+      "region_id": 26
+    },
+    {
+      "id": 249,
+      "name": "Стамболово",
+      "region_id": 26
+    },
+    {
+      "id": 250,
+      "name": "Шумен",
+      "region_id": 27
+    },
+    {
+      "id": 251,
+      "name": "Велики Преслав",
+      "region_id": 27
+    },
+    {
+      "id": 252,
+      "name": "Смядово",
+      "region_id": 27
+    },
+    {
+      "id": 253,
+      "name": "Нови Пазар",
+      "region_id": 27
+    },
+    {
+      "id": 254,
+      "name": "Каолиново",
+      "region_id": 27
+    },
+    {
+      "id": 255,
+      "name": "Венец",
+      "region_id": 27
+    },
+    {
+      "id": 256,
+      "name": "Хитрино",
+      "region_id": 27
+    },
+    {
+      "id": 257,
+      "name": "Никола Козлево",
+      "region_id": 27
+    },
+    {
+      "id": 258,
+      "name": "Ямбол",
+      "region_id": 28
+    },
+    {
+      "id": 259,
+      "name": "Елхово",
+      "region_id": 28
+    },
+    {
+      "id": 260,
+      "name": "Стралджа",
+      "region_id": 28
+    },
+    {
+      "id": 261,
+      "name": "Тунджа",
+      "region_id": 28
+    },
+    {
+      "id": 262,
+      "name": "Болярово",
+      "region_id": 28
+    }
+  ]
+}
