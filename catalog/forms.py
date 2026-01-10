@@ -39,8 +39,11 @@ class CustomUserCreationForm(UserCreationForm):
             del self.fields['password2']
 
     def clean(self):
-        """Override clean to skip password2 validation"""
-        cleaned_data = forms.Form.clean(self)  # Skip UserCreationForm's clean()
+        """Override clean to skip password2 validation and validate username"""
+        cleaned_data = forms.Form.clean(self)
+        username = cleaned_data.get('username')
+        if not username or not username.strip():
+            self.add_error('username', 'Потребителското име е задължително.')
         return cleaned_data
 
     def _post_clean(self):
