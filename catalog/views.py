@@ -151,30 +151,19 @@ def subcategories_by_category(request):
 
 
 def register(request):
-    LOG_PATH = '/home/bghranac/repositories/bghrana/register_debug.log'
-    def log_debug(msg):
-        with open(LOG_PATH, 'a', encoding='utf-8') as f:
-            f.write(msg + '\n')
 
     if request.method == 'POST':
-        log_debug('REGISTER POST DATA: ' + str(request.POST))
         form = CustomUserCreationForm(request.POST)
-        log_debug('REGISTER FORM CLEANED_DATA (before is_valid): ' + str(getattr(form, 'cleaned_data', None)))
         if form.is_valid():
-            log_debug('REGISTER FORM CLEANED_DATA (after is_valid): ' + str(form.cleaned_data))
             user = form.save(commit=False)
-            log_debug('REGISTER USER.username: ' + str(user.username))
             user.is_active = False  # Деактивиран до имейл потвърждение
             user.save()
-            
             # Генериране на токен за верификация
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            
             # Създаване на линк за активация
             current_site = get_current_site(request)
             activation_link = f"http://{current_site.domain}/activate/{uid}/{token}/"
-            
             # Изпращане на имейл
             subject = 'Потвърдете вашата регистрация'
             message = render_to_string('registration/activation_email.txt', {
@@ -196,11 +185,9 @@ def register(request):
                 )
                 messages.success(request, 'Регистрацията е успешна! Моля, проверете вашия имейл за потвърждение.')
             except Exception as e:
-                log_debug('REGISTER ERROR: ' + str(e))
                 user.delete()  # Изтриване на потребителя ако имейлът не се изпрати
                 messages.error(request, f'Грешка при изпращане на имейл: {str(e)}')
                 return render(request, 'registration/register.html', {'form': form})
-            
             return redirect('catalog:registration_complete')
     else:
         form = CustomUserCreationForm()
@@ -208,39 +195,20 @@ def register(request):
 
 
 def activate(request, uidb64, token):
-    LOG_PATH = '/home/bghranac/repositories/bghrana/activate_debug.log'
-    def log_debug(msg):
-        with open(LOG_PATH, 'a', encoding='utf-8') as f:
-            f.write(msg + '\n')
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        log_debug(f'UID decoded: {uid}')
         user = User.objects.get(pk=uid)
-        log_debug(f'User found: {user.username} ({user.email})')
-    except Exception as e:
-        log_debug(f'Exception in UID decode or user get: {e}')
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-
-    if user is not None:
-        token_valid = default_token_generator.check_token(user, token)
-        log_debug(f'Token valid: {token_valid}')
-    else:
-        token_valid = False
-
-    if user is not None and token_valid:
-        try:
-            user.is_active = True
-            user.save()
-            login(request, user)
-            log_debug('User activated and logged in.')
-            messages.success(request, 'Акаунтът ви е активиран успешно!')
-        except Exception as e:
-            log_debug(f'Exception during activation: {e}')
-            messages.error(request, 'Възникна грешка при активиране на акаунта.')
+    
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        messages.success(request, 'Акаунтът ви е активиран успешно!')
         return redirect('catalog:product_list')
     else:
-        log_debug('Activation failed: invalid user or token.')
         messages.error(request, 'Линкът за активация е невалиден или изтекъл.')
         return redirect('catalog:product_list')
 
