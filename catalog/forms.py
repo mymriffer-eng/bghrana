@@ -58,6 +58,14 @@ class CustomUserCreationForm(UserCreationForm):
                 self.add_error('password1', error)
 
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.username = self.cleaned_data.get('username')
+        user.email = self.cleaned_data.get('email')
+        if commit:
+            user.save()
+        return user
+
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exists():
