@@ -212,6 +212,9 @@ def activate(request, uidb64, token):
         if user is not None and default_token_generator.check_token(user, token):
             user.is_active = True
             user.save()
+            # Задай backend, за да избегнеш грешка при multiple authentication backends
+            from django.conf import settings
+            user.backend = settings.AUTHENTICATION_BACKENDS[0]
             login(request, user)
             messages.success(request, 'Акаунтът ви е активиран успешно!')
             return redirect('catalog:product_list')
