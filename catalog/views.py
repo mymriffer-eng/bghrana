@@ -208,19 +208,39 @@ def register(request):
 
 
 def activate(request, uidb64, token):
+    LOG_PATH = '/home/bghranac/repositories/bghrana/activate_debug.log'
+    def log_debug(msg):
+        with open(LOG_PATH, 'a', encoding='utf-8') as f:
+            f.write(msg + '\n')
+
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
+        log_debug(f'UID decoded: {uid}')
         user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        log_debug(f'User found: {user.username} ({user.email})')
+    except Exception as e:
+        log_debug(f'Exception in UID decode or user get: {e}')
         user = None
-    
-    if user is not None and default_token_generator.check_token(user, token):
-        user.is_active = True
-        user.save()
-        login(request, user)
-        messages.success(request, 'Акаунтът ви е активиран успешно!')
+
+    if user is not None:
+        token_valid = default_token_generator.check_token(user, token)
+        log_debug(f'Token valid: {token_valid}')
+    else:
+        token_valid = False
+
+    if user is not None and token_valid:
+        try:
+            user.is_active = True
+            user.save()
+            login(request, user)
+            log_debug('User activated and logged in.')
+            messages.success(request, 'Акаунтът ви е активиран успешно!')
+        except Exception as e:
+            log_debug(f'Exception during activation: {e}')
+            messages.error(request, 'Възникна грешка при активиране на акаунта.')
         return redirect('catalog:product_list')
     else:
+        log_debug('Activation failed: invalid user or token.')
         messages.error(request, 'Линкът за активация е невалиден или изтекъл.')
         return redirect('catalog:product_list')
 
