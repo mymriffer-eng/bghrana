@@ -375,8 +375,11 @@ def delete_account(request):
 def contact(request):
     """Страница за контакт"""
     if request.method == 'POST':
-        form = ContactForm(request.POST)
+            print('REGISTER POST DATA:', request.POST)
+            form = CustomUserCreationForm(request.POST)
+            print('REGISTER FORM CLEANED_DATA (before is_valid):', getattr(form, 'cleaned_data', None))
         if form.is_valid():
+                print('REGISTER FORM CLEANED_DATA (after is_valid):', form.cleaned_data)
             email = form.cleaned_data['email']
             content = form.cleaned_data['content']
             
