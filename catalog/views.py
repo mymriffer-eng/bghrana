@@ -388,7 +388,7 @@ def contact(request):
                     subject=f'Контактна форма от {email}',
                     message=f'Email: {email}\n\nСъобщение:\n{content}',
                     from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=['galinpavloveto@gmail.com'],
+                    recipient_list=['support@bghrana.com'],
                     fail_silently=False,
                 )
                 messages.success(request, 'Вашето съобщение е изпратено успешно!')
