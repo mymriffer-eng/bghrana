@@ -181,7 +181,7 @@ def register(request):
                     message,
                     settings.DEFAULT_FROM_EMAIL,
                     [user.email],
-                    fail_silently=False,
+                    fail_silently=True,  # Не вдигай 500 грешка при проблем с пощата
                 )
                 messages.success(request, 'Регистрацията е успешна! Моля, проверете вашия имейл за потвърждение.')
             except Exception as e:
