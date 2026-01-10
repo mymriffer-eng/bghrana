@@ -151,9 +151,13 @@ def subcategories_by_category(request):
 
 def register(request):
     if request.method == 'POST':
+        print('REGISTER POST DATA:', request.POST)
         form = CustomUserCreationForm(request.POST)
+        print('REGISTER FORM CLEANED_DATA (before is_valid):', getattr(form, 'cleaned_data', None))
         if form.is_valid():
+            print('REGISTER FORM CLEANED_DATA (after is_valid):', form.cleaned_data)
             user = form.save(commit=False)
+            print('REGISTER USER.username:', user.username)
             user.is_active = False  # Деактивиран до имейл потвърждение
             user.save()
             
