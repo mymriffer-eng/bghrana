@@ -23,6 +23,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
+import os
 
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
@@ -150,14 +151,19 @@ def subcategories_by_category(request):
 
 
 def register(request):
+    LOG_PATH = '/home/bghranac/repositories/bghrana/register_debug.log'
+    def log_debug(msg):
+        with open(LOG_PATH, 'a', encoding='utf-8') as f:
+            f.write(msg + '\n')
+
     if request.method == 'POST':
-        print('REGISTER POST DATA:', request.POST)
+        log_debug('REGISTER POST DATA: ' + str(request.POST))
         form = CustomUserCreationForm(request.POST)
-        print('REGISTER FORM CLEANED_DATA (before is_valid):', getattr(form, 'cleaned_data', None))
+        log_debug('REGISTER FORM CLEANED_DATA (before is_valid): ' + str(getattr(form, 'cleaned_data', None)))
         if form.is_valid():
-            print('REGISTER FORM CLEANED_DATA (after is_valid):', form.cleaned_data)
+            log_debug('REGISTER FORM CLEANED_DATA (after is_valid): ' + str(form.cleaned_data))
             user = form.save(commit=False)
-            print('REGISTER USER.username:', user.username)
+            log_debug('REGISTER USER.username: ' + str(user.username))
             user.is_active = False  # Деактивиран до имейл потвърждение
             user.save()
             
@@ -190,8 +196,7 @@ def register(request):
                 )
                 messages.success(request, 'Регистрацията е успешна! Моля, проверете вашия имейл за потвърждение.')
             except Exception as e:
-                print('REGISTER ERROR:', str(e))
-                traceback.print_exc()
+                log_debug('REGISTER ERROR: ' + str(e))
                 user.delete()  # Изтриване на потребителя ако имейлът не се изпрати
                 messages.error(request, f'Грешка при изпращане на имейл: {str(e)}')
                 return render(request, 'registration/register.html', {'form': form})
