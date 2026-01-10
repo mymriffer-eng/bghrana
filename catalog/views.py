@@ -195,21 +195,27 @@ def register(request):
 
 
 def activate(request, uidb64, token):
+    import traceback
+    LOG_PATH = '/home/bghranac/repositories/bghrana/activate_error.log'
+    def log_error(msg):
+        with open(LOG_PATH, 'a', encoding='utf-8') as f:
+            f.write(msg + '\n')
 
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    
-    if user is not None and default_token_generator.check_token(user, token):
-        user.is_active = True
-        user.save()
-        login(request, user)
-        messages.success(request, 'Акаунтът ви е активиран успешно!')
-        return redirect('catalog:product_list')
-    else:
-        messages.error(request, 'Линкът за активация е невалиден или изтекъл.')
+        if user is not None and default_token_generator.check_token(user, token):
+            user.is_active = True
+            user.save()
+            login(request, user)
+            messages.success(request, 'Акаунтът ви е активиран успешно!')
+            return redirect('catalog:product_list')
+        else:
+            messages.error(request, 'Линкът за активация е невалиден или изтекъл.')
+            return redirect('catalog:product_list')
+    except Exception as e:
+        log_error(f'Exception in activate: {e}\n{traceback.format_exc()}')
+        messages.error(request, 'Възникна вътрешна грешка при активация. Моля, свържете се с поддръжката.')
         return redirect('catalog:product_list')
 
 
