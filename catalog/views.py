@@ -175,6 +175,7 @@ def register(request):
                 'activation_link': activation_link,
             })
             
+            import traceback
             try:
                 send_mail(
                     subject,
@@ -185,6 +186,8 @@ def register(request):
                 )
                 messages.success(request, 'Регистрацията е успешна! Моля, проверете вашия имейл за потвърждение.')
             except Exception as e:
+                print('REGISTER ERROR:', str(e))
+                traceback.print_exc()
                 user.delete()  # Изтриване на потребителя ако имейлът не се изпрати
                 messages.error(request, f'Грешка при изпращане на имейл: {str(e)}')
                 return render(request, 'registration/register.html', {'form': form})
