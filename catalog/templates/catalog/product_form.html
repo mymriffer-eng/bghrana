@@ -76,23 +76,23 @@
         </div>
 
         <!-- Продава на -->
-        <div class="mb-4 p-3 border rounded bg-light">
-          <label class="form-label fw-bold">{{ form.sells_to.label }}</label>
-          <div class="mt-2">
+        <div class="mb-4 p-4 border rounded" style="background-color: #f8f9fa;">
+          <label class="form-label fw-bold mb-3 d-block">{{ form.sells_to.label }}</label>
+          <div class="d-flex flex-column gap-2">
             {{ form.sells_to }}
           </div>
           {% if form.sells_to.help_text %}
-            <small class="text-muted d-block mt-2">{{ form.sells_to.help_text }}</small>
+            <small class="text-muted d-block mt-3">{{ form.sells_to.help_text }}</small>
           {% endif %}
         </div>
 
         <!-- Активна обява -->
-        <div class="mb-4 p-3 border rounded bg-light">
+        <div class="mb-5 p-4 border rounded" style="background-color: #e7f5e9; border-color: #0dd843 !important;">
           <div class="form-check">
             <input type="checkbox" name="is_active" id="id_is_active" class="form-check-input" {% if form.is_active.value or not object %}checked{% endif %} />
             <label class="form-check-label fw-bold" for="id_is_active">{{ form.is_active.label }}</label>
           </div>
-          <small class="text-muted d-block mt-1">Маркирайте, ако искате обявата да бъде активна и видима</small>
+          <small class="text-muted d-block mt-2">Маркирайте, ако искате обявата да бъде активна и видима</small>
         </div>
 
         <!-- Снимки -->
