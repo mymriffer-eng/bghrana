@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-lg border-0" style="border-radius: 15px;">
+        <div class="card-body p-5">
+          <div class="text-center mb-4">
+            <img src="{% static 'logo.jpg' %}" alt="БГ Храна" style="height: 60px; border-radius: 10px;" class="mb-3">
+            <h2 class="text-success fw-bold">{% block head_title %}{% endblock %}</h2>
+          </div>
+          
+          {% block socialaccount_content %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
