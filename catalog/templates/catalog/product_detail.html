@@ -228,6 +228,22 @@
                     {% if product.babh_number %}
                     <p><strong>БАБХ номер:</strong> <span class="badge bg-info text-dark">{{ product.babh_number }}</span></p>
                     {% endif %}
+                    {% if product.seller_type %}
+                    <p><strong>Тип продавач:</strong> <span class="badge bg-success">{{ product.get_seller_type_display }}</span></p>
+                    {% endif %}
+                    {% if product.sells_to %}
+                    <p><strong>Продава на:</strong> 
+                        {% for item in product.sells_to %}
+                            {% if item == 'end_customers' %}
+                                <span class="badge bg-primary me-1">Крайни клиенти</span>
+                            {% elif item == 'restaurants' %}
+                                <span class="badge bg-warning text-dark me-1">Ресторанти</span>
+                            {% elif item == 'stores' %}
+                                <span class="badge bg-info text-dark me-1">Магазини</span>
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    {% endif %}
                 </div>
 
                 {% if product.phone %}
