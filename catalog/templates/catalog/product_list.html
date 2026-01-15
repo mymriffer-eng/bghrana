@@ -390,124 +390,137 @@
 
             <div class="filter-section" id="filter-section">
             <h5 class="mb-3">Филтриране на продукти:</h5>
-            <form id="filter-form" method="get" class="row g-3 align-items-end">
-                <!-- Категория -->
-                <div class="col-md-3 col-sm-6">
-                    <label for="category-filter-select" class="form-label">Категория</label>
-                    <div class="custom-select-wrapper">
-                        <div class="custom-select" data-select="category-filter-select">
-                            <span class="custom-select-text">Всички категории</span>
+            <form id="filter-form" method="get">
+                <!-- Ред 1: Категория и Подкатегория -->
+                <div class="row g-3 mb-3">
+                    <!-- Категория -->
+                    <div class="col-md-6">
+                        <label for="category-filter-select" class="form-label">Категория</label>
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select" data-select="category-filter-select">
+                                <span class="custom-select-text">Всички категории</span>
+                            </div>
+                            <div class="custom-options">
+                                <div class="custom-option" data-value="">Всички категории</div>
+                                {% for cat in categories %}
+                                <div class="custom-option {% if selected_parent_category == cat.id|stringformat:"s" %}selected{% endif %}" data-value="{{ cat.id }}">{{ cat.name }}</div>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <div class="custom-options">
-                            <div class="custom-option" data-value="">Всички категории</div>
+                        <select id="category-filter-select" name="parent_category" class="form-select" style="display: none;">
+                            <option value="">Всички категории</option>
                             {% for cat in categories %}
-                            <div class="custom-option {% if selected_parent_category == cat.id|stringformat:"s" %}selected{% endif %}" data-value="{{ cat.id }}">{{ cat.name }}</div>
+                            <option value="{{ cat.id }}" {% if selected_parent_category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
                             {% endfor %}
-                        </div>
+                        </select>
                     </div>
-                    <select id="category-filter-select" name="parent_category" class="form-select" style="display: none;">
-                        <option value="">Всички категории</option>
-                        {% for cat in categories %}
-                        <option value="{{ cat.id }}" {% if selected_parent_category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
-                        {% endfor %}
-                    </select>
+
+                    <!-- Подкатегория -->
+                    <div class="col-md-6">
+                        <label for="subcategory-filter-select" class="form-label">Подкатегория</label>
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select" data-select="subcategory-filter-select">
+                                <span class="custom-select-text">Всички подкатегории</span>
+                            </div>
+                            <div class="custom-options">
+                                <div class="custom-option" data-value="">Всички подкатегории</div>
+                            </div>
+                        </div>
+                        <select id="subcategory-filter-select" name="category" class="form-select" style="display: none;">
+                            <option value="">Всички подкатегории</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Подкатегория -->
-                <div class="col-md-3 col-sm-6">
-                    <label for="subcategory-filter-select" class="form-label">Подкатегория</label>
-                    <div class="custom-select-wrapper">
-                        <div class="custom-select" data-select="subcategory-filter-select">
-                            <span class="custom-select-text">Всички подкатегории</span>
+                <!-- Ред 2: Област и Населено място -->
+                <div class="row g-3 mb-3">
+                    <!-- Област -->
+                    <div class="col-md-6">
+                        <label for="region-select" class="form-label">Област</label>
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select" data-select="region-select">
+                                <span class="custom-select-text">Всички области</span>
+                            </div>
+                            <div class="custom-options">
+                                <div class="custom-option" data-value="">Всички области</div>
+                                {% for region in regions %}
+                                <div class="custom-option {% if selected_region == region.id|stringformat:"s" %}selected{% endif %}" data-value="{{ region.id }}">{{ region.name }}</div>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <div class="custom-options">
-                            <div class="custom-option" data-value="">Всички подкатегории</div>
-                        </div>
-                    </div>
-                    <select id="subcategory-filter-select" name="category" class="form-select" style="display: none;">
-                        <option value="">Всички подкатегории</option>
-                    </select>
-                </div>
-
-                <!-- Област -->
-                <div class="col-md-2 col-sm-6">
-                    <label for="region-select" class="form-label">Област</label>
-                    <div class="custom-select-wrapper">
-                        <div class="custom-select" data-select="region-select">
-                            <span class="custom-select-text">Всички области</span>
-                        </div>
-                        <div class="custom-options">
-                            <div class="custom-option" data-value="">Всички области</div>
+                        <select id="region-select" name="region" class="form-select" style="display: none;">
+                            <option value="">Всички области</option>
                             {% for region in regions %}
-                            <div class="custom-option {% if selected_region == region.id|stringformat:"s" %}selected{% endif %}" data-value="{{ region.id }}">{{ region.name }}</div>
+                            <option value="{{ region.id }}" {% if selected_region == region.id|stringformat:"s" %}selected{% endif %}>{{ region.name }}</option>
                             {% endfor %}
-                        </div>
+                        </select>
                     </div>
-                    <select id="region-select" name="region" class="form-select" style="display: none;">
-                        <option value="">Всички области</option>
-                        {% for region in regions %}
-                        <option value="{{ region.id }}" {% if selected_region == region.id|stringformat:"s" %}selected{% endif %}>{{ region.name }}</option>
-                        {% endfor %}
-                    </select>
+
+                    <!-- Град -->
+                    <div class="col-md-6">
+                        <label for="city-select" class="form-label">Населено място</label>
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select" data-select="city-select">
+                                <span class="custom-select-text">Всички градове</span>
+                            </div>
+                            <div class="custom-options">
+                                <div class="custom-option" data-value="">Всички градове</div>
+                            </div>
+                        </div>
+                        <select id="city-select" name="city" class="form-select" style="display: none;">
+                            <option value="">Всички градове</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Град -->
-                <div class="col-md-2 col-sm-6">
-                    <label for="city-select" class="form-label">Населено място</label>
-                    <div class="custom-select-wrapper">
-                        <div class="custom-select" data-select="city-select">
-                            <span class="custom-select-text">Всички градове</span>
+                <!-- Ред 3: Тип продавач и Продава на -->
+                <div class="row g-3 mb-3">
+                    <!-- Тип продавач -->
+                    <div class="col-md-6">
+                        <label for="seller-type-select" class="form-label">Тип продавач</label>
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select" data-select="seller-type-select">
+                                <span class="custom-select-text">Всички</span>
+                            </div>
+                            <div class="custom-options">
+                                <div class="custom-option" data-value="">Всички</div>
+                                {% for value, label in seller_type_choices %}
+                                <div class="custom-option {% if selected_seller_type == value %}selected{% endif %}" data-value="{{ value }}">{{ label }}</div>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <div class="custom-options">
-                            <div class="custom-option" data-value="">Всички градове</div>
-                        </div>
-                    </div>
-                    <select id="city-select" name="city" class="form-select" style="display: none;">
-                        <option value="">Всички градове</option>
-                    </select>
-                </div>
-
-                <!-- Тип продавач -->
-                <div class="col-md-2 col-sm-6">
-                    <label for="seller-type-select" class="form-label">Тип продавач</label>
-                    <div class="custom-select-wrapper">
-                        <div class="custom-select" data-select="seller-type-select">
-                            <span class="custom-select-text">Всички</span>
-                        </div>
-                        <div class="custom-options">
-                            <div class="custom-option" data-value="">Всички</div>
+                        <select id="seller-type-select" name="seller_type" class="form-select" style="display: none;">
+                            <option value="">Всички</option>
                             {% for value, label in seller_type_choices %}
-                            <div class="custom-option {% if selected_seller_type == value %}selected{% endif %}" data-value="{{ value }}">{{ label }}</div>
+                            <option value="{{ value }}" {% if selected_seller_type == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Продава на (multi-select) -->
+                    <div class="col-md-6">
+                        <label class="form-label">Продава на</label>
+                        <div class="d-flex gap-3 mt-2">
+                            {% for value, label in sells_to_choices %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="sells_to" value="{{ value }}" id="sells_to_{{ value }}" {% if value in selected_sells_to %}checked{% endif %}>
+                                <label class="form-check-label" for="sells_to_{{ value }}">
+                                    {{ label }}
+                                </label>
+                            </div>
                             {% endfor %}
                         </div>
                     </div>
-                    <select id="seller-type-select" name="seller_type" class="form-select" style="display: none;">
-                        <option value="">Всички</option>
-                        {% for value, label in seller_type_choices %}
-                        <option value="{{ value }}" {% if selected_seller_type == value %}selected{% endif %}>{{ label }}</option>
-                        {% endfor %}
-                    </select>
                 </div>
 
-                <!-- Продава на (multi-select) -->
-                <div class="col-md-3 col-sm-6">
-                    <label class="form-label">Продава на</label>
-                    <div class="sells-to-checkboxes">
-                        {% for value, label in sells_to_choices %}
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="sells_to" value="{{ value }}" id="sells_to_{{ value }}" {% if value in selected_sells_to %}checked{% endif %}>
-                            <label class="form-check-label" for="sells_to_{{ value }}">
-                                {{ label }}
-                            </label>
-                        </div>
-                        {% endfor %}
+                <!-- Бутони -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary w-100">Филтрирай</button>
                     </div>
-                </div>
-
-                <!-- Бутон филтрирай -->
-                <div class="col-md-2 col-12">
-                    <button type="submit" class="btn btn-primary w-100">Филтрирай</button>
-                    <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary w-100 mt-2">Изчисти</a>
+                    <div class="col-md-6">
+                        <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary w-100">Изчисти</a>
+                    </div>
                 </div>
             </form>
             
