@@ -5,19 +5,14 @@
   <form method="post" enctype="multipart/form-data">{% csrf_token %}
     <div class="row">
       <div class="col-md-8">
-        <!-- Основни полета (без category и city) -->
+        <!-- Основни полета (без category, city, seller_type, sells_to и is_active) -->
         {% for field in form %}
-          {% if field.name not in 'city,category,image' %}
+          {% if field.name not in 'city,category,image,seller_type,sells_to,is_active' %}
             <div class="mb-3">
               <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
               {% if field.widget.input_type == 'textarea' %}
                 <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control" rows="4" maxlength="250">{{ field.value|default:'' }}</textarea>
                 <small class="text-muted">Максимум 250 символа</small>
-              {% elif field.name == 'is_active' %}
-                <div class="form-check">
-                  <input type="checkbox" name="is_active" id="{{ field.id_for_label }}" class="form-check-input" {% if form.is_active.value %}checked{% endif %} />
-                  <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                </div>
               {% else %}
                 {{ field }}
               {% endif %}
@@ -69,6 +64,34 @@
               {% endfor %}
             {% endif %}
           </select>
+        </div>
+
+        <!-- Тип продавач -->
+        <div class="mb-3">
+          <label for="id_seller_type" class="form-label">{{ form.seller_type.label }}</label>
+          {{ form.seller_type }}
+          {% if form.seller_type.help_text %}
+            <small class="text-muted">{{ form.seller_type.help_text }}</small>
+          {% endif %}
+        </div>
+
+        <!-- Продава на -->
+        <div class="mb-3">
+          <label class="form-label">{{ form.sells_to.label }}</label>
+          <div class="ps-3">
+            {{ form.sells_to }}
+          </div>
+          {% if form.sells_to.help_text %}
+            <small class="text-muted">{{ form.sells_to.help_text }}</small>
+          {% endif %}
+        </div>
+
+        <!-- Активна обява -->
+        <div class="mb-3">
+          <div class="form-check">
+            <input type="checkbox" name="is_active" id="id_is_active" class="form-check-input" {% if form.is_active.value %}checked{% endif %} />
+            <label class="form-check-label" for="id_is_active">{{ form.is_active.label }}</label>
+          </div>
         </div>
 
         <!-- Снимки -->
