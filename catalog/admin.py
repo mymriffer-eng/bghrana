@@ -18,13 +18,14 @@ class ProductImageInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'city', 'owner', 'price', 'is_active', 'created_at']
-    list_filter = ['is_active', 'category', 'city', 'created_at']
+    list_display = ['title', 'category', 'city', 'owner', 'price', 'seller_type', 'is_active', 'created_at']
+    list_filter = ['is_active', 'category', 'city', 'seller_type', 'created_at']
     search_fields = ['title', 'description']
     readonly_fields = ['created_at', 'updated_at']
     fieldsets = (
         ('Основна информация', {'fields': ('title', 'description', 'price', 'category', 'city', 'owner')}),
-        ('Медия', {'fields': ('image',)}),
+        ('Контакти и информация', {'fields': ('phone', 'babh_number')}),
+        ('Тип продавач и клиенти', {'fields': ('seller_type', 'sells_to')}),
         ('Статус', {'fields': ('is_active',)}),
     )
     inlines = [ProductImageInline]

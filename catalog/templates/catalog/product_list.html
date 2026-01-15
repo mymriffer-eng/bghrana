@@ -467,6 +467,43 @@
                     </select>
                 </div>
 
+                <!-- Тип продавач -->
+                <div class="col-md-2 col-sm-6">
+                    <label for="seller-type-select" class="form-label">Тип продавач</label>
+                    <div class="custom-select-wrapper">
+                        <div class="custom-select" data-select="seller-type-select">
+                            <span class="custom-select-text">Всички</span>
+                        </div>
+                        <div class="custom-options">
+                            <div class="custom-option" data-value="">Всички</div>
+                            {% for value, label in seller_type_choices %}
+                            <div class="custom-option {% if selected_seller_type == value %}selected{% endif %}" data-value="{{ value }}">{{ label }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <select id="seller-type-select" name="seller_type" class="form-select" style="display: none;">
+                        <option value="">Всички</option>
+                        {% for value, label in seller_type_choices %}
+                        <option value="{{ value }}" {% if selected_seller_type == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Продава на (multi-select) -->
+                <div class="col-md-3 col-sm-6">
+                    <label class="form-label">Продава на</label>
+                    <div class="sells-to-checkboxes">
+                        {% for value, label in sells_to_choices %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="sells_to" value="{{ value }}" id="sells_to_{{ value }}" {% if value in selected_sells_to %}checked{% endif %}>
+                            <label class="form-check-label" for="sells_to_{{ value }}">
+                                {{ label }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
                 <!-- Бутон филтрирай -->
                 <div class="col-md-2 col-12">
                     <button type="submit" class="btn btn-primary w-100">Филтрирай</button>

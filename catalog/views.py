@@ -88,6 +88,21 @@ class ProductListView(ListView):
             cities = City.objects.filter(region_id=region_id)
             queryset = queryset.filter(city__in=cities)
         
+        # Филтриране по тип продавач
+        seller_type = self.request.GET.get('seller_type')
+        if seller_type:
+            queryset = queryset.filter(seller_type=seller_type)
+        
+        # Филтриране по "Продава на" (multi-select)
+        sells_to = self.request.GET.getlist('sells_to')
+        if sells_to:
+            # Филтър за JSONField - продуктът трябва да има поне една от избраните опции
+            from django.db.models import Q
+            sells_to_filter = Q()
+            for option in sells_to:
+                sells_to_filter |= Q(sells_to__contains=[option])
+            queryset = queryset.filter(sells_to_filter)
+        
         # Сортиране
         sort_by = self.request.GET.get('sort', '-created_at')
         
@@ -112,6 +127,10 @@ class ProductListView(ListView):
         context['selected_parent_category'] = self.request.GET.get('parent_category')
         context['selected_region'] = self.request.GET.get('region')
         context['selected_city'] = self.request.GET.get('city')
+        context['selected_seller_type'] = self.request.GET.get('seller_type')
+        context['selected_sells_to'] = self.request.GET.getlist('sells_to')
+        context['seller_type_choices'] = Product.SELLER_TYPE_CHOICES
+        context['sells_to_choices'] = Product.SELLS_TO_CHOICES
         context['search_query'] = self.request.GET.get('search', '')
         context['sort_by'] = self.request.GET.get('sort', '-created_at')
         return context

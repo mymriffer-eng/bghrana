@@ -47,6 +47,18 @@ from django.urls import reverse
 
 
 class Product(models.Model):
+    SELLER_TYPE_CHOICES = [
+        ('producer', 'Производител'),
+        ('farm', 'Ферма'),
+        ('company', 'Фирма'),
+    ]
+    
+    SELLS_TO_CHOICES = [
+        ('end_customers', 'Крайни клиенти'),
+        ('restaurants', 'Ресторанти'),
+        ('stores', 'Магазини'),
+    ]
+    
     title = models.CharField(max_length=200)
     description = models.TextField(validators=[MaxLengthValidator(250)])
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -55,6 +67,8 @@ class Product(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='products')
     phone = models.CharField(max_length=20, blank=True, null=True, verbose_name='Телефон за връзка')
     babh_number = models.CharField(max_length=30, blank=True, null=True, verbose_name='БАБХ номер')
+    seller_type = models.CharField(max_length=20, choices=SELLER_TYPE_CHOICES, blank=True, null=True, verbose_name='Тип продавач')
+    sells_to = models.JSONField(default=list, blank=True, verbose_name='Продава на')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)

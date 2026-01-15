@@ -96,9 +96,16 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 
 class ProductForm(forms.ModelForm):
+    sells_to = forms.MultipleChoiceField(
+        choices=Product.SELLS_TO_CHOICES,
+        widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+        required=False,
+        label='Продава на'
+    )
+    
     class Meta:
         model = Product
-        fields = ['title', 'description', 'price', 'phone', 'babh_number', 'category', 'city', 'is_active']
+        fields = ['title', 'description', 'price', 'phone', 'babh_number', 'category', 'city', 'seller_type', 'sells_to', 'is_active']
         labels = {
             'title': 'Заглавие',
             'description': 'Описание',
@@ -107,6 +114,7 @@ class ProductForm(forms.ModelForm):
             'babh_number': 'БАБХ номер (опция)',
             'category': 'Категория',
             'city': 'Населено място',
+            'seller_type': 'Тип продавач',
             'is_active': 'Активна обява',
         }
         widgets = {
@@ -117,6 +125,7 @@ class ProductForm(forms.ModelForm):
             'babh_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напр. BG123456789', 'maxlength': '30'}),
             'category': forms.Select(attrs={'class': 'form-select'}),
             'city': forms.Select(attrs={'class': 'form-select'}),
+            'seller_type': forms.Select(attrs={'class': 'form-select'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         help_texts = {
@@ -124,7 +133,21 @@ class ProductForm(forms.ModelForm):
             'price': 'Цена в евро',
             'phone': 'Телефонен номер за контакт (опционално)',
             'babh_number': 'Регистрационен номер в БАБХ (опционално)',
+            'seller_type': 'Изберете типа на продавача',
+            'sells_to': 'Изберете на кого продавате (може да изберете повече от едно)',
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk and self.instance.sells_to:
+            self.fields['sells_to'].initial = self.instance.sells_to
+    
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.sells_to = self.cleaned_data.get('sells_to', [])
+        if commit:
+            instance.save()
+        return instance
 
 
 class UserProfileForm(forms.ModelForm):
