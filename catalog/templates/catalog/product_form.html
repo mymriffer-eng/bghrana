@@ -68,30 +68,31 @@
 
         <!-- Тип продавач -->
         <div class="mb-3">
-          <label for="id_seller_type" class="form-label">{{ form.seller_type.label }}</label>
+          <label for="id_seller_type" class="form-label fw-bold">{{ form.seller_type.label }}</label>
           {{ form.seller_type }}
           {% if form.seller_type.help_text %}
-            <small class="text-muted">{{ form.seller_type.help_text }}</small>
+            <small class="text-muted d-block mt-1">{{ form.seller_type.help_text }}</small>
           {% endif %}
         </div>
 
         <!-- Продава на -->
-        <div class="mb-3">
-          <label class="form-label">{{ form.sells_to.label }}</label>
-          <div class="ps-3">
+        <div class="mb-4 p-3 border rounded bg-light">
+          <label class="form-label fw-bold">{{ form.sells_to.label }}</label>
+          <div class="mt-2">
             {{ form.sells_to }}
           </div>
           {% if form.sells_to.help_text %}
-            <small class="text-muted">{{ form.sells_to.help_text }}</small>
+            <small class="text-muted d-block mt-2">{{ form.sells_to.help_text }}</small>
           {% endif %}
         </div>
 
         <!-- Активна обява -->
-        <div class="mb-3">
+        <div class="mb-4 p-3 border rounded bg-light">
           <div class="form-check">
-            <input type="checkbox" name="is_active" id="id_is_active" class="form-check-input" {% if form.is_active.value %}checked{% endif %} />
-            <label class="form-check-label" for="id_is_active">{{ form.is_active.label }}</label>
+            <input type="checkbox" name="is_active" id="id_is_active" class="form-check-input" {% if form.is_active.value or not object %}checked{% endif %} />
+            <label class="form-check-label fw-bold" for="id_is_active">{{ form.is_active.label }}</label>
           </div>
+          <small class="text-muted d-block mt-1">Маркирайте, ако искате обявата да бъде активна и видима</small>
         </div>
 
         <!-- Снимки -->
