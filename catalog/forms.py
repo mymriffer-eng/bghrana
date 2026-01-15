@@ -141,6 +141,9 @@ class ProductForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.instance and self.instance.pk and self.instance.sells_to:
             self.fields['sells_to'].initial = self.instance.sells_to
+        
+        # Подобри текста на празната опция за seller_type
+        self.fields['seller_type'].empty_label = 'Избери тип продавач'
     
     def save(self, commit=True):
         instance = super().save(commit=False)
