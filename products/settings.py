@@ -69,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',  # Django Allauth
+    'products.middleware.SecurityHeadersMiddleware',  # Custom security headers
 ]
 
 # Django Debug Toolbar middleware (само в DEBUG mode)
