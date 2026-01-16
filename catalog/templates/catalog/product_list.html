@@ -74,6 +74,32 @@
                 max-width: 1134px !important; /* 1400px - 19% = 1134px */
             }
         }
+        
+        /* Hero buttons - адаптивни размери */
+        .hero-btn {
+            font-size: 1.25rem;
+            padding: 0.75rem 3rem;
+        }
+        @media (max-width: 768px) {
+            .hero-btn {
+                font-size: 1rem;
+                padding: 0.6rem 1.5rem;
+                width: 100%;
+            }
+            .hero-section h1 {
+                font-size: 1.75rem !important;
+            }
+            .hero-section h2 {
+                font-size: 1rem !important;
+            }
+        }
+        @media (max-width: 576px) {
+            .hero-btn {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+        
         .product-card { 
             transition: all 0.3s ease; 
             border: none; 
@@ -314,15 +340,15 @@
                     Домашни зеленчуци, плодове, месо, мед и млечни продукти<br>от хора близо до теб
                 </h2>
                 <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a href="#filter-section" class="btn btn-success btn-lg px-5 py-3" style="background-color: #0dd843; border: none; font-size: 1.25rem;">
+                    <a href="#filter-section" class="btn btn-success btn-lg hero-btn" style="background-color: #0dd843; border: none;">
                         🟢 Разгледай продукти
                     </a>
                     {% if user.is_authenticated %}
-                        <a href="{% url 'catalog:product_create' %}" class="btn btn-warning btn-lg px-5 py-3" style="font-size: 1.25rem;">
+                        <a href="{% url 'catalog:product_create' %}" class="btn btn-warning btn-lg hero-btn">
                             🟠 Публикувай обява – безплатно
                         </a>
                     {% else %}
-                        <a href="{% url 'account_login' %}" class="btn btn-warning btn-lg px-5 py-3" style="font-size: 1.25rem;">
+                        <a href="{% url 'account_login' %}" class="btn btn-warning btn-lg hero-btn">
                             🟠 Публикувай обява – безплатно
                         </a>
                     {% endif %}
