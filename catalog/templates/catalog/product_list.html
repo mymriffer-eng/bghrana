@@ -289,9 +289,42 @@
         </div>
     </nav>
 
-    <div class="overflow-hidden" style="max-height: 40vh;">
-        <div class="container px-5">
-            <img src="/media/products/tomatos.jpg" class="img-fluid border shadow-lg mb-4" alt="Example" height="500" loading="lazy" style="border-radius: 20px;">
+    <!-- Hero Section with Background Image -->
+    <div class="hero-section position-relative" style="
+        background-image: url('/media/products/bghrana.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    ">
+        <!-- Dark Overlay -->
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.35);"></div>
+        
+        <!-- Content -->
+        <div class="container position-relative text-center text-white px-4 py-5">
+            <h1 class="display-3 fw-bold mb-4" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">
+                Истинска българска храна<br>директно от производителя
+            </h1>
+            <h2 class="fs-3 mb-5" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.7);">
+                Домашни зеленчуци, плодове, месо, мед и млечни продукти<br>от хора близо до теб
+            </h2>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="#filter-section" class="btn btn-success btn-lg px-5 py-3" style="background-color: #0dd843; border: none; font-size: 1.25rem;">
+                    🟢 Разгледай продукти
+                </a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'catalog:product_create' %}" class="btn btn-warning btn-lg px-5 py-3" style="font-size: 1.25rem;">
+                        🟠 Публикувай обява – безплатно
+                    </a>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="btn btn-warning btn-lg px-5 py-3" style="font-size: 1.25rem;">
+                        🟠 Публикувай обява – безплатно
+                    </a>
+                {% endif %}
+            </div>
         </div>
     </div>
 
@@ -369,22 +402,6 @@
     </style>
 
     <div class="container mt-5">
-        <div class="px-4 pt-5 my-5 text-center">
-            <h3 class="display-6 fw-medium text-secondary d-flex align-items-center justify-content-center">
-                <img src="{% static 'logo.jpg' %}" alt="Лого" style="height: 50px; width: auto; margin-right: 15px; border-radius: 5px;">
-                Фермерски пазар – директно от производителя
-            </h3>
-            <p class="lead fs-2 mb-4 fw-medium text-secondary">Намери български фермери и производители на храни близо до теб.</p>
-            <p class="fs-5 mb-4 text-secondary">Зеленчуци, плодове, месо, мед, млечни продукти и още –<br>директен контакт без посредници.</p>
-            <div class="d-flex gap-3 justify-content-center">
-                <a href="#filter-section" class="btn btn-success btn-lg px-4">Започни търсене</a>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'catalog:product_create' %}" class="btn btn-primary btn-lg px-4">Публикувай обява</a>
-                {% else %}
-                    <a href="{% url 'account_login' %}" class="btn btn-primary btn-lg px-4">Публикувай обява</a>
-                {% endif %}
-            </div>
-        </div>
 
         
 
