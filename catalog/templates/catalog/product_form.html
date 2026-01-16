@@ -76,7 +76,7 @@
         </div>
 
         <!-- Продава на -->
-        <div class="mb-4 p-4 border rounded" style="background-color: #f8f9fa;">
+        <div class="mb-4 p-4 border rounded sells-to-section">
           <label class="form-label fw-bold mb-3 d-block">{{ form.sells_to.label }}</label>
           <div class="d-flex flex-row gap-4 flex-wrap">
             {% for checkbox in form.sells_to %}
@@ -89,9 +89,29 @@
             {% endfor %}
           </div>
           {% if form.sells_to.help_text %}
-            <small class="text-muted d-block mt-3">{{ form.sells_to.help_text }}</small>
+            <small class="d-block mt-3" style="opacity: 0.7;">{{ form.sells_to.help_text }}</small>
           {% endif %}
         </div>
+
+        <style>
+          .sells-to-section {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+          [data-theme="dark"] .sells-to-section {
+            background-color: rgba(255, 255, 255, 0.05);
+          }
+          [data-theme="dark"] .sells-to-section .form-check-label {
+            color: #e9ecef;
+          }
+          [data-theme="dark"] .sells-to-section .form-check-input {
+            background-color: #495057;
+            border-color: #6c757d;
+          }
+          [data-theme="dark"] .sells-to-section .form-check-input:checked {
+            background-color: #0dd843;
+            border-color: #0dd843;
+          }
+        </style>
 
         <!-- Активна обява -->
         <div class="mb-5 p-4 border rounded" style="background-color: #e7f5e9; border-color: #0dd843 !important;">
