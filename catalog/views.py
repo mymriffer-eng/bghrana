@@ -300,18 +300,19 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         
-        # Проверка дали има нови снимки
-        has_new_images = any(self.request.FILES.get(f'image{i}') for i in range(1, 6))
+        # Вземи текущите снимки
+        existing_images = list(self.object.images.order_by('order'))
         
-        if has_new_images:
-            # Изтрий старите снимки
-            self.object.images.all().delete()
-            
-            # Добави новите снимки
-            for idx in range(1, 6):
-                image_file = self.request.FILES.get(f'image{idx}')
-                if image_file:
-                    ProductImage.objects.create(product=self.object, image=image_file, order=idx-1)
+        # Обработка на новите снимки - добавяме само на празни позиции или заменяме
+        for idx in range(1, 6):
+            image_file = self.request.FILES.get(f'image{idx}')
+            if image_file:
+                # Ако има стара снимка на тази позиция, изтрий я
+                if idx-1 < len(existing_images):
+                    existing_images[idx-1].delete()
+                
+                # Добави новата снимка
+                ProductImage.objects.create(product=self.object, image=image_file, order=idx-1)
         
         return response
 
