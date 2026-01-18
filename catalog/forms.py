@@ -144,16 +144,6 @@ class ProductForm(forms.ModelForm):
         
         # Подобри текста на празната опция за seller_type
         self.fields['seller_type'].empty_label = 'Избери тип продавач'
-        
-        # Добави is-invalid клас към полета с грешки
-        if self.errors:
-            for field_name in self.errors:
-                if field_name in self.fields:
-                    field = self.fields[field_name]
-                    if 'class' in field.widget.attrs:
-                        field.widget.attrs['class'] += ' is-invalid'
-                    else:
-                        field.widget.attrs['class'] = 'is-invalid'
     
     def save(self, commit=True):
         instance = super().save(commit=False)
