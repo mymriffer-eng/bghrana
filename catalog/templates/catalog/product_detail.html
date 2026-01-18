@@ -6,6 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-28QJH2HNLC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-28QJH2HNLC');
+    </script>
+    
     <!-- SEO Meta Tags -->
     <meta name="description" content="{{ product.title }} - {{ product.description|truncatewords:20 }}. Цена: {{ product.price }} лв. Купете от {{ product.owner.username }} в {{ product.city }}.">
     <meta name="keywords" content="{{ product.title }}, {{ product.category.name }}, {{ product.city }}, {{ product.region }}, българска храна, био продукти">
