@@ -145,6 +145,59 @@ class ProductForm(forms.ModelForm):
         # Подобри текста на празната опция за seller_type
         self.fields['seller_type'].empty_label = 'Избери тип продавач'
     
+    def clean_title(self):
+        """Валидира заглавието за опасно съдържание"""
+        title = self.cleaned_data.get('title', '')
+        
+        # Проверка за HTML тагове
+        if '<' in title or '>' in title:
+            raise forms.ValidationError('Заглавието не може да съдържа HTML тагове')
+        
+        # Проверка за скриптове
+        dangerous_patterns = ['<script', 'javascript:', 'onerror=', 'onclick=']
+        title_lower = title.lower()
+        for pattern in dangerous_patterns:
+            if pattern in title_lower:
+                raise forms.ValidationError('Заглавието съдържа неразрешено съдържание')
+        
+        return title.strip()
+    
+    def clean_description(self):
+        """Валидира описанието за опасно съдържание"""
+        description = self.cleaned_data.get('description', '')
+        
+        # Проверка за дължина
+        if len(description) > 500:
+            raise forms.ValidationError(f'Описанието трябва да е максимум 500 символа. Вашето е {len(description)} символа.')
+        
+        # Проверка за HTML тагове (позволяваме емоджи)
+        if '<' in description or '>' in description:
+            raise forms.ValidationError('Описанието не може да съдържа HTML тагове')
+        
+        # Проверка за скриптове
+        dangerous_patterns = ['<script', 'javascript:', 'onerror=', 'onclick=', '<iframe']
+        description_lower = description.lower()
+        for pattern in dangerous_patterns:
+            if pattern in description_lower:
+                raise forms.ValidationError('Описанието съдържа неразрешено съдържание')
+        
+        return description.strip()
+    
+    def clean_phone(self):
+        """Валидира телефонния номер"""
+        phone = self.cleaned_data.get('phone', '')
+        if not phone:
+            return phone
+        
+        # Премахваме интервали и тирета
+        phone = phone.replace(' ', '').replace('-', '')
+        
+        # Проверка за HTML/JavaScript
+        if '<' in phone or '>' in phone or 'script' in phone.lower():
+            raise forms.ValidationError('Невалиден телефонен номер')
+        
+        return phone
+    
     def save(self, commit=True):
         instance = super().save(commit=False)
         # Конвертираме sells_to в списък ако не е
