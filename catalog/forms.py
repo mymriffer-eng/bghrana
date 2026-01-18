@@ -144,6 +144,14 @@ class ProductForm(forms.ModelForm):
         
         # Подобри текста на празната опция за seller_type
         self.fields['seller_type'].empty_label = 'Избери тип продавач'
+    
+    def clean_sells_to(self):
+        """Конвертира sells_to данните в списък за JSONField"""
+        sells_to = self.cleaned_data.get('sells_to')
+        if sells_to:
+            # CheckboxSelectMultiple връща списък, но трябва да е сигурно в правилен формат
+            return list(sells_to) if sells_to else []
+        return []
 
 
 class UserProfileForm(forms.ModelForm):
