@@ -144,6 +144,19 @@ class ProductForm(forms.ModelForm):
         
         # Подобри текста на празната опция за seller_type
         self.fields['seller_type'].empty_label = 'Избери тип продавач'
+    
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        # Конвертираме sells_to в списък ако не е
+        sells_to = self.cleaned_data.get('sells_to')
+        if isinstance(sells_to, list):
+            instance.sells_to = sells_to
+        else:
+            instance.sells_to = list(sells_to) if sells_to else []
+        
+        if commit:
+            instance.save()
+        return instance
 
 
 class UserProfileForm(forms.ModelForm):
