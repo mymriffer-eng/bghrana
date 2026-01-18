@@ -26,8 +26,8 @@
             <div class="mb-3">
               <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
               {% if field.widget.input_type == 'textarea' %}
-                <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control {% if field.errors %}is-invalid{% endif %}" rows="4" maxlength="250">{{ field.value|default:'' }}</textarea>
-                <small class="text-muted">Максимум 250 символа</small>
+                <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control {% if field.errors %}is-invalid{% endif %}" rows="4" maxlength="500">{{ field.value|default:'' }}</textarea>
+                <small class="text-muted">Максимум 500 символа</small>
               {% else %}
                 <div class="{% if field.errors %}has-error{% endif %}">
                   {{ field }}

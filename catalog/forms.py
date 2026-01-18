@@ -119,7 +119,7 @@ class ProductForm(forms.ModelForm):
         }
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Въведете заглавие'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'maxlength': '250', 'placeholder': 'Въведете описание'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'maxlength': '500', 'placeholder': 'Въведете описание'}),
             'price': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Въведете цена'}),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напр. 0888123456', 'maxlength': '20'}),
             'babh_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напр. BG123456789', 'maxlength': '30'}),
@@ -129,7 +129,7 @@ class ProductForm(forms.ModelForm):
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         help_texts = {
-            'description': 'Максимум 250 символа',
+            'description': 'Максимум 500 символа',
             'price': 'Цена в евро',
             'phone': 'Телефонен номер за контакт (опционално)',
             'babh_number': 'Регистрационен номер в БАБХ (опционално)',
@@ -144,6 +144,13 @@ class ProductForm(forms.ModelForm):
         
         # Подобри текста на празната опция за seller_type
         self.fields['seller_type'].empty_label = 'Избери тип продавач'
+    
+    def clean_description(self):
+        """Валидира дължината на описанието"""
+        description = self.cleaned_data.get('description', '')
+        if len(description) > 500:
+            raise forms.ValidationError(f'Описанието трябва да е максимум 500 символа. Вашето е {len(description)} символа.')
+        return description
     
     def clean_sells_to(self):
         """Конвертира sells_to данните в списък за JSONField"""
