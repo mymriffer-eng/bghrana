@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.views import View
 from .models import Product, Category
 from django.urls import reverse
+from django.utils import timezone
 
 
 class RobotsTxtView(View):
@@ -13,6 +14,8 @@ class RobotsTxtView(View):
             "Disallow: /admin/",
             "Disallow: /accounts/",
             "Disallow: /user/",
+            "Disallow: /*?page=",
+            "Crawl-delay: 1",
             "",
             f"Sitemap: https://bghrana.com/sitemap.xml",
         ]
@@ -34,17 +37,27 @@ class SitemapXMLView(View):
         lines.append('    <priority>1.0</priority>')
         lines.append('  </url>')
         
-        # All products
-        for product in Product.objects.filter(is_active=True):
+        # About page
+        lines.append('  <url>')
+        lines.append('    <loc>https://bghrana.com/about/</loc>')
+        lines.append('    <changefreq>monthly</changefreq>')
+        lines.append('    <priority>0.5</priority>')
+        lines.append('  </url>')
+        
+        # Active products (последните 30 дни)
+        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        products = Product.objects.filter(is_active=True, created_at__gte=expiry_date).order_by('-created_at')
+        
+        for product in products:
             lines.append('  <url>')
-            lines.append(f'    <loc>https://bghrana.com{reverse("product_detail", args=[product.id])}</loc>')
-            lines.append(f'    <lastmod>{product.created_at.strftime("%Y-%m-%d")}</lastmod>')
+            lines.append(f'    <loc>https://bghrana.com{reverse("catalog:product_detail", args=[product.id])}</loc>')
+            lines.append(f'    <lastmod>{product.updated_at.strftime("%Y-%m-%d")}</lastmod>')
             lines.append('    <changefreq>weekly</changefreq>')
             lines.append('    <priority>0.8</priority>')
             lines.append('  </url>')
         
-        # All categories
-        for category in Category.objects.all():
+        # Categories (само подкатегории с продукти)
+        for category in Category.objects.filter(products__isnull=False).distinct():
             lines.append('  <url>')
             lines.append(f'    <loc>https://bghrana.com/?category={category.id}</loc>')
             lines.append('    <changefreq>daily</changefreq>')

@@ -787,7 +787,7 @@
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <a href="{% url 'catalog:product_detail' product.pk %}" style="text-decoration: none; color: inherit;">
                         <div class="card product-card h-100">
-                            {% if product.get_first_image %}<img src="{{ product.get_first_image.url }}" alt="{{ product.title }}" class="product-image">
+                            {% if product.get_first_image %}<img src="{{ product.get_first_image.url }}" alt="{{ product.title }}" class="product-image" loading="lazy">
                             {% else %}<div class="product-image d-flex align-items-center justify-content-center"><span style="font-size: 48px; color: #ccc;">📦</span></div>{% endif %}
                             <div class="card-body">
                                 <span class="category-badge">{{ product.category.name }}</span>

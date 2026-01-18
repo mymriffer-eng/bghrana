@@ -151,6 +151,66 @@
     </nav>
 
     <div class="container mt-5">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" style="margin-bottom: 1.5rem;">
+            <ol class="breadcrumb" style="background-color: transparent; padding: 0; margin: 0;">
+                <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}" style="color: var(--primary-color);">Начало</a></li>
+                {% if product.category.parent %}
+                <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}?parent_category={{ product.category.parent.id }}" style="color: var(--primary-color);">{{ product.category.parent.name }}</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}?category={{ product.category.id }}" style="color: var(--primary-color);">{{ product.category.name }}</a></li>
+                {% else %}
+                <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}?category={{ product.category.id }}" style="color: var(--primary-color);">{{ product.category.name }}</a></li>
+                {% endif %}
+                <li class="breadcrumb-item active" aria-current="page">{{ product.title|truncatewords:5 }}</li>
+            </ol>
+        </nav>
+        
+        <!-- Structured Data for Breadcrumbs -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Начало",
+              "item": "https://bghrana.com/"
+            }{% if product.category.parent %},
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "{{ product.category.parent.name }}",
+              "item": "https://bghrana.com/?parent_category={{ product.category.parent.id }}"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "{{ product.category.name }}",
+              "item": "https://bghrana.com/?category={{ product.category.id }}"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "{{ product.title }}",
+              "item": "https://bghrana.com{% url 'catalog:product_detail' product.id %}"
+            }{% else %},
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "{{ product.category.name }}",
+              "item": "https://bghrana.com/?category={{ product.category.id }}"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "{{ product.title }}",
+              "item": "https://bghrana.com{% url 'catalog:product_detail' product.id %}"
+            }{% endif %}
+          ]
+        }
+        </script>
+
         <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary mb-4">← Назад към списък</a>
 
         <div class="row">
@@ -161,7 +221,7 @@
                         <div class="carousel-inner">
                             {% for img in product.images.all %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <img src="{{ img.image.url }}" class="d-block w-100 product-image" alt="{{ product.title }}">
+                                <img src="{{ img.image.url }}" class="d-block w-100 product-image" alt="{{ product.title }} - Снимка {{ forloop.counter }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
                             </div>
                             {% endfor %}
                         </div>
@@ -182,7 +242,7 @@
                     <div class="row g-2">
                         {% for img in product.images.all %}
                         <div class="col-3">
-                            <img src="{{ img.image.url }}" class="img-thumbnail" style="cursor: pointer; border-radius: 10px;" onclick="document.querySelector('#productCarousel .carousel-item:nth-child({{ forloop.counter }})').click(); bootstrap.Carousel.getInstance(document.getElementById('productCarousel')).to({{ forloop.counter0 }});" alt="Снимка {{ forloop.counter }}">
+                            <img src="{{ img.image.url }}" class="img-thumbnail" style="cursor: pointer; border-radius: 10px;" onclick="document.querySelector('#productCarousel .carousel-item:nth-child({{ forloop.counter }})').click(); bootstrap.Carousel.getInstance(document.getElementById('productCarousel')).to({{ forloop.counter0 }});" alt="{{ product.title }} - Миниатюра {{ forloop.counter }}" loading="lazy">
                         </div>
                         {% endfor %}
                     </div>
