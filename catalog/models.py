@@ -48,8 +48,8 @@ from django.urls import reverse
 
 class Product(models.Model):
     SELLER_TYPE_CHOICES = [
-        ('producer', 'Производител'),
-        ('farm', 'Ферма'),
+        ('individual', 'Частно лице'),
+        ('producer', 'Производител/Фермер'),
         ('company', 'Фирма'),
     ]
     
