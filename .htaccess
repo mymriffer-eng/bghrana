@@ -1,3 +1,16 @@
+# Force HTTPS and non-WWW
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Redirect www to non-www
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
 # Allow Facebook crawler
 <IfModule mod_rewrite.c>
 RewriteEngine On

@@ -224,5 +224,9 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
+# SEO Settings - Prevent duplicate content
+APPEND_SLASH = True  # Автоматично добавя trailing slash
+PREPEND_WWW = False  # Премахва www от URL-ите
+
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
