@@ -72,6 +72,11 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+    
+    # SEO Fields
+    meta_title = models.CharField(max_length=60, blank=True, null=True, verbose_name='SEO Заглавие', help_text='Оптимално: до 60 символа')
+    meta_description = models.TextField(max_length=160, blank=True, null=True, verbose_name='SEO Описание', help_text='Оптимално: до 160 символа')
+    meta_keywords = models.CharField(max_length=255, blank=True, null=True, verbose_name='SEO Ключови думи', help_text='Разделени със запетая')
 
     class Meta:
         ordering = ['-created_at']
@@ -122,4 +127,28 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"Profile of {self.user.username}"
+
+
+class SEOPage(models.Model):
+    """Модел за статични SEO страници, редактируеми от админ панела"""
+    title = models.CharField(max_length=200, verbose_name='Заглавие')
+    slug = models.SlugField(max_length=200, unique=True, verbose_name='URL slug', help_text='Пример: za-nas, kontakti, obshti-usloviya')
+    content = models.TextField(verbose_name='Съдържание', help_text='Може да използвате HTML форматиране')
+    meta_title = models.CharField(max_length=60, blank=True, verbose_name='SEO Заглавие', help_text='Оптимално: до 60 символа')
+    meta_description = models.TextField(max_length=160, blank=True, verbose_name='SEO Описание', help_text='Оптимално: до 160 символа')
+    meta_keywords = models.CharField(max_length=255, blank=True, verbose_name='SEO Ключови думи', help_text='Разделени със запетая')
+    is_active = models.BooleanField(default=True, verbose_name='Активна')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'SEO Страница'
+        verbose_name_plural = 'SEO Страници'
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('catalog:seo_page', kwargs={'slug': self.slug})
 

@@ -31,4 +31,7 @@ urlpatterns = [
     # SEO
     path('robots.txt', RobotsTxtView.as_view(), name='robots_txt'),
     path('sitemap.xml', SitemapXMLView.as_view(), name='sitemap_xml'),
+    
+    # Dynamic SEO Pages (трябва да е накрая за да не пречи на другите URL-и)
+    path('<slug:slug>/', views.seo_page, name='seo_page'),
 ]

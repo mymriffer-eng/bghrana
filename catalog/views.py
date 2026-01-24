@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import logout as auth_logout, update_session_auth_hash
-from .models import Product, Category, Region, City, ProductImage, UserProfile
+from .models import Product, Category, Region, City, ProductImage, UserProfile, SEOPage
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, ProductForm, UserProfileForm, CustomPasswordChangeForm, DeleteAccountForm, ContactForm
 from django.conf import settings
 
@@ -441,3 +441,9 @@ def terms(request):
 def cookie_policy(request):
     """Политика за бисквитки"""
     return render(request, 'catalog/cookie_policy.html')
+
+
+def seo_page(request, slug):
+    """Динамична SEO страница, редактируема от админ панела"""
+    page = get_object_or_404(SEOPage, slug=slug, is_active=True)
+    return render(request, 'catalog/seo_page.html', {'page': page})

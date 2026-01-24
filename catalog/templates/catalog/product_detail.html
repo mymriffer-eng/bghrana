@@ -16,15 +16,16 @@
     </script>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="{{ product.title }} - {{ product.description|truncatewords:20 }}. Цена: {{ product.price }} лв. Купете от {{ product.owner.username }} в {{ product.city }}.">
-    <meta name="keywords" content="{{ product.title }}, {{ product.category.name }}, {{ product.city }}, {{ product.region }}, българска храна, био продукти">
+    <title>{% if product.meta_title %}{{ product.meta_title }}{% else %}{{ product.title }} - {{ product.price }} лв. | БГ Храна{% endif %}</title>
+    <meta name="description" content="{% if product.meta_description %}{{ product.meta_description }}{% else %}{{ product.title }} - {{ product.description|truncatewords:20 }}. Цена: {{ product.price }} лв. Купете от {{ product.owner.username }} в {{ product.city }}.{% endif %}">
+    <meta name="keywords" content="{% if product.meta_keywords %}{{ product.meta_keywords }}{% else %}{{ product.title }}, {{ product.category.name }}, {{ product.city }}, българска храна, био продукти{% endif %}">
     <link rel="canonical" href="https://bghrana.com{% url 'catalog:product_detail' product.id %}">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="product">
     <meta property="og:url" content="https://bghrana.com{% url 'catalog:product_detail' product.id %}">
-    <meta property="og:title" content="{{ product.title }} - {{ product.price }} лв.">
-    <meta property="og:description" content="{{ product.description|truncatewords:30 }}">
+    <meta property="og:title" content="{% if product.meta_title %}{{ product.meta_title }}{% else %}{{ product.title }} - {{ product.price }} лв.{% endif %}">
+    <meta property="og:description" content="{% if product.meta_description %}{{ product.meta_description }}{% else %}{{ product.description|truncatewords:30 }}{% endif %}">
     <meta property="og:image" content="{% if product.images.first %}https://bghrana.com{{ product.images.first.image.url }}{% else %}https://bghrana.com/static/logo.jpg{% endif %}">
     <meta property="og:locale" content="bg_BG">
     <meta property="og:site_name" content="БГ Храна">
