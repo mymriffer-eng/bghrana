@@ -81,6 +81,7 @@ class SitemapXMLView(View):
         # About page (статична)
         lines.append('  <url>')
         lines.append('    <loc>https://bghrana.com/about/</loc>')
+        lines.append(f'    <lastmod>{datetime.now().strftime("%Y-%m-%d")}</lastmod>')
         lines.append('    <changefreq>monthly</changefreq>')
         lines.append('    <priority>0.4</priority>')
         lines.append('  </url>')
