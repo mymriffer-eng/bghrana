@@ -5,7 +5,16 @@
 import os
 import django
 from django.utils.text import slugify
-from unidecode import unidecode
+import subprocess
+import sys
+
+# Инсталирай unidecode ако го няма
+try:
+    from unidecode import unidecode
+except ImportError:
+    print("📦 Инсталиране на unidecode...")
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'unidecode'])
+    from unidecode import unidecode
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'products.settings')
 django.setup()
