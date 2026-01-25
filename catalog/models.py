@@ -3,7 +3,7 @@ from django.urls import reverse
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=100, unique=True, verbose_name='URL slug', help_text='Пример: mlechni-produkti, meso-i-kolebasi')
+    slug = models.SlugField(max_length=100, unique=True, blank=True, null=True, verbose_name='URL slug', help_text='Пример: mlechni-produkti, meso-i-kolebasi')
     description = models.TextField(blank=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='subcategories')
     
