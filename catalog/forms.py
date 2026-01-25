@@ -7,6 +7,7 @@ from .models import Product, UserProfile
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(
         label='Потребителско име',
+        max_length=150,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Въведете потребителско име'})
     )
     email = forms.EmailField(
@@ -31,7 +32,8 @@ class CustomUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Превод на помощните текстове
-        self.fields['username'].help_text = 'Задължително. 150 символа або по-малко. Само букви, цифри и @/./+/-/_'
+        self.fields['username'].help_text = 'Задължително. 150 символа или по-малко. Позволени са букви (включително кирилица), цифри и @/./+/-/_'
+        self.fields['username'].validators = []  # Премахни стандартния validator
         self.fields['email'].help_text = 'Задължително. Ще получите имейл за потвърждение на регистрацията.'
         self.fields['password1'].help_text = 'Паролата трябва да съдържа поне 8 символа и не може да бъде изцяло цифрова.'
         # Премахване на валидацията за password2
