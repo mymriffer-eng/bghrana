@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.views import View
-from .models import Product, Category
+from .models import Product, Category, SEOPage
 from django.urls import reverse
 from django.utils import timezone
 
@@ -44,6 +44,16 @@ class SitemapXMLView(View):
         lines.append('    <priority>0.5</priority>')
         lines.append('  </url>')
         
+        # SEO Pages
+        seo_pages = SEOPage.objects.filter(is_active=True)
+        for page in seo_pages:
+            lines.append('  <url>')
+            lines.append(f'    <loc>https://bghrana.com/{page.slug}/</loc>')
+            lines.append(f'    <lastmod>{page.updated_at.strftime("%Y-%m-%d")}</lastmod>')
+            lines.append('    <changefreq>monthly</changefreq>')
+            lines.append('    <priority>0.6</priority>')
+            lines.append('  </url>')
+        
         # Active products (последните 30 дни)
         expiry_date = timezone.now() - timezone.timedelta(days=30)
         products = Product.objects.filter(is_active=True, created_at__gte=expiry_date).order_by('-created_at')
@@ -65,4 +75,4 @@ class SitemapXMLView(View):
             lines.append('  </url>')
         
         lines.append('</urlset>')
-        return HttpResponse("\n".join(lines), content_type="application/xml")
+        return HttpResponse("\n".join(lines), content_type="text/xml; charset=utf-8")
