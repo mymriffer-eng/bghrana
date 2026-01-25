@@ -25,6 +25,7 @@ class RobotsTxtView(View):
 class SitemapXMLView(View):
     """Generate sitemap.xml for search engines"""
     def get(self, request):
+        from datetime import datetime
         lines = [
             '<?xml version="1.0" encoding="UTF-8"?>',
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -33,25 +34,26 @@ class SitemapXMLView(View):
         # Homepage
         lines.append('  <url>')
         lines.append('    <loc>https://bghrana.com/</loc>')
+        lines.append(f'    <lastmod>{datetime.now().strftime("%Y-%m-%d")}</lastmod>')
         lines.append('    <changefreq>daily</changefreq>')
         lines.append('    <priority>1.0</priority>')
         lines.append('  </url>')
         
-        # About page
-        lines.append('  <url>')
-        lines.append('    <loc>https://bghrana.com/about/</loc>')
-        lines.append('    <changefreq>monthly</changefreq>')
-        lines.append('    <priority>0.5</priority>')
-        lines.append('  </url>')
+        # Categories (само категории с продукти и slug)
+        categories = Category.objects.filter(
+            products__isnull=False,
+            slug__isnull=False
+        ).exclude(slug='').distinct()
         
-        # SEO Pages
-        seo_pages = SEOPage.objects.filter(is_active=True)
-        for page in seo_pages:
+        for category in categories:
             lines.append('  <url>')
-            lines.append(f'    <loc>https://bghrana.com/{page.slug}/</loc>')
-            lines.append(f'    <lastmod>{page.updated_at.strftime("%Y-%m-%d")}</lastmod>')
-            lines.append('    <changefreq>monthly</changefreq>')
-            lines.append('    <priority>0.6</priority>')
+            lines.append(f'    <loc>https://bghrana.com/category/{category.slug}/</loc>')
+            # Вземи най-новия продукт от категорията за lastmod
+            latest_product = category.products.filter(is_active=True).order_by('-updated_at').first()
+            if latest_product:
+                lines.append(f'    <lastmod>{latest_product.updated_at.strftime("%Y-%m-%d")}</lastmod>')
+            lines.append('    <changefreq>daily</changefreq>')
+            lines.append('    <priority>0.8</priority>')
             lines.append('  </url>')
         
         # Active products (последните 30 дни)
@@ -63,16 +65,25 @@ class SitemapXMLView(View):
             lines.append(f'    <loc>https://bghrana.com{reverse("catalog:product_detail", args=[product.id])}</loc>')
             lines.append(f'    <lastmod>{product.updated_at.strftime("%Y-%m-%d")}</lastmod>')
             lines.append('    <changefreq>weekly</changefreq>')
-            lines.append('    <priority>0.8</priority>')
+            lines.append('    <priority>0.7</priority>')
             lines.append('  </url>')
         
-        # Categories (само подкатегории с продукти)
-        for category in Category.objects.filter(products__isnull=False).distinct():
+        # SEO Pages
+        seo_pages = SEOPage.objects.filter(is_active=True)
+        for page in seo_pages:
             lines.append('  <url>')
-            lines.append(f'    <loc>https://bghrana.com/category/{category.slug}/</loc>')
-            lines.append('    <changefreq>daily</changefreq>')
-            lines.append('    <priority>0.9</priority>')
+            lines.append(f'    <loc>https://bghrana.com/{page.slug}/</loc>')
+            lines.append(f'    <lastmod>{page.updated_at.strftime("%Y-%m-%d")}</lastmod>')
+            lines.append('    <changefreq>monthly</changefreq>')
+            lines.append('    <priority>0.6</priority>')
             lines.append('  </url>')
+        
+        # About page (статична)
+        lines.append('  <url>')
+        lines.append('    <loc>https://bghrana.com/about/</loc>')
+        lines.append('    <changefreq>monthly</changefreq>')
+        lines.append('    <priority>0.4</priority>')
+        lines.append('  </url>')
         
         lines.append('</urlset>')
         return HttpResponse("\n".join(lines), content_type="text/xml; charset=utf-8")
