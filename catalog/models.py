@@ -1,9 +1,17 @@
 from django.db import models
+from django.urls import reverse
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, verbose_name='URL slug', help_text='Пример: mlechni-produkti, meso-i-kolebasi')
     description = models.TextField(blank=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='subcategories')
+    
+    # SEO Fields
+    seo_title = models.CharField(max_length=60, blank=True, verbose_name='SEO Заглавие', help_text='Оптимално: до 60 символа')
+    seo_description = models.TextField(max_length=160, blank=True, verbose_name='SEO Описание', help_text='Оптимално: до 160 символа')
+    seo_text = models.TextField(blank=True, verbose_name='SEO Текст', help_text='Описание на категорията 300-500 думи за по-добро SEO')
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -15,6 +23,9 @@ class Category(models.Model):
 
     def is_parent(self):
         return self.parent is None
+    
+    def get_absolute_url(self):
+        return reverse('catalog:category_detail', kwargs={'slug': self.slug})
 
 
 class Region(models.Model):

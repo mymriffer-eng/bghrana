@@ -69,9 +69,9 @@ class SitemapXMLView(View):
         # Categories (само подкатегории с продукти)
         for category in Category.objects.filter(products__isnull=False).distinct():
             lines.append('  <url>')
-            lines.append(f'    <loc>https://bghrana.com/?category={category.id}</loc>')
+            lines.append(f'    <loc>https://bghrana.com/category/{category.slug}/</loc>')
             lines.append('    <changefreq>daily</changefreq>')
-            lines.append('    <priority>0.7</priority>')
+            lines.append('    <priority>0.9</priority>')
             lines.append('  </url>')
         
         lines.append('</urlset>')

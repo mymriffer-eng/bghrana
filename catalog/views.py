@@ -151,6 +151,28 @@ class ProductDetailView(DetailView):
         return context
 
 
+class CategoryDetailView(ListView):
+    model = Product
+    template_name = 'catalog/category_detail.html'
+    context_object_name = 'products'
+    paginate_by = 12
+
+    def get_queryset(self):
+        from django.utils import timezone
+        self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
+        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        return Product.objects.filter(
+            category=self.category,
+            is_active=True,
+            created_at__gte=expiry_date
+        ).order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = self.category
+        return context
+
+
 def cities_by_region(request):
     """API endpoint: returns JSON list of cities for a given region id (GET param `region`)."""
     region_id = request.GET.get('region')

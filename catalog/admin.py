@@ -3,12 +3,18 @@ from .models import Category, Product, Region, City, ProductImage, UserProfile, 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'parent', 'created_at']
+    list_display = ['name', 'slug', 'parent', 'created_at']
     list_filter = ['parent', 'created_at']
-    search_fields = ['name']
+    search_fields = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
     fieldsets = (
-        ('Основна информация', {'fields': ('name', 'description')}),
+        ('Основна информация', {'fields': ('name', 'slug', 'description')}),
         ('Йерархия', {'fields': ('parent',)}),
+        ('SEO Оптимизация', {
+            'fields': ('seo_title', 'seo_description', 'seo_text'),
+            'classes': ('collapse',),
+            'description': 'Персонализирайте SEO за категорийната страница'
+        }),
     )
 
 class ProductImageInline(admin.TabularInline):
