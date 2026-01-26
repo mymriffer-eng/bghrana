@@ -61,12 +61,17 @@ class ProductListView(ListView):
         parent_category_id = request.GET.get('parent_category')
         category_id = request.GET.get('category')
         
-        # Count total GET parameters (excluding empty ones)
+        # Count meaningful GET parameters (excluding empty ones and parent_category if category exists)
         params = {k: v for k, v in request.GET.items() if v}
+        
+        # Remove parent_category from count if category (subcategory) is selected
+        if category_id and 'parent_category' in params:
+            params.pop('parent_category')
         
         # If only category/parent_category param exists (no other filters), redirect to category page
         if len(params) == 1 and (parent_category_id or category_id):
-            cat_id = parent_category_id or category_id
+            # Prefer subcategory (category) over parent_category
+            cat_id = category_id if category_id else parent_category_id
             try:
                 category = Category.objects.get(id=cat_id)
                 if category.slug:
