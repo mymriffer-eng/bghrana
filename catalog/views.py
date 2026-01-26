@@ -200,11 +200,22 @@ class CategoryDetailView(ListView):
         from django.utils import timezone
         self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
         expiry_date = timezone.now() - timezone.timedelta(days=30)
-        return Product.objects.filter(
-            category=self.category,
-            is_active=True,
-            created_at__gte=expiry_date
-        ).order_by('-created_at')
+        
+        # Ако категорията е родител (има подкатегории), покажи продукти от всички подкатегории
+        if self.category.subcategories.exists():
+            subcategories = self.category.subcategories.all()
+            return Product.objects.filter(
+                category__in=subcategories,
+                is_active=True,
+                created_at__gte=expiry_date
+            ).order_by('-created_at')
+        else:
+            # Ако е подкатегория, покажи директно продуктите от нея
+            return Product.objects.filter(
+                category=self.category,
+                is_active=True,
+                created_at__gte=expiry_date
+            ).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
