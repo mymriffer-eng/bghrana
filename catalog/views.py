@@ -53,6 +53,29 @@ class ProductListView(ListView):
     context_object_name = 'products'
     paginate_by = 12
 
+    def get(self, request, *args, **kwargs):
+        """Redirect to category page if only category filter is used without other filters."""
+        from django.http import HttpResponsePermanentRedirect
+        
+        # Check if only parent_category or category param exists without other filters
+        parent_category_id = request.GET.get('parent_category')
+        category_id = request.GET.get('category')
+        
+        # Count total GET parameters (excluding empty ones)
+        params = {k: v for k, v in request.GET.items() if v}
+        
+        # If only category/parent_category param exists (no other filters), redirect to category page
+        if len(params) == 1 and (parent_category_id or category_id):
+            cat_id = parent_category_id or category_id
+            try:
+                category = Category.objects.get(id=cat_id)
+                if category.slug:
+                    return HttpResponsePermanentRedirect(category.get_absolute_url())
+            except (Category.DoesNotExist, ValueError):
+                pass
+        
+        return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
         from django.utils import timezone
         from django.db.models import Q
