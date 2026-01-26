@@ -31,6 +31,22 @@ def logout(request):
     auth_logout(request)
     return redirect('catalog:product_list')
 
+def category_redirect(request):
+    """Redirect old category URLs (?parent_category=ID or ?category=ID) to new slug-based URLs."""
+    from django.http import HttpResponsePermanentRedirect
+    
+    category_id = request.GET.get('parent_category') or request.GET.get('category')
+    if category_id:
+        try:
+            category = Category.objects.get(id=category_id)
+            if category.slug:
+                return HttpResponsePermanentRedirect(category.get_absolute_url())
+        except Category.DoesNotExist:
+            pass
+    
+    # Fallback to product list if category not found or no slug
+    return redirect('catalog:product_list')
+
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/product_list.html'

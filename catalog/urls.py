@@ -7,6 +7,7 @@ app_name = 'catalog'
 
 urlpatterns = [
     path('', views.ProductListView.as_view(), name='product_list'),
+    path('category-redirect/', views.category_redirect, name='category_redirect'),
     path('product/<int:pk>/', views.ProductDetailView.as_view(), name='product_detail'),
     path('category/<slug:slug>/', views.CategoryDetailView.as_view(), name='category_detail'),
     path('api/cities/', views.cities_by_region, name='api_cities'),

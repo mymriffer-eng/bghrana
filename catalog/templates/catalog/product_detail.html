@@ -166,10 +166,10 @@
             <ol class="breadcrumb" style="background-color: transparent; padding: 0; margin: 0;">
                 <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}" style="color: var(--primary-color);">Начало</a></li>
                 {% if product.category.parent %}
-                <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}?parent_category={{ product.category.parent.id }}" style="color: var(--primary-color);">{{ product.category.parent.name }}</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}?category={{ product.category.id }}" style="color: var(--primary-color);">{{ product.category.name }}</a></li>
+                <li class="breadcrumb-item"><a href="{% if product.category.parent.slug %}{% url 'catalog:category_detail' product.category.parent.slug %}{% else %}{% url 'catalog:category_redirect' %}?parent_category={{ product.category.parent.id }}{% endif %}" style="color: var(--primary-color);">{{ product.category.parent.name }}</a></li>
+                <li class="breadcrumb-item"><a href="{% if product.category.slug %}{% url 'catalog:category_detail' product.category.slug %}{% else %}{% url 'catalog:category_redirect' %}?category={{ product.category.id }}{% endif %}" style="color: var(--primary-color);">{{ product.category.name }}</a></li>
                 {% else %}
-                <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}?category={{ product.category.id }}" style="color: var(--primary-color);">{{ product.category.name }}</a></li>
+                <li class="breadcrumb-item"><a href="{% if product.category.slug %}{% url 'catalog:category_detail' product.category.slug %}{% else %}{% url 'catalog:category_redirect' %}?category={{ product.category.id }}{% endif %}" style="color: var(--primary-color);">{{ product.category.name }}</a></li>
                 {% endif %}
                 <li class="breadcrumb-item active" aria-current="page">{{ product.title|truncatewords:5 }}</li>
             </ol>
@@ -191,13 +191,13 @@
               "@type": "ListItem",
               "position": 2,
               "name": "{{ product.category.parent.name }}",
-              "item": "https://bghrana.com/?parent_category={{ product.category.parent.id }}"
+              "item": "https://bghrana.com{% if product.category.parent.slug %}/category/{{ product.category.parent.slug }}/{% else %}/category-redirect/?parent_category={{ product.category.parent.id }}{% endif %}"
             },
             {
               "@type": "ListItem",
               "position": 3,
               "name": "{{ product.category.name }}",
-              "item": "https://bghrana.com/?category={{ product.category.id }}"
+              "item": "https://bghrana.com{% if product.category.slug %}/category/{{ product.category.slug }}/{% else %}/category-redirect/?category={{ product.category.id }}{% endif %}"
             },
             {
               "@type": "ListItem",
@@ -209,7 +209,7 @@
               "@type": "ListItem",
               "position": 2,
               "name": "{{ product.category.name }}",
-              "item": "https://bghrana.com/?category={{ product.category.id }}"
+              "item": "https://bghrana.com{% if product.category.slug %}/category/{{ product.category.slug }}/{% else %}/category-redirect/?category={{ product.category.id }}{% endif %}"
             },
             {
               "@type": "ListItem",
