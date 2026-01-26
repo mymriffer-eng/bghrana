@@ -51,14 +51,16 @@ admin.site.register(ProductImage)
 
 @admin.register(Region)
 class RegionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'created_at']
-    search_fields = ['name']
+    list_display = ['name', 'slug', 'created_at']
+    search_fields = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
-    list_display = ['name', 'region', 'created_at']
+    list_display = ['name', 'slug', 'region', 'created_at']
     list_filter = ['region']
-    search_fields = ['name']
+    search_fields = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
 
 
 @admin.register(UserProfile)

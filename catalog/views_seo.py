@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.views import View
-from .models import Product, Category, SEOPage
+from .models import Product, Category, Region, City, SEOPage
 from django.urls import reverse
 from django.utils import timezone
 
@@ -56,6 +56,56 @@ class SitemapXMLView(View):
             lines.append('    <priority>0.8</priority>')
             lines.append('  </url>')
         
+        # Regions (само области с продукти и slug)
+        regions = Region.objects.filter(slug__isnull=False).exclude(slug='')
+        
+        for region in regions:
+            # Проверка дали има продукти в областта
+            cities = City.objects.filter(region=region)
+            expiry_date = timezone.now() - timezone.timedelta(days=30)
+            has_products = Product.objects.filter(
+                city__in=cities, 
+                is_active=True, 
+                created_at__gte=expiry_date
+            ).exists()
+            
+            if has_products:
+                lines.append('  <url>')
+                lines.append(f'    <loc>https://bghrana.com/region/{region.slug}/</loc>')
+                latest_product = Product.objects.filter(
+                    city__in=cities, 
+                    is_active=True
+                ).order_by('-updated_at').first()
+                if latest_product:
+                    lines.append(f'    <lastmod>{latest_product.updated_at.strftime("%Y-%m-%d")}</lastmod>')
+                lines.append('    <changefreq>daily</changefreq>')
+                lines.append('    <priority>0.7</priority>')
+                lines.append('  </url>')
+        
+        # Cities (само градове с продукти и slug)
+        cities = City.objects.filter(slug__isnull=False, region__slug__isnull=False).exclude(slug='')
+        
+        for city in cities:
+            expiry_date = timezone.now() - timezone.timedelta(days=30)
+            has_products = Product.objects.filter(
+                city=city, 
+                is_active=True, 
+                created_at__gte=expiry_date
+            ).exists()
+            
+            if has_products:
+                lines.append('  <url>')
+                lines.append(f'    <loc>https://bghrana.com/region/{city.region.slug}/{city.slug}/</loc>')
+                latest_product = Product.objects.filter(
+                    city=city, 
+                    is_active=True
+                ).order_by('-updated_at').first()
+                if latest_product:
+                    lines.append(f'    <lastmod>{latest_product.updated_at.strftime("%Y-%m-%d")}</lastmod>')
+                lines.append('    <changefreq>weekly</changefreq>')
+                lines.append('    <priority>0.6</priority>')
+                lines.append('  </url>')
+        
         # Active products (последните 30 дни)
         expiry_date = timezone.now() - timezone.timedelta(days=30)
         products = Product.objects.filter(is_active=True, created_at__gte=expiry_date).order_by('-created_at')
@@ -65,7 +115,7 @@ class SitemapXMLView(View):
             lines.append(f'    <loc>https://bghrana.com{reverse("catalog:product_detail", args=[product.id])}</loc>')
             lines.append(f'    <lastmod>{product.updated_at.strftime("%Y-%m-%d")}</lastmod>')
             lines.append('    <changefreq>weekly</changefreq>')
-            lines.append('    <priority>0.7</priority>')
+            lines.append('    <priority>0.5</priority>')
             lines.append('  </url>')
         
         # SEO Pages

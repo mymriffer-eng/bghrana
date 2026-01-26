@@ -1,0 +1,105 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block title %}{{ region.name }} - Продукти от област {{ region.name }} - БГ Храна{% endblock %}
+{% block meta_description %}Качествени домашни продукти от област {{ region.name }}. Местни производители и занаятчии от цялата област.{% endblock %}
+{% block canonical_url %}https://bghrana.com{% url 'catalog:region_detail' region.slug %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+    <!-- Hero Section -->
+    <div class="category-hero" style="background: linear-gradient(135deg, #0dd843 0%, #0ab535 100%); padding: 4rem 0; margin-bottom: 3rem;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <nav aria-label="breadcrumb" class="mb-3">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}" style="color: rgba(255,255,255,0.8);">Начало</a></li>
+                            <li class="breadcrumb-item active text-white" aria-current="page">{{ region.name }}</li>
+                        </ol>
+                    </nav>
+                    <h1 class="display-4 text-white fw-bold mb-3">Продукти от {{ region.name }}</h1>
+                    <p class="lead text-white mb-0">Качествени домашни продукти от местни производители в област {{ region.name }}</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <div class="text-white">
+                        <h3 class="fw-bold">{{ page_obj.paginator.count }}</h3>
+                        <p>активни обяви</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Products Grid -->
+        {% if products %}
+        <div class="row g-4 mb-5">
+            {% for product in products %}
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card product-card h-100 shadow-sm">
+                    <a href="{% url 'catalog:product_detail' product.id %}" class="text-decoration-none">
+                        {% if product.images.first %}
+                        <img src="{{ product.images.first.image.url }}" 
+                             class="card-img-top" 
+                             alt="{{ product.title }}"
+                             loading="lazy"
+                             style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 200px;">
+                            <span style="font-size: 60px; color: #ccc;">📦</span>
+                        </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <span class="badge bg-success mb-2">{{ product.category.name }}</span>
+                            <h5 class="card-title text-dark">{{ product.title }}</h5>
+                            <p class="card-text text-muted small">{{ product.description|truncatewords:15 }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-success fw-bold fs-5">{{ product.price }} лв</span>
+                                {% if product.city %}
+                                <small class="text-muted">📍 {{ product.city.name }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предишна</a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следваща</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            <h4>Няма продукти от {{ region.name }}</h4>
+            <p>Към момента няма активни обяви от област {{ region.name }}.</p>
+            <a href="{% url 'catalog:product_list' %}" class="btn btn-success">Виж всички продукти</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -54,30 +54,55 @@ class ProductListView(ListView):
     paginate_by = 12
 
     def get(self, request, *args, **kwargs):
-        """Redirect to category page if only category filter is used without other filters."""
+        """Redirect to category/region/city page if only one filter is used without other filters."""
         from django.http import HttpResponsePermanentRedirect
         
-        # Check if only parent_category or category param exists without other filters
+        # Check filters
         parent_category_id = request.GET.get('parent_category')
         category_id = request.GET.get('category')
+        region_id = request.GET.get('region')
+        city_id = request.GET.get('city')
         
-        # Count meaningful GET parameters (excluding empty ones and parent_category if category exists)
+        # Count meaningful GET parameters (excluding empty ones)
         params = {k: v for k, v in request.GET.items() if v}
         
         # Remove parent_category from count if category (subcategory) is selected
         if category_id and 'parent_category' in params:
             params.pop('parent_category')
         
-        # If only category/parent_category param exists (no other filters), redirect to category page
-        if len(params) == 1 and (parent_category_id or category_id):
-            # Prefer subcategory (category) over parent_category
-            cat_id = category_id if category_id else parent_category_id
-            try:
-                category = Category.objects.get(id=cat_id)
-                if category.slug:
-                    return HttpResponsePermanentRedirect(category.get_absolute_url())
-            except (Category.DoesNotExist, ValueError):
-                pass
+        # Remove region from count if city is selected
+        if city_id and 'region' in params:
+            params.pop('region')
+        
+        # Single filter redirects
+        if len(params) == 1:
+            # Category redirect
+            if parent_category_id or category_id:
+                cat_id = category_id if category_id else parent_category_id
+                try:
+                    category = Category.objects.get(id=cat_id)
+                    if category.slug:
+                        return HttpResponsePermanentRedirect(category.get_absolute_url())
+                except (Category.DoesNotExist, ValueError):
+                    pass
+            
+            # City redirect
+            elif city_id:
+                try:
+                    city = City.objects.get(id=city_id)
+                    if city.slug and city.region.slug:
+                        return HttpResponsePermanentRedirect(city.get_absolute_url())
+                except (City.DoesNotExist, ValueError):
+                    pass
+            
+            # Region redirect
+            elif region_id:
+                try:
+                    region = Region.objects.get(id=region_id)
+                    if region.slug:
+                        return HttpResponsePermanentRedirect(region.get_absolute_url())
+                except (Region.DoesNotExist, ValueError):
+                    pass
         
         return super().get(request, *args, **kwargs)
 
@@ -225,6 +250,55 @@ class CategoryDetailView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category'] = self.category
+        return context
+
+
+class RegionDetailView(ListView):
+    model = Product
+    template_name = 'catalog/region_detail.html'
+    context_object_name = 'products'
+    paginate_by = 12
+
+    def get_queryset(self):
+        from django.utils import timezone
+        self.region = get_object_or_404(Region, slug=self.kwargs['slug'])
+        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        
+        # Вземи всички градове в областта
+        cities = City.objects.filter(region=self.region)
+        return Product.objects.filter(
+            city__in=cities,
+            is_active=True,
+            created_at__gte=expiry_date
+        ).order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['region'] = self.region
+        return context
+
+
+class CityDetailView(ListView):
+    model = Product
+    template_name = 'catalog/city_detail.html'
+    context_object_name = 'products'
+    paginate_by = 12
+
+    def get_queryset(self):
+        from django.utils import timezone
+        region = get_object_or_404(Region, slug=self.kwargs['region_slug'])
+        self.city = get_object_or_404(City, slug=self.kwargs['slug'], region=region)
+        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        
+        return Product.objects.filter(
+            city=self.city,
+            is_active=True,
+            created_at__gte=expiry_date
+        ).order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['city'] = self.city
         return context
 
 

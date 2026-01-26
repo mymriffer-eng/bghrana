@@ -30,6 +30,7 @@ class Category(models.Model):
 
 class Region(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True, null=True, verbose_name='URL slug', help_text='Пример: sofia, plovdiv, varna')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -37,10 +38,14 @@ class Region(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('catalog:region_detail', kwargs={'slug': self.slug})
 
 
 class City(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, blank=True, null=True, verbose_name='URL slug', help_text='Пример: sofia, plovdiv, varna')
     region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name='cities')
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -50,6 +55,9 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('catalog:city_detail', kwargs={'region_slug': self.region.slug, 'slug': self.slug})
 
 
 from django.conf import settings
