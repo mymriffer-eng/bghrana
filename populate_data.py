@@ -13,7 +13,7 @@ Category.objects.all().delete()
 # Създаване на главни категории
 vegetables = Category.objects.create(name='Зеленчуци', description='Пресни зеленчуци от локални производители')
 fruits = Category.objects.create(name='Плодове', description='Свежи плодове - ябълки, портокали, банани и др.')
-meat = Category.objects.create(name='Месо', description='Говядина, свинско месо, пиле и птица')
+meat = Category.objects.create(name='Месо', description='Свинско,телешко,пилешко и други видове месо.')
 fish = Category.objects.create(name='Риба', description='Свежа и замразена риба')
 dairy = Category.objects.create(name='Млечни продукти', description='Мляко, сирене, йогурт и масло')
 honey = Category.objects.create(name='Мед', description='Натурален пчелен мед')
