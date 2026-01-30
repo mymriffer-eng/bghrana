@@ -99,6 +99,54 @@
             <a href="{% url 'catalog:region_detail' city.region.slug %}" class="btn btn-success">Виж продукти от {{ city.region.name }}</a>
         </div>
         {% endif %}
+
+        <!-- SEO Content Section -->
+        <div class="row my-5">
+            <div class="col-lg-10 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="h3 mb-4">Местни производители от {{ city.name }}</h2>
+                        <div class="seo-content" style="line-height: 1.8; font-size: 1.05rem;">
+                            <p>
+                                {{ city.name }} е град с богата кулинарна традиция и качествени местни производители. 
+                                На БГ Храна можете да намерите разнообразни продукти от фермери и производители от {{ city.name }}, 
+                                област {{ city.region.name }}.
+                            </p>
+                            <p>
+                                Купувайки директно от производители от {{ city.name }}, вие подкрепяте местната общност 
+                                и получавате гарантирано свежи продукти с доказан произход. Платформата ви свързва 
+                                директно с хората, които произвеждат вашата храна.
+                            </p>
+                            <p class="mt-4">
+                                <strong>Защо да купувате от {{ city.name }}?</strong>
+                            </p>
+                            <ul>
+                                <li>Местни производители с традиции</li>
+                                <li>Бърза доставка и свежест</li>
+                                <li>Подкрепа за местната икономика</li>
+                                <li>Прозрачност на произхода</li>
+                                <li>Лична връзка с производителя</li>
+                            </ul>
+                            <p class="mt-3">
+                                Разгледайте и други продукти от 
+                                <a href="{% url 'catalog:region_detail' city.region.slug %}">област {{ city.region.name }}</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Продукти от {{ city.name }}",
+  "description": "Местни производители и качествени продукти от {{ city.name }}, {{ city.region.name }}",
+  "url": "https://bghrana.com{% url 'catalog:city_detail' city.region.slug city.slug %}",
+  "numberOfItems": {{ page_obj.paginator.count }}
+}
+</script>
 {% endblock %}

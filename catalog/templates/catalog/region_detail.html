@@ -100,6 +100,49 @@
             <a href="{% url 'catalog:product_list' %}" class="btn btn-success">Виж всички продукти</a>
         </div>
         {% endif %}
+
+        <!-- SEO Content Section -->
+        <div class="row my-5">
+            <div class="col-lg-10 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="h3 mb-4">Местни производители от {{ region.name }}</h2>
+                        <div class="seo-content" style="line-height: 1.8; font-size: 1.05rem;">
+                            <p>
+                                Област {{ region.name }} е известна със своите качествени местни производители на храни. 
+                                На платформата БГ Храна можете да намерите богат избор от продукти, произведени директно 
+                                от фермери и производители от {{ region.name }}.
+                            </p>
+                            <p>
+                                Купувайки от местни производители от {{ region.name }}, вие подкрепяте регионалната икономика 
+                                и получавате най-свежи продукти, без излишни посредници. Всички обяви са проверени и актуализирани.
+                            </p>
+                            <p class="mt-4">
+                                <strong>Предимства при покупка от {{ region.name }}:</strong>
+                            </p>
+                            <ul>
+                                <li>Местни производители с дългогодишен опит</li>
+                                <li>Кратки доставки и свежест на продуктите</li>
+                                <li>Подкрепа за местната общност</li>
+                                <li>Екологично отговорно производство</li>
+                                <li>Директна комуникация с производителя</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Продукти от {{ region.name }}",
+  "description": "Местни производители и качествени продукти от област {{ region.name }}",
+  "url": "https://bghrana.com{% url 'catalog:region_detail' region.slug %}",
+  "numberOfItems": {{ page_obj.paginator.count }}
+}
+</script>
 {% endblock %}
