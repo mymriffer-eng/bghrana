@@ -355,22 +355,68 @@
                     📍 Производители от цяла България
                 </p>
                 <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a href="#filter-section" class="btn btn-success btn-lg hero-btn" style="background-color: #0dd843; border: none;">
-                        🟢 Разгледай продукти
-                    </a>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'catalog:product_create' %}" class="btn btn-warning btn-lg hero-btn">
-                            🟠 Публикувай обява
+                    <div class="text-center">
+                        <a href="#filter-section" class="btn btn-success btn-lg hero-btn" style="background-color: #0dd843; border: none;">
+                            🟢 Разгледай продукти
                         </a>
-                    {% else %}
-                        <a href="{% url 'account_login' %}" class="btn btn-warning btn-lg hero-btn">
-                            🟠 Публикувай обява
-                        </a>
-                    {% endif %}
+                        <p class="mt-2 mb-0" style="font-size: 0.9rem; color: rgba(255,255,255,0.85); text-shadow: 1px 1px 4px rgba(0,0,0,0.6);">
+                            Виж обяви от хора от твоя район
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'catalog:product_create' %}" class="btn btn-warning btn-lg hero-btn">
+                                🟠 Публикувай обява
+                            </a>
+                        {% else %}
+                            <a href="{% url 'account_login' %}" class="btn btn-warning btn-lg hero-btn">
+                                🟠 Публикувай обява
+                            </a>
+                        {% endif %}
+                        <p class="mt-2 mb-0" style="font-size: 0.9rem; color: rgba(255,255,255,0.85); text-shadow: 1px 1px 4px rgba(0,0,0,0.6);">
+                            Качи обява за 2 минути – безплатно
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- How It Works Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: #212529; font-weight: 700;">Как работи</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="text-center p-4">
+                        <div class="mb-3" style="font-size: 3rem;">1️⃣</div>
+                        <h5 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Регистрация</h5>
+                        <p style="color: #666; line-height: 1.6;">
+                            Създаваш акаунт с имейл или Google за под минута.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center p-4">
+                        <div class="mb-3" style="font-size: 3rem;">2️⃣</div>
+                        <h5 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Публикуване на обява</h5>
+                        <p style="color: #666; line-height: 1.6;">
+                            Добавяш снимка, описание и цена.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center p-4">
+                        <div class="mb-3" style="font-size: 3rem;">3️⃣</div>
+                        <h5 class="mb-3" style="color: var(--primary-color); font-weight: 600;">Директен контакт</h5>
+                        <p style="color: #666; line-height: 1.6;">
+                            Заинтересованите хора се свързват с теб директно.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- PWA Install Banner -->
     <div id="installBanner" class="pwa-install-banner" style="display: none;">
