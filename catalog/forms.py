@@ -132,7 +132,7 @@ class ProductForm(forms.ModelForm):
         }
         help_texts = {
             'description': 'Максимум 500 символа',
-            'price': 'Цена в Евро',
+            'price': 'Цена в € (евро)',
             'phone': 'Телефонен номер за контакт (опционално)',
             'babh_number': 'Регистрационен номер в БАБХ (опционално)',
             'seller_type': 'Изберете типа на продавача',

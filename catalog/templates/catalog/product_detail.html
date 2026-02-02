@@ -16,15 +16,15 @@
     </script>
     
     <!-- SEO Meta Tags -->
-    <title>{% if product.meta_title %}{{ product.meta_title }}{% else %}{{ product.title }} - {{ product.price }} Евро | БГ Храна{% endif %}</title>
-    <meta name="description" content="{% if product.meta_description %}{{ product.meta_description }}{% else %}{{ product.title }} - {{ product.description|truncatewords:20 }}. Цена: {{ product.price }} Евро. Купете от {{ product.owner.username }} в {{ product.city }}.{% endif %}">
+    <title>{% if product.meta_title %}{{ product.meta_title }}{% else %}{{ product.title }} - {{ product.price }} € | БГ Храна{% endif %}</title>
+    <meta name="description" content="{% if product.meta_description %}{{ product.meta_description }}{% else %}{{ product.title }} - {{ product.description|truncatewords:20 }}. Цена: {{ product.price }} €. Купете от {{ product.owner.username }} в {{ product.city }}.{% endif %}">
     <meta name="keywords" content="{% if product.meta_keywords %}{{ product.meta_keywords }}{% else %}{{ product.title }}, {{ product.category.name }}, {{ product.city }}, българска храна, био продукти{% endif %}">
     <link rel="canonical" href="https://bghrana.com{% url 'catalog:product_detail' product.id %}">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="product">
     <meta property="og:url" content="https://bghrana.com{% url 'catalog:product_detail' product.id %}">
-    <meta property="og:title" content="{% if product.meta_title %}{{ product.meta_title }}{% else %}{{ product.title }} - {{ product.price }} Евро{% endif %}">
+    <meta property="og:title" content="{% if product.meta_title %}{{ product.meta_title }}{% else %}{{ product.title }} - {{ product.price }} €{% endif %}">
     <meta property="og:description" content="{% if product.meta_description %}{{ product.meta_description }}{% else %}{{ product.description|truncatewords:30 }}{% endif %}">
     <meta property="og:image" content="{% if product.images.first %}https://bghrana.com{{ product.images.first.image.url }}{% else %}https://bghrana.com/static/logo.jpg{% endif %}">
     <meta property="og:locale" content="bg_BG">
@@ -32,7 +32,7 @@
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ product.title }} - {{ product.price }} Евро">
+    <meta name="twitter:title" content="{{ product.title }} - {{ product.price }} €">
     <meta name="twitter:description" content="{{ product.description|truncatewords:30 }}">
     <meta name="twitter:image" content="{% if product.images.first %}https://bghrana.com{{ product.images.first.image.url }}{% else %}https://bghrana.com/static/logo.jpg{% endif %}">
     
@@ -265,7 +265,7 @@
             <div class="col-lg-6">
                 <span class="category-badge">{{ product.category.name }}</span>
                 <h1 class="product-title mb-3">{{ product.title }}</h1>
-                <div class="price">{{ product.price }} Евро</div>
+                <div class="price">{{ product.price }} €</div>
 
                 <div class="info-box">
                     <h5 class="mb-3">Описание:</h5>
@@ -364,7 +364,7 @@
                             {% else %}<div style="width: 100%; height: 150px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center;"><span style="font-size: 32px; color: #ccc;">📦</span></div>{% endif %}
                             <div class="card-body">
                                 <h5 class="card-title text-dark">{{ p.title }}</h5>
-                                <div style="color: #0dd843; font-weight: bold;">{{ p.price }} Евро</div>
+                                <div style="color: #0dd843; font-weight: bold;">{{ p.price }} €</div>
                             </div>
                         </div>
                     </a>

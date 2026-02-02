@@ -851,7 +851,7 @@
                                 <span class="category-badge">{{ product.category.name }}</span>
                                 <h5 class="card-title">{{ product.title }}</h5>
                                 <p class="card-text small">{{ product.description|truncatewords:8 }}</p>
-                                <div class="price">{{ product.price }} Евро</div>
+                                <div class="price">{{ product.price }} €</div>
                                 {% if product.city %}<p class="card-text small" style="opacity: 0.7;">📍 {{ product.city.name }}, {{ product.city.region.name }}</p>{% endif %}
                             </div>
                             <div class="card-footer border-0" style="background-color: rgba(0,0,0,0.05);">
