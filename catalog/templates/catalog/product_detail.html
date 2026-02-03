@@ -6,11 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-28QJH2HNLC"></script>
+    <!-- Google Consent Mode v2 -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      
+      // Default consent state (denied until user accepts)
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'wait_for_update': 500
+      });
+      
+      // Check if user already gave consent
+      if (localStorage.getItem('cookie_consent') === 'true') {
+        gtag('consent', 'update', {
+          'analytics_storage': 'granted'
+        });
+      }
+    </script>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-28QJH2HNLC"></script>
+    <script>
       gtag('js', new Date());
       gtag('config', 'G-28QJH2HNLC');
     </script>
