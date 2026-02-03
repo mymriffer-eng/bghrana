@@ -36,13 +36,6 @@
       }
     </script>
     
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-28QJH2HNLC"></script>
-    <script>
-      gtag('js', new Date());
-      gtag('config', 'G-28QJH2HNLC');
-    </script>
-    
     <!-- SEO Meta Tags -->
     <title>{% if product.meta_title %}{{ product.meta_title }}{% else %}{{ product.title }} - {{ product.price }} € | БГ Храна{% endif %}</title>
     <meta name="description" content="{% if product.meta_description %}{{ product.meta_description }}{% else %}{{ product.title }} - {{ product.description|truncatewords:20 }}. Цена: {{ product.price }} €. Купете от {{ product.owner.username }} в {{ product.city }}.{% endif %}">
