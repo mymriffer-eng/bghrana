@@ -104,6 +104,23 @@ class ProductListView(ListView):
                 except (Region.DoesNotExist, ValueError):
                     pass
         
+        # Combined category + city redirect
+        elif len(params) == 2 or (len(params) == 3 and 'page' in params):
+            cat_id = category_id if category_id else parent_category_id
+            if cat_id and city_id:
+                try:
+                    category = Category.objects.get(id=cat_id)
+                    city = City.objects.get(id=city_id)
+                    if category.slug and city.slug:
+                        # Build new URL: /category-slug/city-slug/
+                        new_url = f"/{category.slug}/{city.slug}/"
+                        # Preserve page parameter if present
+                        if 'page' in params:
+                            new_url += f"?page={params['page']}"
+                        return HttpResponsePermanentRedirect(new_url)
+                except (Category.DoesNotExist, City.DoesNotExist, ValueError):
+                    pass
+        
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -202,6 +219,126 @@ class ProductListView(ListView):
         context['sells_to_choices'] = Product.SELLS_TO_CHOICES
         context['search_query'] = self.request.GET.get('search', '')
         context['sort_by'] = self.request.GET.get('sort', '-created_at')
+        return context
+
+
+class CategoryCityProductListView(ListView):
+    """
+    SEO-friendly URL view for combined category + city filters.
+    Handles URLs like: /meso/sofia/ instead of ?parent_category=123&city=456
+    """
+    model = Product
+    template_name = 'catalog/product_list.html'
+    context_object_name = 'products'
+    paginate_by = 12
+
+    def get_queryset(self):
+        from django.utils import timezone
+        from django.db.models import Q
+        from django.db.models.functions import Lower
+        from django.http import Http404
+        
+        # Get category and city from URL slugs
+        category_slug = self.kwargs.get('category_slug')
+        city_slug = self.kwargs.get('city_slug')
+        
+        # Look up category by slug
+        try:
+            category = Category.objects.get(slug=category_slug)
+        except Category.DoesNotExist:
+            raise Http404(f"Категория '{category_slug}' не съществува")
+        
+        # Look up city by slug
+        try:
+            city = City.objects.get(slug=city_slug)
+        except City.DoesNotExist:
+            raise Http404(f"Град '{city_slug}' не съществува")
+        
+        # Store for use in context
+        self.category = category
+        self.city = city
+        
+        # Filter active products within 30 days
+        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        queryset = Product.objects.filter(is_active=True, created_at__gte=expiry_date)
+        
+        # Apply category filter (check if parent or subcategory)
+        if category.is_parent():
+            # Main category - filter by all subcategories
+            subcategories = Category.objects.filter(parent=category)
+            queryset = queryset.filter(category__in=subcategories)
+        else:
+            # Subcategory - filter directly
+            queryset = queryset.filter(category=category)
+        
+        # Apply city filter
+        queryset = queryset.filter(city=city)
+        
+        # Search query (optional)
+        search_query = self.request.GET.get('search', '').strip()
+        if search_query:
+            search_lower = search_query.lower()
+            queryset = queryset.annotate(
+                title_lower=Lower('title'),
+                description_lower=Lower('description')
+            ).filter(
+                Q(title_lower__contains=search_lower) | 
+                Q(description_lower__contains=search_lower)
+            )
+        
+        # Seller type filter (optional)
+        seller_type = self.request.GET.get('seller_type')
+        if seller_type:
+            queryset = queryset.filter(seller_type=seller_type)
+        
+        # Sells to filter (optional)
+        sells_to = self.request.GET.getlist('sells_to')
+        if sells_to:
+            from django.db.models import Q
+            sells_to_filter = Q()
+            for option in sells_to:
+                sells_to_filter |= Q(sells_to__contains=[option])
+            queryset = queryset.filter(sells_to_filter)
+        
+        # Sorting
+        sort_by = self.request.GET.get('sort', '-created_at')
+        valid_sorts = {
+            '-created_at': '-created_at',
+            'created_at': 'created_at',
+            'price': 'price',
+            '-price': '-price'
+        }
+        
+        if sort_by in valid_sorts:
+            queryset = queryset.order_by(valid_sorts[sort_by])
+        
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Add filter dropdowns data
+        context['categories'] = Category.objects.filter(parent__isnull=True)
+        context['regions'] = Region.objects.all()
+        
+        # Pre-select current category and city
+        context['selected_category'] = self.category.id if not self.category.is_parent() else None
+        context['selected_parent_category'] = self.category.parent.id if self.category.parent else self.category.id
+        context['selected_city'] = self.city.id
+        context['selected_region'] = self.city.region.id
+        
+        # Other context data
+        context['selected_seller_type'] = self.request.GET.get('seller_type')
+        context['selected_sells_to'] = self.request.GET.getlist('sells_to')
+        context['seller_type_choices'] = Product.SELLER_TYPE_CHOICES
+        context['sells_to_choices'] = Product.SELLS_TO_CHOICES
+        context['search_query'] = self.request.GET.get('search', '')
+        context['sort_by'] = self.request.GET.get('sort', '-created_at')
+        
+        # SEO metadata
+        context['page_title'] = f"{self.category.name} - {self.city.name}"
+        context['page_description'] = f"Обяви за {self.category.name.lower()} в {self.city.name}. Намерете продукти и услуги във вашия град."
+        
         return context
 
 
