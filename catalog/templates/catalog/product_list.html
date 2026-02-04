@@ -751,8 +751,9 @@
                         const categoryId = this.value;
                         subcategorySelect.innerHTML = '<option value="">Всички подкатегории</option>';
                         
-                        // Update custom dropdown - find by wrapper and custom-select
-                        const subcatWrapper = document.getElementById('subcategory-filter-select').closest('.custom-select-wrapper');
+                        // Find custom dropdown elements directly by label (subcategory wrapper)
+                        const subcatLabel = document.querySelector('label[for="subcategory-filter-select"]');
+                        const subcatWrapper = subcatLabel.nextElementSibling;
                         const customSubcatSelect = subcatWrapper.querySelector('.custom-select');
                         const customSubcatOptions = subcatWrapper.querySelector('.custom-options');
                         const customSubcatText = customSubcatSelect.querySelector('.custom-select-text');
@@ -817,8 +818,9 @@
                         const regionId = this.value;
                         citySelect.innerHTML = '<option value="">Всички градове</option>';
                         
-                        // Update custom dropdown - find by wrapper and custom-select
-                        const cityWrapper = document.getElementById('city-select').closest('.custom-select-wrapper');
+                        // Find custom dropdown elements directly by label (city wrapper)
+                        const cityLabel = document.querySelector('label[for="city-select"]');
+                        const cityWrapper = cityLabel.nextElementSibling;
                         const customCitySelect = cityWrapper.querySelector('.custom-select');
                         const customCityOptions = cityWrapper.querySelector('.custom-options');
                         const customCityText = customCitySelect.querySelector('.custom-select-text');
