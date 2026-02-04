@@ -753,7 +753,23 @@
                         
                         // Update custom dropdown
                         const customSubcatOptions = document.querySelector('[data-select="subcategory-filter-select"]').closest('.custom-select-wrapper').querySelector('.custom-options');
-                        customSubcatOptions.innerHTML = '<div class="custom-option" data-value="">Всички подкатегории</div>';
+                        customSubcatOptions.innerHTML = '';
+                        
+                        // Add "All" option with event listener
+                        const allOption = document.createElement('div');
+                        allOption.className = 'custom-option';
+                        allOption.dataset.value = '';
+                        allOption.textContent = 'Всички подкатегории';
+                        allOption.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            customSubcatOptions.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+                            allOption.classList.add('selected');
+                            document.querySelector('[data-select="subcategory-filter-select"] .custom-select-text').textContent = 'Всички подкатегории';
+                            subcategorySelect.value = '';
+                            customSubcatOptions.classList.remove('show');
+                            document.querySelector('[data-select="subcategory-filter-select"]').classList.remove('active');
+                        });
+                        customSubcatOptions.appendChild(allOption);
                         document.querySelector('[data-select="subcategory-filter-select"] .custom-select-text').textContent = 'Всички подкатегории';
                         
                         if(!categoryId) return;
@@ -799,7 +815,23 @@
                         
                         // Update custom dropdown
                         const customCityOptions = document.querySelector('[data-select="city-select"]').closest('.custom-select-wrapper').querySelector('.custom-options');
-                        customCityOptions.innerHTML = '<div class="custom-option" data-value="">Всички градове</div>';
+                        customCityOptions.innerHTML = '';
+                        
+                        // Add "All" option with event listener
+                        const allOption = document.createElement('div');
+                        allOption.className = 'custom-option';
+                        allOption.dataset.value = '';
+                        allOption.textContent = 'Всички градове';
+                        allOption.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            customCityOptions.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+                            allOption.classList.add('selected');
+                            document.querySelector('[data-select="city-select"] .custom-select-text').textContent = 'Всички градове';
+                            citySelect.value = '';
+                            customCityOptions.classList.remove('show');
+                            document.querySelector('[data-select="city-select"]').classList.remove('active');
+                        });
+                        customCityOptions.appendChild(allOption);
                         document.querySelector('[data-select="city-select"] .custom-select-text').textContent = 'Всички градове';
                         
                         if(!regionId) return;
