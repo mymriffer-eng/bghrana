@@ -9,10 +9,6 @@ urlpatterns = [
     path('', views.ProductListView.as_view(), name='product_list'),
     path('category-redirect/', views.category_redirect, name='category_redirect'),
     path('product/<int:pk>/', views.ProductDetailView.as_view(), name='product_detail'),
-    
-    # Combined category + city filters (must be before individual category/region URLs)
-    path('<slug:category_slug>/<slug:city_slug>/', views.CategoryCityProductListView.as_view(), name='category_city_list'),
-    
     path('category/<slug:slug>/', views.CategoryDetailView.as_view(), name='category_detail'),
     path('region/<slug:slug>/', views.RegionDetailView.as_view(), name='region_detail'),
     path('region/<slug:region_slug>/<slug:slug>/', views.CityDetailView.as_view(), name='city_detail'),
@@ -42,4 +38,7 @@ urlpatterns = [
     
     # Dynamic SEO Pages (трябва да е накрая за да не пречи на другите URL-и)
     path('<slug:slug>/', views.seo_page, name='seo_page'),
+    
+    # Combined category + city filters (MUST be last - catch-all pattern)
+    path('<slug:category_slug>/<slug:city_slug>/', views.CategoryCityProductListView.as_view(), name='category_city_list'),
 ]

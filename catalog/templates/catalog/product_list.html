@@ -751,8 +751,12 @@
                         const categoryId = this.value;
                         subcategorySelect.innerHTML = '<option value="">Всички подкатегории</option>';
                         
-                        // Update custom dropdown
-                        const customSubcatOptions = document.querySelector('[data-select="subcategory-filter-select"]').closest('.custom-select-wrapper').querySelector('.custom-options');
+                        // Update custom dropdown - find by wrapper and custom-select
+                        const subcatWrapper = document.getElementById('subcategory-filter-select').closest('.custom-select-wrapper');
+                        const customSubcatSelect = subcatWrapper.querySelector('.custom-select');
+                        const customSubcatOptions = subcatWrapper.querySelector('.custom-options');
+                        const customSubcatText = customSubcatSelect.querySelector('.custom-select-text');
+                        
                         customSubcatOptions.innerHTML = '';
                         
                         // Add "All" option with event listener
@@ -764,13 +768,13 @@
                             e.stopPropagation();
                             customSubcatOptions.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
                             allOption.classList.add('selected');
-                            document.querySelector('[data-select="subcategory-filter-select"] .custom-select-text').textContent = 'Всички подкатегории';
+                            customSubcatText.textContent = 'Всички подкатегории';
                             subcategorySelect.value = '';
                             customSubcatOptions.classList.remove('show');
-                            document.querySelector('[data-select="subcategory-filter-select"]').classList.remove('active');
+                            customSubcatSelect.classList.remove('active');
                         });
                         customSubcatOptions.appendChild(allOption);
-                        document.querySelector('[data-select="subcategory-filter-select"] .custom-select-text').textContent = 'Всички подкатегории';
+                        customSubcatText.textContent = 'Всички подкатегории';
                         
                         if(!categoryId) return;
                         fetch(apiSubcategoriesUrl + '?category=' + categoryId)
@@ -792,16 +796,16 @@
                                     customOpt.textContent = sc.name;
                                     if(sc.id == selectedCategoryId) {
                                         customOpt.classList.add('selected');
-                                        document.querySelector('[data-select="subcategory-filter-select"] .custom-select-text').textContent = sc.name;
+                                        customSubcatText.textContent = sc.name;
                                     }
                                     customOpt.addEventListener('click', (e) => {
                                         e.stopPropagation();
                                         customSubcatOptions.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
                                         customOpt.classList.add('selected');
-                                        document.querySelector('[data-select="subcategory-filter-select"] .custom-select-text').textContent = sc.name;
+                                        customSubcatText.textContent = sc.name;
                                         subcategorySelect.value = sc.id;
                                         customSubcatOptions.classList.remove('show');
-                                        document.querySelector('[data-select="subcategory-filter-select"]').classList.remove('active');
+                                        customSubcatSelect.classList.remove('active');
                                     });
                                     customSubcatOptions.appendChild(customOpt);
                                 });
@@ -813,8 +817,12 @@
                         const regionId = this.value;
                         citySelect.innerHTML = '<option value="">Всички градове</option>';
                         
-                        // Update custom dropdown
-                        const customCityOptions = document.querySelector('[data-select="city-select"]').closest('.custom-select-wrapper').querySelector('.custom-options');
+                        // Update custom dropdown - find by wrapper and custom-select
+                        const cityWrapper = document.getElementById('city-select').closest('.custom-select-wrapper');
+                        const customCitySelect = cityWrapper.querySelector('.custom-select');
+                        const customCityOptions = cityWrapper.querySelector('.custom-options');
+                        const customCityText = customCitySelect.querySelector('.custom-select-text');
+                        
                         customCityOptions.innerHTML = '';
                         
                         // Add "All" option with event listener
@@ -826,13 +834,13 @@
                             e.stopPropagation();
                             customCityOptions.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
                             allOption.classList.add('selected');
-                            document.querySelector('[data-select="city-select"] .custom-select-text').textContent = 'Всички градове';
+                            customCityText.textContent = 'Всички градове';
                             citySelect.value = '';
                             customCityOptions.classList.remove('show');
-                            document.querySelector('[data-select="city-select"]').classList.remove('active');
+                            customCitySelect.classList.remove('active');
                         });
                         customCityOptions.appendChild(allOption);
-                        document.querySelector('[data-select="city-select"] .custom-select-text').textContent = 'Всички градове';
+                        customCityText.textContent = 'Всички градове';
                         
                         if(!regionId) return;
                         fetch(apiCitiesUrl + '?region=' + regionId)
@@ -854,16 +862,16 @@
                                     customOpt.textContent = c.name;
                                     if(c.id == selectedCityId) {
                                         customOpt.classList.add('selected');
-                                        document.querySelector('[data-select="city-select"] .custom-select-text').textContent = c.name;
+                                        customCityText.textContent = c.name;
                                     }
                                     customOpt.addEventListener('click', (e) => {
                                         e.stopPropagation();
                                         customCityOptions.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
                                         customOpt.classList.add('selected');
-                                        document.querySelector('[data-select="city-select"] .custom-select-text').textContent = c.name;
+                                        customCityText.textContent = c.name;
                                         citySelect.value = c.id;
                                         customCityOptions.classList.remove('show');
-                                        document.querySelector('[data-select="city-select"]').classList.remove('active');
+                                        customCitySelect.classList.remove('active');
                                     });
                                     customCityOptions.appendChild(customOpt);
                                 });
