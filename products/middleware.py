@@ -13,11 +13,11 @@ class SecurityHeadersMiddleware:
         # Content-Security-Policy - защита от XSS атаки
         response['Content-Security-Policy'] = (
             "default-src 'self'; "
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://accounts.google.com https://apis.google.com; "
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://accounts.google.com https://apis.google.com https://www.googletagmanager.com; "
             "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; "
             "img-src 'self' data: https: blob:; "
             "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; "
-            "connect-src 'self' https://accounts.google.com; "
+            "connect-src 'self' https://accounts.google.com https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com; "
             "frame-src https://accounts.google.com; "
             "object-src 'none'; "
             "base-uri 'self'; "
