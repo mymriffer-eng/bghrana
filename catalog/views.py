@@ -355,6 +355,7 @@ class CategoryCityProductListView(ListView):
         # SEO metadata
         context['page_title'] = f"{self.category.name} - {self.city.name}"
         context['page_description'] = f"Обяви за {self.category.name.lower()} в {self.city.name}. Намерете продукти и услуги във вашия град."
+        context['canonical_url'] = f"https://bghrana.com/{self.category.slug}/{self.city.slug}/"
         
         return context
 
@@ -476,6 +477,7 @@ class CategoryRegionProductListView(ListView):
         # SEO metadata
         context['page_title'] = f"{self.category.name} - {self.region.name}"
         context['page_description'] = f"Обяви за {self.category.name.lower()} в {self.region.name}. Намерете продукти и услуги в областта."
+        context['canonical_url'] = f"https://bghrana.com/{self.category.slug}/region/{self.region.slug}/"
         
         return context
 
