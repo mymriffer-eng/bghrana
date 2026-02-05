@@ -338,11 +338,11 @@ class CategoryCityProductListView(ListView):
         context['categories'] = Category.objects.filter(parent__isnull=True)
         context['regions'] = Region.objects.all()
         
-        # Pre-select current category and city
-        context['selected_category'] = self.category.id if not self.category.is_parent() else None
-        context['selected_parent_category'] = self.category.parent.id if self.category.parent else self.category.id
-        context['selected_city'] = self.city.id
-        context['selected_region'] = self.city.region.id
+        # Pre-select current category and city (convert to string for template comparison)
+        context['selected_category'] = str(self.category.id) if not self.category.is_parent() else None
+        context['selected_parent_category'] = str(self.category.parent.id) if self.category.parent else str(self.category.id)
+        context['selected_city'] = str(self.city.id)
+        context['selected_region'] = str(self.city.region.id)
         
         # Other context data
         context['selected_seller_type'] = self.request.GET.get('seller_type')
@@ -459,10 +459,10 @@ class CategoryRegionProductListView(ListView):
         context['categories'] = Category.objects.filter(parent__isnull=True)
         context['regions'] = Region.objects.all()
         
-        # Pre-select current category and region
-        context['selected_category'] = self.category.id if not self.category.is_parent() else None
-        context['selected_parent_category'] = self.category.parent.id if self.category.parent else self.category.id
-        context['selected_region'] = self.region.id
+        # Pre-select current category and region (convert to string for template comparison)
+        context['selected_category'] = str(self.category.id) if not self.category.is_parent() else None
+        context['selected_parent_category'] = str(self.category.parent.id) if self.category.parent else str(self.category.id)
+        context['selected_region'] = str(self.region.id)
         context['selected_city'] = None
         
         # Other context data

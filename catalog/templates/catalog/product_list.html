@@ -523,7 +523,7 @@
 
             <div class="filter-section" id="filter-section">
             <h5 class="mb-3">Филтриране на продукти:</h5>
-            <form id="filter-form" method="get" onsubmit="removeEmptyParams(event)">
+            <form id="filter-form" method="get" action="{% url 'catalog:product_list' %}" onsubmit="removeEmptyParams(event)">
                 <!-- Ред 1: Категория и Подкатегория -->
                 <div class="row g-3 mb-3">
                     <!-- Категория -->
