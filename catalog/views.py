@@ -54,7 +54,7 @@ class ProductListView(ListView):
     paginate_by = 12
 
     def get(self, request, *args, **kwargs):
-        """Redirect to category/region/city page if only one filter is used without other filters."""
+        """Redirect query param URLs to SEO-friendly slug-based URLs."""
         from django.http import HttpResponsePermanentRedirect
         
         # Check filters
@@ -63,63 +63,64 @@ class ProductListView(ListView):
         region_id = request.GET.get('region')
         city_id = request.GET.get('city')
         
-        # Count meaningful GET parameters (excluding empty ones)
-        params = {k: v for k, v in request.GET.items() if v}
+        # Get effective category (subcategory has priority)
+        cat_id = category_id if category_id else parent_category_id
         
-        # Remove parent_category from count if category (subcategory) is selected
-        if category_id and 'parent_category' in params:
-            params.pop('parent_category')
+        # Build filter params (exclude empty, page, sort, search, seller_type, sells_to)
+        filter_params = {k: v for k, v in request.GET.items() 
+                        if v and k not in ['page', 'sort', 'search', 'seller_type', 'sells_to']}
         
-        # Remove region from count if city is selected
-        if city_id and 'region' in params:
-            params.pop('region')
+        # Remove parent_category if category exists
+        if category_id and 'parent_category' in filter_params:
+            filter_params.pop('parent_category')
         
-        # Single filter redirects
-        if len(params) == 1:
-            # Category redirect
-            if parent_category_id or category_id:
-                cat_id = category_id if category_id else parent_category_id
-                try:
+        # Remove region if city exists
+        if city_id and 'region' in filter_params:
+            filter_params.pop('region')
+        
+        # Only redirect if there are location/category filters
+        if not filter_params:
+            return super().get(request, *args, **kwargs)
+        
+        try:
+            # Category + City combination
+            if cat_id and city_id:
+                category = Category.objects.get(id=cat_id)
+                city = City.objects.get(id=city_id)
+                if category.slug and city.slug:
+                    new_url = f"/{category.slug}/{city.slug}/"
+                    # Preserve other params (page, sort, search, etc.)
+                    query_params = []
+                    for key in ['page', 'sort', 'search', 'seller_type']:
+                        value = request.GET.get(key)
+                        if value:
+                            query_params.append(f"{key}={value}")
+                    if query_params:
+                        new_url += "?" + "&".join(query_params)
+                    return HttpResponsePermanentRedirect(new_url)
+            
+            # Single filter redirects (only if exactly one filter)
+            elif len(filter_params) == 1:
+                # Category only
+                if cat_id:
                     category = Category.objects.get(id=cat_id)
                     if category.slug:
                         return HttpResponsePermanentRedirect(category.get_absolute_url())
-                except (Category.DoesNotExist, ValueError):
-                    pass
-            
-            # City redirect
-            elif city_id:
-                try:
+                
+                # City only
+                elif city_id:
                     city = City.objects.get(id=city_id)
                     if city.slug and city.region.slug:
                         return HttpResponsePermanentRedirect(city.get_absolute_url())
-                except (City.DoesNotExist, ValueError):
-                    pass
-            
-            # Region redirect
-            elif region_id:
-                try:
+                
+                # Region only
+                elif region_id:
                     region = Region.objects.get(id=region_id)
                     if region.slug:
                         return HttpResponsePermanentRedirect(region.get_absolute_url())
-                except (Region.DoesNotExist, ValueError):
-                    pass
         
-        # Combined category + city redirect
-        elif len(params) == 2 or (len(params) == 3 and 'page' in params):
-            cat_id = category_id if category_id else parent_category_id
-            if cat_id and city_id:
-                try:
-                    category = Category.objects.get(id=cat_id)
-                    city = City.objects.get(id=city_id)
-                    if category.slug and city.slug:
-                        # Build new URL: /category-slug/city-slug/
-                        new_url = f"/{category.slug}/{city.slug}/"
-                        # Preserve page parameter if present
-                        if 'page' in params:
-                            new_url += f"?page={params['page']}"
-                        return HttpResponsePermanentRedirect(new_url)
-                except (Category.DoesNotExist, City.DoesNotExist, ValueError):
-                    pass
+        except (Category.DoesNotExist, City.DoesNotExist, Region.DoesNotExist, ValueError):
+            pass
         
         return super().get(request, *args, **kwargs)
 
