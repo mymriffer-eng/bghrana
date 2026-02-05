@@ -523,7 +523,7 @@
 
             <div class="filter-section" id="filter-section">
             <h5 class="mb-3">Филтриране на продукти:</h5>
-            <form id="filter-form" method="get">
+            <form id="filter-form" method="get" onsubmit="removeEmptyParams(event)">
                 <!-- Ред 1: Категория и Подкатегория -->
                 <div class="row g-3 mb-3">
                     <!-- Категория -->
@@ -733,6 +733,18 @@
                     url.searchParams.set('sort', this.value);
                     window.location.href = url.toString();
                 });
+                
+                // Remove empty parameters from form submission
+                function removeEmptyParams(event) {
+                    const form = event.target;
+                    const inputs = form.querySelectorAll('input, select');
+                    inputs.forEach(input => {
+                        // Remove empty values before submit
+                        if (!input.value || input.value === '') {
+                            input.removeAttribute('name');
+                        }
+                    });
+                }
                 
                 // Original filter script
                 (function(){
