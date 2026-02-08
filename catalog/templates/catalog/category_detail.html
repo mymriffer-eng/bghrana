@@ -5,6 +5,31 @@
 {% block meta_description %}{% if category.seo_description %}{{ category.seo_description }}{% else %}{{ category.name }} - Качествени продукти от категория {{ category.name }} директно от производителя{% endif %}{% endblock %}
 {% block canonical_url %}https://bghrana.com{% url 'catalog:category_detail' category.slug %}{% endblock %}
 
+{% block extra_css %}
+<style>
+.new-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 3px 10px rgba(255, 82, 82, 0.4);
+    z-index: 10;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid px-0">
     <!-- Hero Section -->
@@ -39,7 +64,10 @@
         <div class="row g-4 mb-5">
             {% for product in products %}
             <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="card product-card h-100 shadow-sm">
+                <div class="card product-card h-100 shadow-sm" style="position: relative;">
+                    {% if product.is_new %}
+                    <span class="new-badge">🆕 НОВА</span>
+                    {% endif %}
                     <a href="{% url 'catalog:product_detail' product.id %}" class="text-decoration-none">
                         {% if product.images.first %}
                         <img src="{{ product.images.first.image.url }}" 

@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обявата ти изтича скоро</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #0dd843 0%, #28a745 100%); padding: 30px; text-align: center;">
+                            <h1 style="color: white; margin: 0; font-size: 28px;">БГ Храна</h1>
+                            <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">bghrana.com</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 40px 30px;">
+                            <h2 style="color: #333; margin-top: 0; font-size: 24px;">⏰ Обявата ти изтича след {{ days_remaining }} дни!</h2>
+                            
+                            <p style="color: #666; font-size: 16px; line-height: 1.6;">
+                                Здравей, <strong>{{ user.first_name|default:user.username }}</strong>!
+                            </p>
+                            
+                            <p style="color: #666; font-size: 16px; line-height: 1.6;">
+                                Напомняме ти, че твоята обява <strong>"{{ product.title }}"</strong> ще бъде автоматично изтрита след <strong>{{ days_remaining }} дни</strong> (на {{ expiry_date|date:"d.m.Y" }}).
+                            </p>
+                            
+                            <!-- Product Card -->
+                            <div style="background: #f8f9fa; border-left: 4px solid #0dd843; padding: 20px; margin: 25px 0; border-radius: 5px;">
+                                <h3 style="margin: 0 0 10px 0; color: #0dd843; font-size: 18px;">{{ product.title }}</h3>
+                                <p style="margin: 5px 0; color: #666; font-size: 14px;"><strong>Категория:</strong> {{ product.category.name }}</p>
+                                <p style="margin: 5px 0; color: #666; font-size: 14px;"><strong>Цена:</strong> {{ product.price }} €</p>
+                                {% if product.city %}
+                                <p style="margin: 5px 0; color: #666; font-size: 14px;"><strong>Локация:</strong> {{ product.city.name }}, {{ product.city.region.name }}</p>
+                                {% endif %}
+                                <p style="margin: 5px 0; color: #666; font-size: 14px;"><strong>Публикувана:</strong> {{ product.created_at|date:"d.m.Y" }}</p>
+                            </div>
+                            
+                            <p style="color: #666; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+                                Ако все още предлагаш този продукт и искаш обявата да остане активна, можеш да:
+                            </p>
+                            
+                            <ul style="color: #666; font-size: 16px; line-height: 1.8; padding-left: 20px;">
+                                <li><strong>Редактираш обявата</strong> - Промени нещо в описанието или цената (това автоматично я актуализира)</li>
+                                <li><strong>Повторно я публикуваш</strong> - След изтичането можеш да създадеш нова обява със същата информация</li>
+                            </ul>
+                            
+                            <p style="text-align: center; margin: 30px 0;">
+                                <a href="{{ site_url }}{% url 'catalog:product_update' product.pk %}" style="display: inline-block; background: linear-gradient(135deg, #0dd843 0%, #28a745 100%); color: white; text-decoration: none; padding: 15px 40px; border-radius: 25px; font-size: 16px; font-weight: 600; box-shadow: 0 4px 10px rgba(13, 216, 67, 0.3);">
+                                    ✏️ Редактирай обява
+                                </a>
+                            </p>
+                            
+                            <p style="text-align: center; margin: 20px 0;">
+                                <a href="{{ site_url }}{% url 'catalog:user_ads' %}" style="color: #0dd843; text-decoration: none; font-size: 14px;">
+                                    📋 Виж всички мои обяви
+                                </a>
+                            </p>
+                            
+                            <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 30px 0;">
+                            
+                            <p style="color: #999; font-size: 14px; line-height: 1.6;">
+                                <strong>Защо получавам този имейл?</strong><br>
+                                Всички обяви на bghrana.com са активни 30 дни. Това напомня, че твоята обява приключва скоро.
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 20px 30px; text-align: center; border-top: 1px solid #e0e0e0;">
+                            <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">
+                                БГ Храна - Платформа за местни производители
+                            </p>
+                            <p style="margin: 0; color: #999; font-size: 12px;">
+                                <a href="{{ site_url }}" style="color: #0dd843; text-decoration: none;">bghrana.com</a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

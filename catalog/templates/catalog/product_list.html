@@ -161,6 +161,26 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
+        .new-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 3px 10px rgba(255, 82, 82, 0.4);
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
         .hero-section { background: linear-gradient(135deg, #0dd843 0%, #28a745 100%); color: white; padding: 60px 0; border-radius: 10px; margin-bottom: 40px; }
         .hero-section h1 { font-size: 48px; font-weight: bold; margin-bottom: 20px; }
         .filter-section { 
@@ -924,7 +944,10 @@
                 {% for product in products %}
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <a href="{% url 'catalog:product_detail' product.pk %}" style="text-decoration: none; color: inherit;">
-                        <div class="card product-card h-100">
+                        <div class="card product-card h-100" style="position: relative;">
+                            {% if product.is_new %}
+                            <span class="new-badge">🆕 НОВА</span>
+                            {% endif %}
                             {% if product.get_first_image %}<img src="{{ product.get_first_image.url }}" alt="{{ product.title }}" class="product-image" loading="lazy">
                             {% else %}<div class="product-image d-flex align-items-center justify-content-center"><span style="font-size: 48px; color: #ccc;">📦</span></div>{% endif %}
                             <div class="card-body">

@@ -124,6 +124,12 @@ class Product(models.Model):
     def is_expired(self):
         """Проверява дали обявата е изтекла"""
         return self.days_remaining() == 0
+    
+    def is_new(self):
+        """Проверява дали обявата е нова (публикувана в последните 48 часа)"""
+        from django.utils import timezone
+        age = timezone.now() - self.created_at
+        return age.total_seconds() < (48 * 60 * 60)  # 48 часа в секунди
 
 
 class ProductImage(models.Model):
