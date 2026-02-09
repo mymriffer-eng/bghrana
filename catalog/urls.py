@@ -29,6 +29,7 @@ urlpatterns = [
     path('profile/delete-account/', views.delete_account, name='delete_account'),
     path('contact/', views.contact, name='contact'),
     path('about/', views.about, name='about'),
+    path('za-proizvoditeli/', views.producers_landing, name='producers_landing'),
     path('terms/', views.terms, name='terms'),
     path('cookies/', views.cookie_policy, name='cookie_policy'),
     

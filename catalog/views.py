@@ -877,6 +877,11 @@ def about(request):
     return render(request, 'catalog/about.html')
 
 
+def producers_landing(request):
+    """Лендинг страница за производители"""
+    return render(request, 'catalog/producers_landing.html')
+
+
 def terms(request):
     """Общи условия"""
     return render(request, 'catalog/terms.html')
