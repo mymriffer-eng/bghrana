@@ -91,6 +91,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+    expiry_reminder_sent = models.BooleanField(default=False, verbose_name='Email напомняне изпратено')
     
     # SEO Fields
     meta_title = models.CharField(max_length=60, blank=True, null=True, verbose_name='SEO Заглавие', help_text='Оптимално: до 60 символа')

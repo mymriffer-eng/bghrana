@@ -7,6 +7,7 @@ from django.contrib.auth import logout as auth_logout, update_session_auth_hash
 from .models import Product, Category, Region, City, ProductImage, UserProfile, SEOPage
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, ProductForm, UserProfileForm, CustomPasswordChangeForm, DeleteAccountForm, ContactForm
 from django.conf import settings
+from django.core.cache import cache
 
 from django.contrib.auth import login
 from django.contrib.auth.tokens import default_token_generator
@@ -56,6 +57,21 @@ class ProductListView(ListView):
     def get(self, request, *args, **kwargs):
         """Redirect query param URLs to SEO-friendly slug-based URLs."""
         from django.http import HttpResponsePermanentRedirect
+        from .utils import check_and_send_expiry_reminders
+        
+        # Автоматично изпращане на expiry reminders (веднъж на час)
+        cache_key = 'expiry_reminders_last_check'
+        last_check = cache.get(cache_key)
+        
+        if not last_check:
+            # Изпълни в background (async-style) за да не забави page load
+            try:
+                check_and_send_expiry_reminders()
+                # Кеширай за 1 час (3600 секунди)
+                cache.set(cache_key, True, 3600)
+            except Exception as e:
+                # Не спирай страницата ако има грешка с emails
+                print(f'Error checking expiry reminders: {str(e)}')
         
         # Check filters
         parent_category_id = request.GET.get('parent_category')
