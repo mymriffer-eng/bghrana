@@ -274,4 +274,42 @@
 }
 </style>
 
+<!-- GA4 Landing Page Tracking -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Push landing page view event to dataLayer
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    'event': 'producers_landing_view',
+    'page_title': 'Производители на храна — публикувайте обяви',
+    'page_location': window.location.href,
+    'page_path': window.location.pathname
+  });
+  
+  // Track CTA button clicks
+  document.querySelectorAll('a[href*="product_create"], a[href*="register"]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      window.dataLayer.push({
+        'event': 'cta_click',
+        'cta_type': 'registration',
+        'cta_text': this.textContent.trim(),
+        'cta_location': 'producers_landing'
+      });
+    });
+  });
+  
+  // Track Messenger button clicks
+  document.querySelectorAll('a[href*="m.me"]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      window.dataLayer.push({
+        'event': 'cta_click',
+        'cta_type': 'messenger_contact',
+        'cta_text': this.textContent.trim(),
+        'cta_location': 'producers_landing'
+      });
+    });
+  });
+});
+</script>
+
 {% endblock %}
