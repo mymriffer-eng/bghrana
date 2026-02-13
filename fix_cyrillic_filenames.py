@@ -8,7 +8,6 @@ import os
 import sys
 import django
 import re
-from transliterate import translit
 
 # Setup Django
 os.chdir('/home/bghranac/repositories/bghrana')
