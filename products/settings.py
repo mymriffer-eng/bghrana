@@ -230,3 +230,6 @@ PREPEND_WWW = False  # Премахва www от URL-ите
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Заглушаване на MariaDB warnings за allauth unique constraints
+SILENCED_SYSTEM_CHECKS = ['models.W036']
