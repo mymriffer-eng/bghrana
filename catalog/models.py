@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+import re
+import os
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -133,9 +135,42 @@ class Product(models.Model):
         return age.total_seconds() < (48 * 60 * 60)  # 48 часа в секунди
 
 
+# Транслитерационна таблица за автоматично преобразуване на кирилски имена
+CYRILLIC_TO_LATIN = {
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ж': 'zh', 'з': 'z',
+    'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p',
+    'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch',
+    'ш': 'sh', 'щ': 'sht', 'ъ': 'a', 'ь': 'y', 'ю': 'yu', 'я': 'ya',
+    'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ж': 'Zh', 'З': 'Z',
+    'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P',
+    'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'H', 'Ц': 'Ts', 'Ч': 'Ch',
+    'Ш': 'Sh', 'Щ': 'Sht', 'Ъ': 'A', 'Ь': 'Y', 'Ю': 'Yu', 'Я': 'Ya'
+}
+
+def transliterate_filename(filename):
+    """Транслитерира кирилско име на файл на латиница"""
+    name, ext = os.path.splitext(filename)
+    # Преобразувай всяка буква
+    transliterated = ''.join(CYRILLIC_TO_LATIN.get(char, char) for char in name)
+    # Почисти специални символи (освен - и _)
+    transliterated = re.sub(r'[^\w\-_]', '_', transliterated)
+    return transliterated + ext
+
+def product_image_upload_path(instance, filename):
+    """Custom upload path с автоматично транслитериране на кирилски имена"""
+    # Транслитерирай името на файла
+    safe_filename = transliterate_filename(filename)
+    return f'products/{safe_filename}'
+
+def profile_image_upload_path(instance, filename):
+    """Custom upload path за профилни снимки с автоматично транслитериране"""
+    safe_filename = transliterate_filename(filename)
+    return f'profiles/{safe_filename}'
+
+
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='products/')
+    image = models.ImageField(upload_to=product_image_upload_path)
     order = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
@@ -147,7 +182,7 @@ class ProductImage(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
-    profile_image = models.ImageField(upload_to='profiles/', blank=True, null=True)
+    profile_image = models.ImageField(upload_to=profile_image_upload_path, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
