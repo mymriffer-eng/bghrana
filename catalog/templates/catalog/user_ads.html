@@ -22,8 +22,8 @@
     50% { transform: scale(1.05); }
 }
 .expiry-badge {
-    background-color: #ffc107;
-    color: #333;
+    background-color: #28a745;
+    color: white;
     padding: 0.3rem 0.6rem;
     border-radius: 15px;
     font-size: 0.75rem;
@@ -32,42 +32,119 @@
     margin-top: 0.5rem;
 }
 .expiry-soon {
+    background-color: #ffc107;
+    color: #333;
+}
+.expiry-expired {
     background-color: #dc3545;
     color: white;
+}
+.expired-card {
+    opacity: 0.7;
+    border: 2px solid #dc3545;
+}
+.stats-box {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+.stats-box h4 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+.stats-box .stats-numbers {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+.stats-box .stat-item {
+    text-align: center;
+}
+.stats-box .stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+}
+.stats-box .stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
 }
 </style>
 <div class="container mt-5">
   <h2>Моите обяви</h2>
-  <a href="{% url 'catalog:product_create' %}" class="btn btn-success mb-3">Нова обява</a>
+  
+  <!-- Статистика -->
+  <div class="stats-box">
+    <h4>📊 Статистика</h4>
+    <div class="stats-numbers">
+      <div class="stat-item">
+        <div class="stat-number">{{ products|length }}</div>
+        <div class="stat-label">Общо обяви</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ active_count }}</div>
+        <div class="stat-label">Активни</div>
+      </div>
+      {% if expired_count > 0 %}
+      <div class="stat-item">
+        <div class="stat-number">{{ expired_count }}</div>
+        <div class="stat-label">Изтекли</div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  
+  <a href="{% url 'catalog:product_create' %}" class="btn btn-success mb-3">+ Нова обява</a>
+  
   <div class="row g-4">
     {% for product in products %}
     <div class="col-md-4">
-      <div class="card" style="position: relative;">
-        {% if product.is_new %}
+      <div class="card {% if product.is_expired %}expired-card{% endif %}" style="position: relative;">
+        {% if product.is_new and not product.is_expired %}
         <span class="new-badge">🆕 НОВА</span>
         {% endif %}
         {% if product.get_first_image %}<img src="{{ product.get_first_image.url }}" class="card-img-top">{% endif %}
         <div class="card-body">
           <h5 class="card-title">{{ product.title }}</h5>
           <p class="card-text">{{ product.description|truncatewords:15 }}</p>
+          <p class="mb-1"><strong>Цена:</strong> {{ product.price }} €</p>
+          
           {% with days=product.days_remaining %}
-          {% if days > 5 %}
-            <span class="expiry-badge">⏰ Остават {{ days }} дни</span>
-          {% elif days > 0 %}
+          {% if days == 0 %}
+            <span class="expiry-badge expiry-expired">❌ ИЗТЕКЛА</span>
+          {% elif days <= 5 %}
             <span class="expiry-badge expiry-soon">⚠️ Изтича след {{ days }} дни!</span>
           {% else %}
-            <span class="expiry-badge expiry-soon">❌ Изтекла</span>
+            <span class="expiry-badge">✓ Активна ({{ days }} дни)</span>
           {% endif %}
           {% endwith %}
+          
           <div class="mt-3">
-            <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-sm btn-primary">Редактирай</a>
-            <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-sm btn-danger">Изтрий</a>
+            {% if product.is_expired %}
+              <!-- Бутони за изтекла обява -->
+              <a href="{% url 'catalog:product_reactivate' product.pk %}" class="btn btn-sm btn-success w-100 mb-2">
+                🔄 Реактивирай за 30 дни
+              </a>
+              <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-sm btn-danger w-100">Изтрий</a>
+            {% else %}
+              <!-- Бутони за активна обява -->
+              <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-sm btn-primary">Редактирай</a>
+              <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-sm btn-danger">Изтрий</a>
+            {% endif %}
           </div>
         </div>
       </div>
     </div>
     {% empty %}
-    <p>Нямаш публикувани обяви.</p>
+    <div class="col-12">
+      <div class="alert alert-info">
+        <h5>Нямаш публикувани обяви</h5>
+        <p>Започни сега, като създадеш твоята първа обява!</p>
+        <a href="{% url 'catalog:product_create' %}" class="btn btn-success">Създай обява</a>
+      </div>
+    </div>
     {% endfor %}
   </div>
 </div>

@@ -504,11 +504,31 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
     pk_url_kwarg = 'pk'
 
+    def get_object(self, queryset=None):
+        """Връща обявата само ако е активна и не е изтекла (освен ако потребителят е owner)"""
+        from django.http import Http404
+        obj = super().get_object(queryset)
+        
+        # Ако потребителят е owner, покажи обявата независимо дали е изтекла
+        if self.request.user.is_authenticated and obj.owner == self.request.user:
+            return obj
+        
+        # За публични посетители - проверявай дали обявата е активна и не е изтекла
+        if not obj.is_active or obj.is_expired():
+            raise Http404("Обявата не съществува или е изтекла")
+        
+        return obj
+
     def get_context_data(self, **kwargs):
+        from django.utils import timezone
         context = super().get_context_data(**kwargs)
+        
+        # Филтрирай related products - само активни и не изтекли
+        expiry_date = timezone.now() - timezone.timedelta(days=30)
         context['related_products'] = Product.objects.filter(
             category=self.object.category,
-            is_active=True
+            is_active=True,
+            created_at__gte=expiry_date
         ).exclude(pk=self.object.pk)[:4]
         return context
 
@@ -777,7 +797,43 @@ class UserAdsListView(LoginRequiredMixin, ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
-        return Product.objects.filter(owner=self.request.user)
+        """Връща всички обяви на потребителя (включително изтекли)"""
+        return Product.objects.filter(owner=self.request.user).order_by('-created_at')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Добави информация за броя активни и изтекли обяви
+        all_products = self.get_queryset()
+        context['active_count'] = all_products.filter(is_active=True).count()
+        context['expired_count'] = sum(1 for p in all_products if p.is_expired())
+        return context
+
+
+@login_required
+def reactivate_product(request, pk):
+    """Реактивира изтекла обява за нов 30-дневен период"""
+    from django.utils import timezone
+    
+    product = get_object_or_404(Product, pk=pk)
+    
+    # Проверка че потребителят е owner на обявата
+    if product.owner != request.user:
+        messages.error(request, 'Нямате право да реактивирате тази обява.')
+        return redirect('catalog:user_ads')
+    
+    # Проверка дали обявата наистина е изтекла
+    if not product.is_expired():
+        messages.warning(request, 'Тази обява все още е активна.')
+        return redirect('catalog:user_ads')
+    
+    # Реактивира обявата - обнови created_at на текущата дата
+    product.created_at = timezone.now()
+    product.expiry_reminder_sent = False  # Рестартирай reminder флага
+    product.is_active = True  # Увери се че е активна
+    product.save(update_fields=['created_at', 'expiry_reminder_sent', 'is_active', 'updated_at'])
+    
+    messages.success(request, f'Обявата "{product.title}" е успешно реактивирана за нов 30-дневен период!')
+    return redirect('catalog:user_ads')
 
 
 @login_required

@@ -22,6 +22,7 @@ urlpatterns = [
     path('ads/new/', views.ProductCreateView.as_view(), name='product_create'),
     path('ads/<int:pk>/edit/', views.ProductUpdateView.as_view(), name='product_update'),
     path('ads/<int:pk>/delete/', views.ProductDeleteView.as_view(), name='product_delete'),
+    path('ads/<int:pk>/reactivate/', views.reactivate_product, name='product_reactivate'),
     path('my-ads/', views.UserAdsListView.as_view(), name='user_ads'),
     path('profile/', views.user_profile, name='user_profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
