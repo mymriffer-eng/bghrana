@@ -29,9 +29,21 @@
       });
       
       // Check if user already gave consent
-      if (localStorage.getItem('cookie_consent') === 'true') {
+      const savedConsent = localStorage.getItem('cookie_consent');
+      if (savedConsent === 'all') {
         gtag('consent', 'update', {
-          'analytics_storage': 'granted'
+          'analytics_storage': 'granted',
+          'ad_storage': 'granted',
+          'ad_user_data': 'granted',
+          'ad_personalization': 'granted'
+        });
+      } else if (savedConsent === 'essential' || savedConsent === 'true') {
+        // 'true' е за backwards compatibility със старите users
+        gtag('consent', 'update', {
+          'analytics_storage': 'granted',
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied'
         });
       }
     </script>

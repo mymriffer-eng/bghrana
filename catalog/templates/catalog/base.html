@@ -31,9 +31,21 @@
       });
       
       // Check if user already gave consent
-      if (localStorage.getItem('cookie_consent') === 'true') {
+      const savedConsent = localStorage.getItem('cookie_consent');
+      if (savedConsent === 'all') {
         gtag('consent', 'update', {
-          'analytics_storage': 'granted'
+          'analytics_storage': 'granted',
+          'ad_storage': 'granted',
+          'ad_user_data': 'granted',
+          'ad_personalization': 'granted'
+        });
+      } else if (savedConsent === 'essential' || savedConsent === 'true') {
+        // 'true' е за backwards compatibility със старите users
+        gtag('consent', 'update', {
+          'analytics_storage': 'granted',
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied'
         });
       }
     </script>
@@ -497,11 +509,12 @@
         <div class="cookie-consent-content">
             <p class="mb-2">
                 <strong>🍪 Бисквитки (Cookies)</strong><br>
-                Използваме технически необходими бисквитки за правилната работа на сайта (вход, формуляри, сигурност) и аналитични бисквитки (Google Analytics) за подобряване на потребителското изживяване.
+                Използваме технически необходими бисквитки за правилната работа на сайта, аналитични бисквитки (Google Analytics) за подобряване на потребителското изживяване и рекламни бисквитки за персонализирани реклами и измерване на ефективността на кампаниите.
             </p>
             <div class="cookie-consent-buttons">
                 <a href="{% url 'catalog:cookie_policy' %}" class="btn btn-sm btn-outline-light me-2">Научи повече</a>
-                <button id="acceptCookies" class="btn btn-sm btn-success">Разбрах</button>
+                <button id="acceptEssential" class="btn btn-sm btn-secondary me-2">Само необходими</button>
+                <button id="acceptAll" class="btn btn-sm btn-success">Приемам всички</button>
             </div>
         </div>
     </div>
@@ -561,7 +574,8 @@
         // Cookie Consent Logic
         document.addEventListener('DOMContentLoaded', function() {
             const cookieConsent = document.getElementById('cookieConsent');
-            const acceptButton = document.getElementById('acceptCookies');
+            const acceptEssentialButton = document.getElementById('acceptEssential');
+            const acceptAllButton = document.getElementById('acceptAll');
             
             // Провери дали вече има съгласие
             const consentGiven = localStorage.getItem('cookie_consent');
@@ -570,14 +584,37 @@
                 cookieConsent.style.display = 'block';
             }
             
-            // При натискане на "Разбрах"
-            acceptButton.addEventListener('click', function() {
-                localStorage.setItem('cookie_consent', 'true');
+            // При натискане на "Само необходими"
+            acceptEssentialButton.addEventListener('click', function() {
+                localStorage.setItem('cookie_consent', 'essential');
                 
-                // Update Google Consent Mode
+                // Update Google Consent Mode - само analytics
                 if (typeof gtag === 'function') {
                     gtag('consent', 'update', {
-                        'analytics_storage': 'granted'
+                        'analytics_storage': 'granted',
+                        'ad_storage': 'denied',
+                        'ad_user_data': 'denied',
+                        'ad_personalization': 'denied'
+                    });
+                }
+                
+                cookieConsent.style.animation = 'slideDown 0.3s ease-in';
+                setTimeout(() => {
+                    cookieConsent.style.display = 'none';
+                }, 300);
+            });
+            
+            // При натискане на "Приемам всички"
+            acceptAllButton.addEventListener('click', function() {
+                localStorage.setItem('cookie_consent', 'all');
+                
+                // Update Google Consent Mode - всички consents
+                if (typeof gtag === 'function') {
+                    gtag('consent', 'update', {
+                        'analytics_storage': 'granted',
+                        'ad_storage': 'granted',
+                        'ad_user_data': 'granted',
+                        'ad_personalization': 'granted'
                     });
                 }
                 
