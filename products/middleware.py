@@ -13,11 +13,11 @@ class SecurityHeadersMiddleware:
         # Content-Security-Policy - защита от XSS атаки
         response['Content-Security-Policy'] = (
             "default-src 'self'; "
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://accounts.google.com https://apis.google.com https://www.googletagmanager.com; "
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://accounts.google.com https://apis.google.com https://www.googletagmanager.com https://*.google-analytics.com; "
             "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; "
             "img-src 'self' data: https: blob:; "
             "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; "
-            "connect-src 'self' https://cdn.jsdelivr.net https://accounts.google.com https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com; "
+            "connect-src 'self' https://cdn.jsdelivr.net https://accounts.google.com https://*.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://*.analytics.google.com https://stats.g.doubleclick.net; "
             "frame-src https://accounts.google.com; "
             "object-src 'none'; "
             "base-uri 'self'; "
@@ -37,11 +37,11 @@ class SecurityHeadersMiddleware:
             "accelerometer=()"
         )
         
-        # Cross-Origin-Embedder-Policy
-        response['Cross-Origin-Embedder-Policy'] = 'require-corp'
+        # Cross-Origin-Embedder-Policy - премахнат за да не блокира GA4
+        # response['Cross-Origin-Embedder-Policy'] = 'require-corp'
         
-        # Cross-Origin-Resource-Policy
-        response['Cross-Origin-Resource-Policy'] = 'same-origin'
+        # Cross-Origin-Resource-Policy - облекчен за external ресурси
+        response['Cross-Origin-Resource-Policy'] = 'cross-origin'
         
         # Премахване на X-Powered-By header (ако съществува)
         if 'X-Powered-By' in response:
