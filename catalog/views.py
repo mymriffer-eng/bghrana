@@ -161,8 +161,8 @@ class ProductListView(ListView):
         from django.db.models import Q
         from django.db.models.functions import Lower
         
-        # Филтрирай само активни обяви, които не са изтекли (по-нови от 30 дни)
-        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        # Филтрирай само активни обяви, които не са изтекли (по-нови от 180 дни)
+        expiry_date = timezone.now() - timezone.timedelta(days=180)
         queryset = Product.objects.filter(is_active=True, created_at__gte=expiry_date)
         
         # Търсене по ключова дума (case-insensitive с Lower за кирилица)
@@ -292,7 +292,7 @@ class CategoryCityProductListView(ListView):
         self.city = city
         
         # Filter active products within 30 days
-        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        expiry_date = timezone.now() - timezone.timedelta(days=180)
         queryset = Product.objects.filter(is_active=True, created_at__gte=expiry_date)
         
         # Apply category filter (check if parent or subcategory)
@@ -413,7 +413,7 @@ class CategoryRegionProductListView(ListView):
         self.region = region
         
         # Filter active products within 30 days
-        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        expiry_date = timezone.now() - timezone.timedelta(days=180)
         queryset = Product.objects.filter(is_active=True, created_at__gte=expiry_date)
         
         # Apply category filter (check if parent or subcategory)
@@ -524,7 +524,7 @@ class ProductDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         
         # Филтрирай related products - само активни и не изтекли
-        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        expiry_date = timezone.now() - timezone.timedelta(days=180)
         context['related_products'] = Product.objects.filter(
             category=self.object.category,
             is_active=True,
@@ -542,7 +542,7 @@ class CategoryDetailView(ListView):
     def get_queryset(self):
         from django.utils import timezone
         self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
-        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        expiry_date = timezone.now() - timezone.timedelta(days=180)
         
         # Ако категорията е родител (има подкатегории), покажи продукти от всички подкатегории
         if self.category.subcategories.exists():
@@ -575,7 +575,7 @@ class RegionDetailView(ListView):
     def get_queryset(self):
         from django.utils import timezone
         self.region = get_object_or_404(Region, slug=self.kwargs['slug'])
-        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        expiry_date = timezone.now() - timezone.timedelta(days=180)
         
         # Вземи всички градове в областта
         cities = City.objects.filter(region=self.region)
@@ -601,7 +601,7 @@ class CityDetailView(ListView):
         from django.utils import timezone
         region = get_object_or_404(Region, slug=self.kwargs['region_slug'])
         self.city = get_object_or_404(City, slug=self.kwargs['slug'], region=region)
-        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        expiry_date = timezone.now() - timezone.timedelta(days=180)
         
         return Product.objects.filter(
             city=self.city,

@@ -118,9 +118,9 @@ class Product(models.Model):
         return first_img.image if first_img else None
     
     def days_remaining(self):
-        """Връща броя дни оставащи до изтичане на обявата (30 дни от създаване)"""
+        """Връща броя дни оставащи до изтичане на обявата (180 дни от създаване)"""
         from django.utils import timezone
-        expiry_date = self.created_at + timezone.timedelta(days=30)
+        expiry_date = self.created_at + timezone.timedelta(days=180)
         remaining = expiry_date - timezone.now()
         return max(0, remaining.days)
     

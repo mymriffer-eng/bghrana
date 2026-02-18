@@ -66,7 +66,7 @@ class SitemapXMLView(View):
         for region in regions:
             # Проверка дали има продукти в областта
             cities = City.objects.filter(region=region)
-            expiry_date = timezone.now() - timezone.timedelta(days=30)
+            expiry_date = timezone.now() - timezone.timedelta(days=180)
             has_products = Product.objects.filter(
                 city__in=cities, 
                 is_active=True, 
@@ -90,7 +90,7 @@ class SitemapXMLView(View):
         cities = City.objects.filter(slug__isnull=False, region__slug__isnull=False).exclude(slug='')
         
         for city in cities:
-            expiry_date = timezone.now() - timezone.timedelta(days=30)
+            expiry_date = timezone.now() - timezone.timedelta(days=180)
             has_products = Product.objects.filter(
                 city=city, 
                 is_active=True, 
@@ -111,7 +111,7 @@ class SitemapXMLView(View):
                 lines.append('  </url>')
         
         # Active products (последните 30 дни)
-        expiry_date = timezone.now() - timezone.timedelta(days=30)
+        expiry_date = timezone.now() - timezone.timedelta(days=180)
         products = Product.objects.filter(is_active=True, created_at__gte=expiry_date).order_by('-created_at')
         
         for product in products:

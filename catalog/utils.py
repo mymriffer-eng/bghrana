@@ -18,13 +18,13 @@ def check_and_send_expiry_reminders():
     
     # Изчисли дати
     now = timezone.now()
-    days_25_ago = now - timedelta(days=25)  # Обяви на 25 дни (остават 5)
-    days_26_ago = now - timedelta(days=26)  # За да уловим точно този ден
+    days_175_ago = now - timedelta(days=175)  # Обяви на 175 дни (остават 5)
+    days_176_ago = now - timedelta(days=176)  # За да уловим точно този ден
     
-    # Намери обяви които са точно на 25 дни И все още НЕ СА получили reminder
+    # Намери обяви които са точно на 175 дни И все още НЕ СА получили reminder
     expiring_products = Product.objects.filter(
-        created_at__lte=days_25_ago,
-        created_at__gt=days_26_ago,
+        created_at__lte=days_175_ago,
+        created_at__gt=days_176_ago,
         is_active=True,
         expiry_reminder_sent=False,  # Само тези които още не са получили email
         owner__isnull=False,
@@ -37,7 +37,7 @@ def check_and_send_expiry_reminders():
         try:
             # Изчисли точните оставащи дни и дата на изтичане
             days_remaining = product.days_remaining()
-            expiry_date = product.created_at + timedelta(days=30)
+            expiry_date = product.created_at + timedelta(days=180)
             
             # Подготви контекста за email template
             context = {
