@@ -286,27 +286,53 @@ document.addEventListener('DOMContentLoaded', function() {
     'page_path': window.location.pathname
   });
   
+  // Facebook Pixel: Track landing page as ViewContent
+  if (typeof fbq === 'function') {
+    fbq('track', 'ViewContent', {
+      content_name: 'Производители Landing Page',
+      content_category: 'Landing Page'
+    });
+  }
+  
   // Track CTA button clicks
   document.querySelectorAll('a[href*="product_create"], a[href*="register"]').forEach(function(btn) {
     btn.addEventListener('click', function() {
+      // GA4 tracking
       window.dataLayer.push({
         'event': 'cta_click',
         'cta_type': 'registration',
         'cta_text': this.textContent.trim(),
         'cta_location': 'producers_landing'
       });
+      
+      // Facebook Pixel: Track as Lead event
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead', {
+          content_name: 'Producer Registration Click',
+          content_category: 'Registration'
+        });
+      }
     });
   });
   
   // Track Messenger button clicks
   document.querySelectorAll('a[href*="m.me"]').forEach(function(btn) {
     btn.addEventListener('click', function() {
+      // GA4 tracking
       window.dataLayer.push({
         'event': 'cta_click',
         'cta_type': 'messenger_contact',
         'cta_text': this.textContent.trim(),
         'cta_location': 'producers_landing'
       });
+      
+      // Facebook Pixel: Track as Contact event
+      if (typeof fbq === 'function') {
+        fbq('track', 'Contact', {
+          content_name: 'Messenger Contact',
+          content_category: 'Support'
+        });
+      }
     });
   });
 });
