@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0010_seopage_category_seo_description_category_seo_text_and_more'),
+        ('catalog', '0009_product_expiry_reminder_sent'),
     ]
 
     operations = [
