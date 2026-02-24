@@ -370,6 +370,9 @@
                     {% if product.phone %}
                     <p><strong>Телефон за връзка:</strong> <a href="tel:{{ product.phone }}" class="text-success fw-bold">{{ product.phone }}</a></p>
                     {% endif %}
+                    {% if product.messenger_link %}
+                    <p><strong>Messenger:</strong> <a href="{{ product.messenger_link }}" target="_blank" rel="noopener noreferrer" class="text-primary fw-bold">💬 Свържи се в Messenger</a></p>
+                    {% endif %}
                     {% if product.babh_number %}
                     <p><strong>БАБХ номер:</strong> <span class="badge bg-info text-dark">{{ product.babh_number }}</span></p>
                     {% endif %}
@@ -390,12 +393,19 @@
                     </p>
                     {% endif %}
 
+                    <hr>
                     {% if product.phone %}
-                    <hr>
-                    <a href="tel:{{ product.phone }}" class="btn btn-contact w-100 mb-3">📞 Обади се: {{ product.phone }}</a>
-                    {% else %}
-                    <hr>
-                    <button class="btn btn-contact w-100 mb-3" disabled>📞 Няма посочен телефон</button>
+                    <a href="tel:{{ product.phone }}" class="btn btn-contact w-100 mb-2">📞 Обади се: {{ product.phone }}</a>
+                    {% endif %}
+                    
+                    {% if product.messenger_link %}
+                    <a href="{{ product.messenger_link }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary w-100 mb-3">
+                        💬 Пиши в Messenger
+                    </a>
+                    {% endif %}
+                    
+                    {% if not product.phone and not product.messenger_link %}
+                    <button class="btn btn-contact w-100 mb-3" disabled>📞 Няма посочен начин за контакт</button>
                     {% endif %}
 
                     <!-- Social Share Buttons -->
