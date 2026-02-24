@@ -122,7 +122,7 @@ class ProductForm(forms.ModelForm):
         }
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Въведете заглавие'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'maxlength': '500', 'placeholder': 'Въведете описание'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 6, 'maxlength': '2000', 'placeholder': 'Въведете описание'}),
             'price': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Въведете цена'}),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напр. 0888123456', 'maxlength': '20'}),
             'messenger_link': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://m.me/xxxxxxx', 'maxlength': '300'}),
@@ -133,7 +133,7 @@ class ProductForm(forms.ModelForm):
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         help_texts = {
-            'description': 'Максимум 500 символа',
+            'description': 'Максимум 2000 символа',
             'price': 'Цена в € (евро)',
             'phone': 'Телефонен номер за контакт (опционално)',
             'messenger_link': 'Отворете Messenger → Вашият профил → Три точки (⋮) → "Копирай линк" (опционално)',
@@ -172,8 +172,8 @@ class ProductForm(forms.ModelForm):
         description = self.cleaned_data.get('description', '')
         
         # Проверка за дължина
-        if len(description) > 500:
-            raise forms.ValidationError(f'Описанието трябва да е максимум 500 символа. Вашето е {len(description)} символа.')
+        if len(description) > 2000:
+            raise forms.ValidationError(f'Описанието трябва да е максимум 2000 символа. Вашето е {len(description)} символа.')
         
         # Проверка за HTML тагове (позволяваме емоджи)
         if '<' in description or '>' in description:
