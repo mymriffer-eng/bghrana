@@ -34,6 +34,13 @@
                                 🟠 Публикувай обява
                             </a>
                         {% endif %}
+                        
+                        <!-- Custom CTA Button (ако е зададен) -->
+                        {% if page.cta_button_text and page.cta_button_url %}
+                            <a href="{{ page.cta_button_url }}" class="btn btn-{{ page.cta_button_style }} btn-lg mb-3">
+                                {{ page.cta_button_text }}
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

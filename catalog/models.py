@@ -193,6 +193,16 @@ class UserProfile(models.Model):
 
 class SEOPage(models.Model):
     """Модел за статични SEO страници, редактируеми от админ панела"""
+    
+    BUTTON_STYLE_CHOICES = [
+        ('success', 'Зелен (Success)'),
+        ('primary', 'Син (Primary)'),
+        ('warning', 'Жълт (Warning)'),
+        ('danger', 'Червен (Danger)'),
+        ('info', 'Светло син (Info)'),
+        ('dark', 'Тъмен (Dark)'),
+    ]
+    
     title = models.CharField(max_length=200, verbose_name='Заглавие')
     slug = models.SlugField(max_length=200, unique=True, verbose_name='URL slug', help_text='Пример: za-nas, kontakti, obshti-usloviya')
     content = models.TextField(verbose_name='Съдържание', help_text='Може да използвате HTML форматиране')
@@ -200,6 +210,12 @@ class SEOPage(models.Model):
     meta_description = models.TextField(max_length=160, blank=True, verbose_name='SEO Описание', help_text='Оптимално: до 160 символа')
     meta_keywords = models.CharField(max_length=255, blank=True, verbose_name='SEO Ключови думи', help_text='Разделени със запетая')
     is_active = models.BooleanField(default=True, verbose_name='Активна')
+    
+    # CTA Button fields
+    cta_button_text = models.CharField(max_length=100, blank=True, verbose_name='Текст на бутона', help_text='Пример: Виж обяви, Разгледай продукти')
+    cta_button_url = models.CharField(max_length=500, blank=True, verbose_name='Линк на бутона', help_text='Пример: /produkti/?category=med или /produkti/123/')
+    cta_button_style = models.CharField(max_length=20, choices=BUTTON_STYLE_CHOICES, default='success', verbose_name='Стил на бутона')
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

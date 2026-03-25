@@ -85,6 +85,11 @@ class SEOPageAdmin(admin.ModelAdmin):
             'fields': ('meta_title', 'meta_description', 'meta_keywords'),
             'description': 'Персонализирайте SEO заглавие, описание и ключови думи за по-добро представяне в търсачките'
         }),
+        ('CTA Бутон (опционално)', {
+            'fields': ('cta_button_text', 'cta_button_url', 'cta_button_style'),
+            'description': 'Добавете допълнителен бутон за призив към действие. Примери за URL: /produkti/?category=med или /produkti/123/',
+            'classes': ('collapse',)
+        }),
         ('Информация', {
             'fields': ('created_at', 'updated_at'),
             'classes': ('collapse',)
