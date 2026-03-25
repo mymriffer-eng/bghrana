@@ -46,16 +46,15 @@
               <small class="form-text text-muted">Ще получите верификационно писмо.</small>
             </div>
             <div class="mb-3">
-              <label for="{{ form.username.id_for_label }}" class="form-label">Потребителско име</label>
-              <input type="text" name="username" class="form-control" id="{{ form.username.id_for_label }}" placeholder="Въведете потребителско име" required>
-            </div>
-            <div class="mb-3">
               <label for="{{ form.password1.id_for_label }}" class="form-label">Парола</label>
-              <input type="password" name="password1" class="form-control" id="{{ form.password1.id_for_label }}" placeholder="Въведете парола" required>
+              <input type="password" name="password1" class="form-control" id="{{ form.password1.id_for_label }}" placeholder="Минимум 6 символа" required>
+              <small class="form-text text-muted">Минимум 6 символа.</small>
             </div>
-            <div class="mb-3">
-              <label for="{{ form.password2.id_for_label }}" class="form-label">Потвърдете паролата</label>
-              <input type="password" name="password2" class="form-control" id="{{ form.password2.id_for_label }}" placeholder="Потвърдете паролата" required>
+            <div class="form-check mb-3">
+              <input type="checkbox" name="terms_accepted" class="form-check-input" id="{{ form.terms_accepted.id_for_label }}" required>
+              <label class="form-check-label" for="{{ form.terms_accepted.id_for_label }}">
+                Съгласен/на съм с <a href="/obshti-usloviya/" target="_blank">общите условия</a>
+              </label>
             </div>
             <button class="btn btn-success w-100" type="submit" style="padding: 10px; font-weight: 500;">Регистрирай се</button>
           </form>

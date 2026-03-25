@@ -5,11 +5,6 @@ from .models import Product, UserProfile
 
 
 class CustomUserCreationForm(UserCreationForm):
-    username = forms.CharField(
-        label='Потребителско име',
-        max_length=150,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Въведете потребителско име'})
-    )
     email = forms.EmailField(
         label='Имейл адрес',
         required=True,
@@ -27,30 +22,47 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1']
+        fields = ['email', 'password1']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Превод на помощните текстове
-        self.fields['username'].help_text = 'Задължително. 150 символа или по-малко. Позволени са букви (включително кирилица), цифри и @/./+/-/_'
-        self.fields['username'].validators = []  # Премахни стандартния validator
-        self.fields['email'].help_text = 'Задължително. Ще получите имейл за потвърждение на регистрацията.'
-        self.fields['password1'].help_text = 'Паролата трябва да съдържа поне 8 символа и не може да бъде изцяло цифрова.'
-        # Премахване на валидацията за password2
+        self.fields['email'].help_text = 'Ще получите имейл за потвърждение на регистрацията.'
+        self.fields['password1'].help_text = 'Минимум 6 символа.'
+        # Премахване на полето за потвърждение на паролата
         if 'password2' in self.fields:
             del self.fields['password2']
 
+    def _generate_username_from_email(self, email):
+        """Генерира уникално потребителско име от имейл адрес"""
+        import re
+        # Вземи частта преди @
+        base_username = email.split('@')[0]
+        # Замени специални символи с _
+        base_username = re.sub(r'[^a-zA-Z0-9_]', '_', base_username)
+        # Ограничи до 30 символа
+        base_username = base_username[:30]
+        
+        # Провери дали username съществува
+        username = base_username
+        counter = 1
+        while User.objects.filter(username=username).exists():
+            # Добави номер ако съществува
+            username = f"{base_username}_{counter}"
+            counter += 1
+            # Ограничи до 150 символа (максимум за Django username)
+            if len(username) > 150:
+                username = username[:150]
+        
+        return username
+
     def clean(self):
-        """Override clean to skip password2 validation and validate username"""
+        """Валидира данните без password2"""
         cleaned_data = forms.Form.clean(self)
-        username = cleaned_data.get('username')
-        if not username or not username.strip():
-            self.add_error('username', 'Потребителското име е задължително.')
         return cleaned_data
 
     def _post_clean(self):
-        """Override to set password without password2 validation"""
-        forms.Form._post_clean(self)  # Skip UserCreationForm's _post_clean()
+        """Валидира паролата без password2"""
+        forms.Form._post_clean(self)
         password = self.cleaned_data.get('password1')
         if password:
             try:
@@ -59,20 +71,15 @@ class CustomUserCreationForm(UserCreationForm):
             except forms.ValidationError as error:
                 self.add_error('password1', error)
 
-
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.username = self.cleaned_data.get('username')
-        user.email = self.cleaned_data.get('email')
+        email = self.cleaned_data.get('email')
+        # Автоматично генерирай username от email
+        user.username = self._generate_username_from_email(email)
+        user.email = email
         if commit:
             user.save()
         return user
-
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("Потребител с това име вече съществува.")
-        return username
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
