@@ -32,7 +32,7 @@
             <h5 class="text-primary">Option 1: Delete via BGHrana.com</h5>
             <ol class="mt-3" style="line-height: 2;">
               <li>Log in to your account at <a href="https://bghrana.com">BGHrana.com</a></li>
-              <li>Go to your <a href="{% url 'catalog:profile' %}">Profile Settings</a></li>
+              <li>Go to your <a href="{% url 'catalog:user_profile' %}">Profile Settings</a></li>
               <li>Click on "Delete Account" button</li>
               <li>Confirm deletion by entering your password</li>
               <li>Your account and all associated data will be permanently deleted</li>
@@ -89,7 +89,7 @@
 
           <!-- CTA Buttons -->
           <div class="text-center mt-5 pt-4 border-top">
-            <a href="{% url 'catalog:profile' %}" class="btn btn-danger btn-lg me-3 mb-3">
+            <a href="{% url 'catalog:delete_account' %}" class="btn btn-danger btn-lg me-3 mb-3">
               Delete My Account
             </a>
             <a href="mailto:support@bghrana.com" class="btn btn-outline-secondary btn-lg mb-3">
