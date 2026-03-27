@@ -953,6 +953,11 @@ def privacy_policy(request):
     return render(request, 'catalog/privacy_policy.html')
 
 
+def data_deletion(request):
+    """Инструкции за изтриване на данни (за Facebook App)"""
+    return render(request, 'catalog/data_deletion.html')
+
+
 def seo_page(request, slug):
     """Динамична SEO страница, редактируема от админ панела"""
     page = get_object_or_404(SEOPage, slug=slug, is_active=True)

@@ -1,0 +1,123 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block title %}Data Deletion Instructions | BGHrana.com{% endblock %}
+
+{% block meta_description %}Instructions for deleting your data from BGHrana.com platform{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      
+      <!-- Header -->
+      <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-danger mb-3">🗑️ Data Deletion Instructions</h1>
+        <p class="lead text-muted">How to delete your data from BGHrana.com</p>
+      </div>
+
+      <!-- Main Content -->
+      <div class="card shadow-sm">
+        <div class="card-body p-5">
+          
+          <div class="alert alert-info">
+            <strong>For Facebook Login Users:</strong><br>
+            If you signed up using Facebook Login, follow these instructions to delete all your data from our platform.
+          </div>
+
+          <!-- Instructions -->
+          <h3 class="text-success mb-4">How to Delete Your Data</h3>
+          
+          <div class="mb-4">
+            <h5 class="text-primary">Option 1: Delete via BGHrana.com</h5>
+            <ol class="mt-3" style="line-height: 2;">
+              <li>Log in to your account at <a href="https://bghrana.com">BGHrana.com</a></li>
+              <li>Go to your <a href="{% url 'catalog:profile' %}">Profile Settings</a></li>
+              <li>Click on "Delete Account" button</li>
+              <li>Confirm deletion by entering your password</li>
+              <li>Your account and all associated data will be permanently deleted</li>
+            </ol>
+          </div>
+
+          <div class="mb-4">
+            <h5 class="text-primary">Option 2: Contact Support</h5>
+            <p>If you cannot access your account, contact our support team:</p>
+            <ul style="line-height: 2;">
+              <li><strong>Email:</strong> <a href="mailto:support@bghrana.com">support@bghrana.com</a></li>
+              <li><strong>Facebook Messenger:</strong> <a href="https://m.me/931640483370656" target="_blank">Send Message</a></li>
+            </ul>
+            <p class="mt-3">Include the following information in your request:</p>
+            <ul>
+              <li>Your email address used for registration</li>
+              <li>Request: "Please delete my account and all associated data"</li>
+            </ul>
+            <p class="text-muted"><small>We will process your deletion request within 30 days.</small></p>
+          </div>
+
+          <!-- What Gets Deleted -->
+          <h3 class="text-success mb-4 mt-5">What Data Will Be Deleted</h3>
+          <p>When you delete your account, the following data will be permanently removed:</p>
+          <ul style="line-height: 2;">
+            <li>Your email address and account credentials</li>
+            <li>Profile information (name, username)</li>
+            <li>All product listings you created</li>
+            <li>Product images you uploaded</li>
+            <li>Contact information (phone, Viber, Messenger links)</li>
+            <li>Account activity history</li>
+          </ul>
+
+          <div class="alert alert-warning mt-4">
+            <strong>⚠️ Important:</strong> This action is permanent and cannot be undone. Make sure you want to delete all your data before proceeding.
+          </div>
+
+          <!-- Timeline -->
+          <h3 class="text-success mb-4 mt-5">Deletion Timeline</h3>
+          <ul style="line-height: 2;">
+            <li><strong>Immediate:</strong> Your account is deactivated instantly</li>
+            <li><strong>Within 24 hours:</strong> All your public data (listings, profile) is removed from the site</li>
+            <li><strong>Within 30 days:</strong> All data is permanently deleted from our systems and backups</li>
+          </ul>
+
+          <!-- Additional Info -->
+          <div class="alert alert-light border mt-5">
+            <h5 class="mb-3">📋 Additional Information</h5>
+            <ul class="mb-0">
+              <li>For more information, see our <a href="{% url 'catalog:privacy_policy' %}">Privacy Policy</a></li>
+              <li>View our <a href="{% url 'catalog:terms' %}">Terms of Service</a></li>
+            </ul>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div class="text-center mt-5 pt-4 border-top">
+            <a href="{% url 'catalog:profile' %}" class="btn btn-danger btn-lg me-3 mb-3">
+              Delete My Account
+            </a>
+            <a href="mailto:support@bghrana.com" class="btn btn-outline-secondary btn-lg mb-3">
+              Contact Support
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Back to Home -->
+      <div class="text-center mt-4">
+        <a href="/" class="text-muted">
+          ← Back to Home
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  h3, h5 {
+    margin-top: 2rem;
+  }
+  ol, ul {
+    padding-left: 2rem;
+  }
+</style>
+
+{% endblock %}
