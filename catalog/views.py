@@ -948,6 +948,11 @@ def cookie_policy(request):
     return render(request, 'catalog/cookie_policy.html')
 
 
+def privacy_policy(request):
+    """Политика за поверителност"""
+    return render(request, 'catalog/privacy_policy.html')
+
+
 def seo_page(request, slug):
     """Динамична SEO страница, редактируема от админ панела"""
     page = get_object_or_404(SEOPage, slug=slug, is_active=True)

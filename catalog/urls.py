@@ -33,6 +33,7 @@ urlpatterns = [
     path('za-proizvoditeli/', views.producers_landing, name='producers_landing'),
     path('terms/', views.terms, name='terms'),
     path('cookies/', views.cookie_policy, name='cookie_policy'),
+    path('politika-za-poveritelnost/', views.privacy_policy, name='privacy_policy'),
     
     # SEO
     path('robots.txt', RobotsTxtView.as_view(), name='robots_txt'),
