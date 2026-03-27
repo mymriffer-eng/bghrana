@@ -35,6 +35,7 @@ urlpatterns = [
     path('cookies/', views.cookie_policy, name='cookie_policy'),
     path('politika-za-poveritelnost/', views.privacy_policy, name='privacy_policy'),
     path('data-deletion/', views.data_deletion, name='data_deletion'),
+    path('data-deletion-callback/', views.data_deletion_callback, name='data_deletion_callback'),
     
     # SEO
     path('robots.txt', RobotsTxtView.as_view(), name='robots_txt'),

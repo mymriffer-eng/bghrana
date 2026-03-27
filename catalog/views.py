@@ -958,6 +958,21 @@ def data_deletion(request):
     return render(request, 'catalog/data_deletion.html')
 
 
+def data_deletion_callback(request):
+    """Facebook Data Deletion Callback - връща JSON отговор"""
+    from django.http import JsonResponse
+    import secrets
+    
+    # Facebook изпраща signed_request параметър
+    # Генерираме уникален confirmation code
+    confirmation_code = secrets.token_urlsafe(32)
+    
+    return JsonResponse({
+        'url': 'https://bghrana.com/data-deletion/',
+        'confirmation_code': confirmation_code
+    })
+
+
 def seo_page(request, slug):
     """Динамична SEO страница, редактируема от админ панела"""
     page = get_object_or_404(SEOPage, slug=slug, is_active=True)
