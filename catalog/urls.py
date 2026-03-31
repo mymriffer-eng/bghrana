@@ -17,7 +17,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('registration-complete/', views.registration_complete, name='registration_complete'),
-    path('accounts/', include('django.contrib.auth.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),  # Disabled - allauth handles this
     path('logout/', views.logout, name='logout'),
     path('ads/new/', views.ProductCreateView.as_view(), name='product_create'),
     path('ads/<int:pk>/edit/', views.ProductUpdateView.as_view(), name='product_update'),
