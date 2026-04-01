@@ -246,7 +246,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Заглушаване на MariaDB warnings за allauth unique constraints
 SILENCED_SYSTEM_CHECKS = ['models.W036']
-
-# CRITICAL: Форсирано зареждане на Facebook provider при startup
-# Това гарантира, че Facebook ще бъде в provider registry
-import allauth.socialaccount.providers.facebook.provider  # noqa: E402
