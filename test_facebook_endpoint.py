@@ -48,8 +48,16 @@ print(f"\n✓ Request site: {request.site.domain}")
 from allauth.socialaccount import providers
 
 print(f"\n✓ Регистрирани providers:")
-for provider in providers.registry.get_list():
-    print(f"  - {provider.id}: {provider.name}")
+# Опит да намерим всички providers
+try:
+    for provider_id in ['google', 'facebook', 'github', 'twitter']:
+        try:
+            provider = providers.registry.by_id(provider_id)
+            print(f"  - {provider.id}: {provider.name}")
+        except:
+            pass
+except Exception as e:
+    print(f"  Грешка при четене на providers: {e}")
 
 # Специфична проверка за Facebook
 try:
