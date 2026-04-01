@@ -186,8 +186,9 @@ ACCOUNT_USERNAME_REQUIRED = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_STORE_TOKENS = True  # За Facebook token storage
 
-# Google OAuth2 settings
+# Social Auth Providers
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -200,8 +201,10 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     'facebook': {
         'METHOD': 'oauth2',
+        'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
         'SCOPE': ['email', 'public_profile'],
         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
         'FIELDS': [
             'id',
             'email',
@@ -211,7 +214,8 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         'EXCHANGE_TOKEN': True,
         'VERIFIED_EMAIL': False,
-        'VERSION': 'v13.0',
+        'VERSION': 'v18.0',  # Обновена от v13.0
+        'GRAPH_API_URL': 'https://graph.facebook.com/v18.0',
     }
 }
 
