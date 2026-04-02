@@ -973,6 +973,11 @@ def data_deletion_callback(request):
     })
 
 
+def test_social_login(request):
+    """Тестова страница - чист HTML без Bootstrap/JavaScript за изолиране на проблема"""
+    return render(request, 'test_social_login.html')
+
+
 def seo_page(request, slug):
     """Динамична SEO страница, редактируема от админ панела"""
     page = get_object_or_404(SEOPage, slug=slug, is_active=True)

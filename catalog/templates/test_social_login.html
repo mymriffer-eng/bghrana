@@ -1,0 +1,54 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Social Login Test - CLEAN HTML</title>
+    <style>
+        body { font-family: Arial; margin: 50px; }
+        .btn { 
+            display: block; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border: 2px solid #ccc;
+            text-decoration: none;
+            color: #000;
+            background: #f5f5f5;
+        }
+        .google { border-color: #EA4335; }
+        .facebook { border-color: #1877F2; }
+    </style>
+</head>
+<body>
+    <h1>Тест на Social Login - БЕЗ JavaScript</h1>
+    
+    <h2>Проверка на template tags:</h2>
+    <pre>
+Google URL:   {% provider_login_url 'google' %}
+Facebook URL: {% provider_login_url 'facebook' %}
+    </pre>
+    
+    <h2>Тест бутони (чист HTML, без JavaScript/Bootstrap):</h2>
+    
+    <a href="{% provider_login_url 'google' %}" class="btn google">
+        🔴 Google Login
+    </a>
+    
+    <a href="{% provider_login_url 'facebook' %}" class="btn facebook">
+        🔵 Facebook Login
+    </a>
+    
+    <h2>Хардкоднати URL-та (за сравнение):</h2>
+    
+    <a href="/accounts/google/login/" class="btn google">
+        🔴 Google Login (hardcoded /accounts/google/login/)
+    </a>
+    
+    <a href="/accounts/facebook/login/" class="btn facebook">
+        🔵 Facebook Login (hardcoded /accounts/facebook/login/)
+    </a>
+    
+    <hr>
+    <p><small>Ако Facebook бутоните пак отиват на Google, проблемът е в Django backend или Passenger cache, НЕ в JavaScript/CSS.</small></p>
+</body>
+</html>
