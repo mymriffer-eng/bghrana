@@ -18,10 +18,10 @@ class SecurityHeadersMiddleware:
             "img-src 'self' data: https: blob:; "
             "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; "
             "connect-src 'self' https://cdn.jsdelivr.net https://accounts.google.com https://*.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.facebook.com https://*.facebook.com; "
-            "frame-src https://accounts.google.com; "
+            "frame-src https://accounts.google.com https://www.facebook.com; "
             "object-src 'none'; "
             "base-uri 'self'; "
-            "form-action 'self' https://accounts.google.com; "
+            "form-action 'self' https://accounts.google.com https://www.facebook.com; "
             "upgrade-insecure-requests;"
         )
         
