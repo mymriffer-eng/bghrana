@@ -70,6 +70,11 @@
             </div>
             <button class="btn btn-success w-100" type="submit">Регистрирай се</button>
           </form>
+          
+          <div class="alert alert-info mt-3" style="font-size: 0.9rem;">
+            <i class="bi bi-question-circle"></i> Не знаете как да се регистрирате? <a href="{% url 'catalog:registration_help' %}" class="alert-link">Вижте нашето ръководство</a> →
+          </div>
+          
           <hr class="my-4">
           <p class="text-center mb-0">Вече имате акаунт? <a href="{% url 'account_login' %}">Влезте</a></p>
         </div>
