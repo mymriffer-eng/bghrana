@@ -37,6 +37,9 @@ urlpatterns = [
     path('data-deletion/', views.data_deletion, name='data_deletion'),
     path('data-deletion-callback/', views.data_deletion_callback, name='data_deletion_callback'),
     
+    # Help pages
+    path('kak-da-se-registriram/', views.registration_help, name='registration_help'),
+    
     # TEST - Social Login Debug Page
     path('test-social-login/', views.test_social_login, name='test_social_login'),
     

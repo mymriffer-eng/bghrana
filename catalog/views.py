@@ -978,6 +978,11 @@ def test_social_login(request):
     return render(request, 'test_social_login.html')
 
 
+def registration_help(request):
+    """Помощна страница - как да се регистрирам"""
+    return render(request, 'catalog/registration_help.html')
+
+
 def seo_page(request, slug):
     """Динамична SEO страница, редактируема от админ панела"""
     page = get_object_or_404(SEOPage, slug=slug, is_active=True)
