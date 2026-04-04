@@ -9,11 +9,10 @@
         <div class="card-body p-5">
           <h2 class="text-center mb-4">Свързани акаунти</h2>
           
-          {% get_social_accounts user as accounts %}
-          {% if accounts %}
+          {% if socialaccount_list %}
             <h5 class="mb-3">Вашите свързани социални акаунти:</h5>
             <div class="list-group mb-4">
-              {% for account in accounts %}
+              {% for account in socialaccount_list %}
                 <div class="list-group-item d-flex justify-content-between align-items-center">
                   <div>
                     {% if account.provider == 'google' %}
