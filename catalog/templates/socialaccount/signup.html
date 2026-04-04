@@ -6,28 +6,7 @@
     <div class="col-md-6">
       <div class="card shadow">
         <div class="card-body p-5">
-          
-          {% if user.is_authenticated %}
-            <!-- User е логнат - свързване на акаунт -->
-            <h2 class="text-center mb-4">Свързване на акаунт</h2>
-            
-            <div class="alert alert-success">
-              <strong>✓ Готово!</strong> Свързваме вашия социален акаунт...
-            </div>
-            
-            <form method="post" id="autoSubmitForm">
-              {% csrf_token %}
-              {{ form.as_p }}
-            </form>
-            
-            <script>
-              // Автоматично submit на формата
-              document.getElementById('autoSubmitForm').submit();
-            </script>
-            
-          {% else %}
-            <!-- User НЕ е логнат - нова регистрация -->
-            <h2 class="text-center mb-4">Довършете регистрацията</h2>
+          <h2 class="text-center mb-4">Довършете регистрацията</h2>
           
           <div class="alert alert-info">
             <strong>Почти готово!</strong> Моля, потвърдете вашите данни за {{ account.get_provider.name }} акаунта.
@@ -78,9 +57,6 @@
           
           <hr class="my-4">
           <p class="text-center mb-0">Вече имате акаунт? <a href="{% url 'account_login' %}">Влезте</a></p>
-          
-          {% endif %}
-          
         </div>
       </div>
     </div>

@@ -218,6 +218,9 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+# Custom Social Account Adapter
+SOCIALACCOUNT_ADAPTER = 'catalog.adapters.MySocialAccountAdapter'
+
 # Django Debug Toolbar настройки (само в DEBUG mode)
 if DEBUG:
     INTERNAL_IPS = [
