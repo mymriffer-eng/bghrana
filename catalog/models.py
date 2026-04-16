@@ -88,6 +88,7 @@ class Product(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='products')
     phone = models.CharField(max_length=20, blank=True, null=True, verbose_name='Телефон за връзка')
     messenger_link = models.URLField(max_length=300, blank=True, null=True, verbose_name='Messenger линк', help_text='Линк към вашия Messenger профил')
+    manufacturer_website = models.URLField(max_length=300, blank=True, null=True, verbose_name='Сайт на производител', help_text='Линк към официалния сайт на производителя')
     babh_number = models.CharField(max_length=30, blank=True, null=True, verbose_name='БАБХ номер')
     seller_type = models.CharField(max_length=20, choices=SELLER_TYPE_CHOICES, blank=True, null=True, verbose_name='Тип продавач')
     sells_to = models.JSONField(default=list, blank=True, verbose_name='Продава на')

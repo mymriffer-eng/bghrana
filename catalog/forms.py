@@ -114,13 +114,14 @@ class ProductForm(forms.ModelForm):
     
     class Meta:
         model = Product
-        fields = ['title', 'description', 'price', 'phone', 'messenger_link', 'babh_number', 'category', 'city', 'seller_type', 'sells_to', 'is_active']
+        fields = ['title', 'description', 'price', 'phone', 'messenger_link', 'manufacturer_website', 'babh_number', 'category', 'city', 'seller_type', 'sells_to', 'is_active']
         labels = {
             'title': 'Заглавие',
             'description': 'Описание',
             'price': 'Цена',
             'phone': 'Телефон за връзка',
             'messenger_link': 'Messenger линк (опция)',
+            'manufacturer_website': 'Сайт на производител (опция)',
             'babh_number': 'БАБХ номер (опция)',
             'category': 'Категория',
             'city': 'Населено място',
@@ -133,6 +134,7 @@ class ProductForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Въведете цена'}),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напр. 0888123456', 'maxlength': '20'}),
             'messenger_link': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://m.me/xxxxxxx', 'maxlength': '300'}),
+            'manufacturer_website': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://example.com', 'maxlength': '300'}),
             'babh_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напр. BG123456789', 'maxlength': '30'}),
             'category': forms.Select(attrs={'class': 'form-select'}),
             'city': forms.Select(attrs={'class': 'form-select'}),
@@ -144,6 +146,7 @@ class ProductForm(forms.ModelForm):
             'price': 'Цена в € (евро)',
             'phone': 'Телефонен номер за контакт (опционално)',
             'messenger_link': 'Отворете Messenger → Вашият профил → Три точки (⋮) → "Копирай линк" (опционално)',
+            'manufacturer_website': 'Официален сайт на фирмата или производителя (опционално)',
             'babh_number': 'Регистрационен номер в БАБХ (опционално)',
             'seller_type': 'Изберете типа на продавача',
             'sells_to': 'Изберете на кого продавате (може да изберете повече от едно)',
