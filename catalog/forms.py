@@ -143,7 +143,7 @@ class ProductForm(forms.ModelForm):
         }
         help_texts = {
             'description': 'Максимум 2000 символа',
-            'price': 'Цена в € (евро)',
+            'price': 'Цена в € (евро) - минимум 0.01€',
             'phone': 'Телефонен номер за контакт (опционално)',
             'messenger_link': 'Отворете Messenger → Вашият профил → Три точки (⋮) → "Копирай линк" (опционално)',
             'manufacturer_website': 'Официален сайт на фирмата или производителя (опционално)',
@@ -197,6 +197,15 @@ class ProductForm(forms.ModelForm):
                 raise forms.ValidationError('Описанието съдържа неразрешено съдържание')
         
         return description.strip()
+    
+    def clean_price(self):
+        """Валидира цената - не позволява 0 или отрицателни стойности"""
+        price = self.cleaned_data.get('price')
+        
+        if price is not None and price < 0.01:
+            raise forms.ValidationError('Цената трябва да е минимум 0.01€')
+        
+        return price
     
     def clean_phone(self):
         """Валидира телефонния номер"""

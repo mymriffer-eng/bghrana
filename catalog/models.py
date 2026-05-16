@@ -63,7 +63,7 @@ class City(models.Model):
 
 
 from django.conf import settings
-from django.core.validators import MaxLengthValidator
+from django.core.validators import MaxLengthValidator, MinValueValidator
 from django.urls import reverse
 
 
@@ -82,7 +82,7 @@ class Product(models.Model):
     
     title = models.CharField(max_length=200)
     description = models.TextField(validators=[MaxLengthValidator(2000)])
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.01)])
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, blank=True, related_name='products')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='products')
