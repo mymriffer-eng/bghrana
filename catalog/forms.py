@@ -160,6 +160,10 @@ class ProductForm(forms.ModelForm):
         if self.instance and self.instance.pk and self.instance.sells_to:
             self.fields['sells_to'].initial = self.instance.sells_to
         
+        # За нови обяви default е 1 месец (30 дни)
+        if not self.instance.pk:
+            self.fields['validity_period'].initial = 30
+        
         # Подобри текста на празната опция за seller_type
         self.fields['seller_type'].empty_label = 'Избери тип продавач'
     

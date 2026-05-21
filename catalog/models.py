@@ -98,7 +98,7 @@ class Product(models.Model):
     babh_number = models.CharField(max_length=30, blank=True, null=True, verbose_name='БАБХ номер')
     seller_type = models.CharField(max_length=20, choices=SELLER_TYPE_CHOICES, blank=True, null=True, verbose_name='Тип продавач')
     sells_to = models.JSONField(default=list, blank=True, verbose_name='Продава на')
-    validity_period = models.IntegerField(choices=VALIDITY_CHOICES, default=30, verbose_name='Валидност на обявата')
+    validity_period = models.IntegerField(choices=VALIDITY_CHOICES, default=1880, verbose_name='Валидност на обявата')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
