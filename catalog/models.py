@@ -80,6 +80,12 @@ class Product(models.Model):
         ('stores', 'Магазини'),
     ]
     
+    VALIDITY_CHOICES = [
+        (7, '1 седмица'),
+        (30, '1 месец'),
+        (180, '6 месеца'),
+    ]
+    
     title = models.CharField(max_length=200)
     description = models.TextField(validators=[MaxLengthValidator(2000)])
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.01)])
@@ -92,6 +98,7 @@ class Product(models.Model):
     babh_number = models.CharField(max_length=30, blank=True, null=True, verbose_name='БАБХ номер')
     seller_type = models.CharField(max_length=20, choices=SELLER_TYPE_CHOICES, blank=True, null=True, verbose_name='Тип продавач')
     sells_to = models.JSONField(default=list, blank=True, verbose_name='Продава на')
+    validity_period = models.IntegerField(choices=VALIDITY_CHOICES, default=180, verbose_name='Валидност на обявата')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
@@ -120,9 +127,9 @@ class Product(models.Model):
         return first_img.image if first_img else None
     
     def days_remaining(self):
-        """Връща броя дни оставащи до изтичане на обявата (180 дни от създаване)"""
+        """Връща броя дни оставащи до изтичане на обявата"""
         from django.utils import timezone
-        expiry_date = self.created_at + timezone.timedelta(days=180)
+        expiry_date = self.created_at + timezone.timedelta(days=self.validity_period)
         remaining = expiry_date - timezone.now()
         return max(0, remaining.days)
     

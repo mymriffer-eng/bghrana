@@ -114,7 +114,7 @@ class ProductForm(forms.ModelForm):
     
     class Meta:
         model = Product
-        fields = ['title', 'description', 'price', 'phone', 'messenger_link', 'manufacturer_website', 'babh_number', 'category', 'city', 'seller_type', 'sells_to', 'is_active']
+        fields = ['title', 'description', 'price', 'phone', 'messenger_link', 'manufacturer_website', 'babh_number', 'category', 'city', 'seller_type', 'sells_to', 'validity_period', 'is_active']
         labels = {
             'title': 'Заглавие',
             'description': 'Описание',
@@ -126,6 +126,7 @@ class ProductForm(forms.ModelForm):
             'category': 'Категория',
             'city': 'Населено място',
             'seller_type': 'Тип продавач',
+            'validity_period': 'Валидност на обявата',
             'is_active': 'Активна обява',
         }
         widgets = {
@@ -139,6 +140,7 @@ class ProductForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-select'}),
             'city': forms.Select(attrs={'class': 'form-select'}),
             'seller_type': forms.Select(attrs={'class': 'form-select'}),
+            'validity_period': forms.RadioSelect(attrs={'class': 'form-check-input'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         help_texts = {
@@ -150,6 +152,7 @@ class ProductForm(forms.ModelForm):
             'babh_number': 'Регистрационен номер в БАБХ (опционално)',
             'seller_type': 'Изберете типа на продавача',
             'sells_to': 'Изберете на кого продавате (може да изберете повече от едно)',
+            'validity_period': 'Изберете колко време да се показва обявата',
         }
     
     def __init__(self, *args, **kwargs):
