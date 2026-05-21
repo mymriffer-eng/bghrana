@@ -140,7 +140,7 @@ class ProductForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-select'}),
             'city': forms.Select(attrs={'class': 'form-select'}),
             'seller_type': forms.Select(attrs={'class': 'form-select'}),
-            'validity_period': forms.RadioSelect(attrs={'class': 'form-check-input'}),
+            'validity_period': forms.Select(attrs={'class': 'form-select'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         help_texts = {
